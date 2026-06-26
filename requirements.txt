@@ -7,6 +7,9 @@ matplotlib
 opencv-python
 timm
 xgboost
+lightgbm
+catboost
+tqdm
 shap
 lime
 jupyter
