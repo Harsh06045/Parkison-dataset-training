@@ -1,0 +1,33 @@
+# Datasets (large files should not be committed)
+datasets/
+raw_spiral/
+mri/
+voice/
+images/
+processed/
+train/
+validation/
+test/
+
+# Model Checkpoints and Outputs
+outputs/
+checkpoints/
+logs/
+plots/
+reports/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+*_run.ipynb
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
