@@ -1,1 +1,6 @@
 C:\Users\Harsh\AppData\Local\Programs\Python\Python314\python.exe training/train.py --all --full
+
+
+
+
+python inference.py --mri patient.png --spiral spiral.png --voice voice.wav --telemonitor patient.csv

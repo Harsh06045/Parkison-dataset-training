@@ -67,6 +67,34 @@ class PyTorchTrainer:
         
         self.early_stopper = EarlyStopping(patience=early_stopping_patience, mode=metric_mode)
 
+    def resume_from_checkpoint(self):
+        """Attempt to resume training from a latest.pth checkpoint if one exists."""
+        from training.checkpoint import load_checkpoint
+        latest_path = os.path.join(self.checkpoint_dir, "latest.pth")
+        if os.path.exists(latest_path):
+            checkpoint = load_checkpoint(
+                self.model, self.optimizer, self.scheduler,
+                filepath=latest_path, device=str(self.device)
+            )
+            if checkpoint:
+                self.start_epoch = checkpoint.get("epoch", 0) + 1
+                self.best_metric = checkpoint.get("best_metric", self.best_metric)
+                self.logger.info(
+                    f"Resumed from checkpoint at epoch {checkpoint.get('epoch', '?')} "
+                    f"(best {self.metric_name}: {self.best_metric:.4f})"
+                )
+                print(f"\n→ Resumed from checkpoint: epoch {checkpoint.get('epoch', '?')}, "
+                      f"best {self.metric_name}: {self.best_metric:.4f}")
+                # Restore history CSV if it exists
+                if os.path.exists(self.history_csv):
+                    try:
+                        df = pd.read_csv(self.history_csv)
+                        self.history = df.to_dict('records')
+                    except Exception:
+                        pass
+                return True
+        return False
+
     def train_epoch(self, dataloader, epoch=1, total_epochs=100):
         self.model.train()
         epoch_loss = 0.0
@@ -172,6 +200,12 @@ class PyTorchTrainer:
         return avg_loss, metrics
 
     def fit(self, train_loader, val_loader, total_epochs):
+        # Auto-resume from latest checkpoint if available
+        resumed = self.resume_from_checkpoint()
+        if resumed and self.start_epoch > total_epochs:
+            self.logger.info(f"Already completed {total_epochs} epochs. Skipping training.")
+            return self.best_metric
+        
         self.logger.info(f"Starting training for model {self.model_name} (Max Epochs: {total_epochs})")
         
         # Determine dataset name
