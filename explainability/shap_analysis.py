@@ -93,7 +93,7 @@ def extract_audio_features(wav_path):
         return None
 
 
-def generate_shap_analysis(modality, output_dir=None, max_samples=100, single_sample_path=None):
+def generate_shap_analysis(modality, output_dir=None, max_samples=100, single_sample_path=None, model=None):
     """
     Generate SHAP analysis plots for a tabular modality.
     Supports patient-specific explanation if single_sample_path is provided.
@@ -119,14 +119,18 @@ def generate_shap_analysis(modality, output_dir=None, max_samples=100, single_sa
         X = df.drop(columns=["status"]).values
         feature_names = VOICE_FEATURE_NAMES if len(VOICE_FEATURE_NAMES) == X.shape[1] else [f"F{i}" for i in range(X.shape[1])]
 
-        from training.models.voice.catboost import VoiceCatBoostClassifier
-        model_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "voice_best_model.pkl")
-        if not os.path.exists(model_path):
-            raise FileNotFoundError(f"Voice model not found: {model_path}")
-        model = VoiceCatBoostClassifier()
-        model.load(model_path)
         title_base = "Voice (CatBoost)"
         prefix = "voice"
+        if model is None:
+            from training.models.voice.catboost import VoiceCatBoostClassifier
+            model_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "voice_best_model.pkl")
+            if not os.path.exists(model_path):
+                raise FileNotFoundError(f"Voice model not found: {model_path}")
+            model = VoiceCatBoostClassifier()
+            model.load(model_path)
+            print(f"  ✓ Loaded model: {model_path}")
+        else:
+            print("  ✓ Using pre-loaded Voice model")
 
     elif modality == "telemonitor":
         test_csv = os.path.join(PROJECT_ROOT, "datasets", "test", "telemonitoring", "telemonitor_test.csv")
@@ -136,18 +140,21 @@ def generate_shap_analysis(modality, output_dir=None, max_samples=100, single_sa
         X = df.drop(columns=["motor_UPDRS", "total_UPDRS"]).values
         feature_names = TELEMONITOR_FEATURE_NAMES if len(TELEMONITOR_FEATURE_NAMES) == X.shape[1] else [f"F{i}" for i in range(X.shape[1])]
 
-        from training.models.telemonitor.xgboost import TelemonitorXGBRegressor
-        model_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "telemonitor_best_model.pkl")
-        if not os.path.exists(model_path):
-            raise FileNotFoundError(f"Telemonitoring model not found: {model_path}")
-        model = TelemonitorXGBRegressor()
-        model.load(model_path)
         title_base = "Telemonitoring (XGBoost)"
         prefix = "telemonitor"
+        if model is None:
+            from training.models.telemonitor.xgboost import TelemonitorXGBRegressor
+            model_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "telemonitor_best_model.pkl")
+            if not os.path.exists(model_path):
+                raise FileNotFoundError(f"Telemonitoring model not found: {model_path}")
+            model = TelemonitorXGBRegressor()
+            model.load(model_path)
+            print(f"  ✓ Loaded model: {model_path}")
+        else:
+            print("  ✓ Using pre-loaded Telemonitoring model")
     else:
         raise ValueError(f"Unknown modality: {modality}. Use 'voice' or 'telemonitor'.")
 
-    print(f"  ✓ Loaded model: {model_path}")
 
     # Limit samples
     if X.shape[0] > max_samples:

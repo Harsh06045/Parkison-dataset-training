@@ -116,7 +116,7 @@ def get_target_layer(model, model_type):
     raise ValueError(f"Cannot find target layer for model type '{model_type}'")
 
 
-def generate_gradcam(model_type, image_path, output_dir=None, device=None):
+def generate_gradcam(model_type, image_path, output_dir=None, device=None, model=None):
     """
     Full Grad-CAM pipeline. Saves three files:
       {prefix}_original.png, {prefix}_gradcam.png, {prefix}_overlay.png
@@ -137,30 +137,34 @@ def generate_gradcam(model_type, image_path, output_dir=None, device=None):
         output_dir = os.path.join(PROJECT_ROOT, "outputs", "plots")
     os.makedirs(output_dir, exist_ok=True)
 
+    prefix = "mri" if model_type == "mri" else "spiral"
+
     # --- Load model ---
-    if model_type == "mri":
-        from models.mri_model import MRIClassifier
-        model = MRIClassifier(num_classes=2, pretrained=False).to(device)
-        ckpt_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "mri_best.pth")
-        prefix = "mri"
-    elif model_type == "spiral":
-        from models.image_model import ImageDrawingClassifier
-        model = ImageDrawingClassifier(num_classes=2, pretrained=False).to(device)
-        ckpt_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "image_best.pth")
-        prefix = "spiral"
-    else:
-        raise ValueError(f"Unknown model type: {model_type}. Use 'mri' or 'spiral'.")
+    if model is None:
+        if model_type == "mri":
+            from models.mri_model import MRIClassifier
+            model = MRIClassifier(num_classes=2, pretrained=False).to(device)
+            ckpt_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "mri_best.pth")
+        elif model_type == "spiral":
+            from models.image_model import ImageDrawingClassifier
+            model = ImageDrawingClassifier(num_classes=2, pretrained=False).to(device)
+            ckpt_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "image_best.pth")
+        else:
+            raise ValueError(f"Unknown model type: {model_type}. Use 'mri' or 'spiral'.")
 
-    if not os.path.exists(ckpt_path):
-        raise FileNotFoundError(f"Checkpoint not found: {ckpt_path}")
+        if not os.path.exists(ckpt_path):
+            raise FileNotFoundError(f"Checkpoint not found: {ckpt_path}")
 
-    state = torch.load(ckpt_path, map_location=device)
-    if isinstance(state, dict) and "model_state_dict" in state:
-        model.load_state_dict(state["model_state_dict"])
+        state = torch.load(ckpt_path, map_location=device)
+        if isinstance(state, dict) and "model_state_dict" in state:
+            model.load_state_dict(state["model_state_dict"])
+        else:
+            model.load_state_dict(state)
+        model.eval()
+        print(f"  ✓ Loaded checkpoint: {ckpt_path}")
     else:
-        model.load_state_dict(state)
-    model.eval()
-    print(f"  ✓ Loaded checkpoint: {ckpt_path}")
+        model = model.to(device)
+
 
     # --- Preprocess ---
     original_image = Image.open(image_path).convert('RGB')
