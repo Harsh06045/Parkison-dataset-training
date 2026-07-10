@@ -183,5 +183,69 @@ class TestParkinsonBackendAPI(unittest.TestCase):
         self.assertEqual(response.headers["content-type"], "application/pdf")
         self.assertTrue(len(response.content) > 0)
 
+    def test_explain_all_modalities(self):
+        """Test POST /explain with all modalities"""
+        files_exist = all(
+            os.path.exists(p) for p in [
+                self.mri_file,
+                self.spiral_file,
+                self.voice_file,
+                self.telemonitor_file
+            ]
+        )
+        if not files_exist:
+            self.skipTest("One or more files missing for explain test")
+            
+        with open(self.mri_file, "rb") as mri_f, \
+             open(self.spiral_file, "rb") as spiral_f, \
+             open(self.voice_file, "rb") as voice_f, \
+             open(self.telemonitor_file, "rb") as tele_f:
+             
+            response = self.client.post(
+                "/explain",
+                files={
+                    "mri": ("patient.png", mri_f, "image/png"),
+                    "spiral": ("spiral.png", spiral_f, "image/png"),
+                    "voice": ("voice.wav", voice_f, "audio/wav"),
+                    "telemonitor": ("patient.csv", tele_f, "text/csv")
+                }
+            )
+            
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn("mri", data)
+        self.assertIn("spiral", data)
+        self.assertIn("voice", data)
+        self.assertIn("telemonitor", data)
+        self.assertIn("fusion", data)
+        
+        self.assertIn("overlay", data["mri"])
+        self.assertIn("overlay", data["spiral"])
+        self.assertIn("summary", data["voice"])
+        self.assertIn("summary", data["telemonitor"])
+        self.assertIn("plot", data["fusion"])
+
+    def test_validation_errors(self):
+        """Test file validation rejection for disallowed extension"""
+        # Create a mock text file
+        dummy_file_path = os.path.join(PROJECT_ROOT, "dummy_test.txt")
+        with open(dummy_file_path, "w") as f:
+            f.write("Invalid content")
+            
+        try:
+            with open(dummy_file_path, "rb") as f:
+                response = self.client.post(
+                    "/predict/mri",
+                    files={"image": ("dummy_test.txt", f, "text/plain")}
+                )
+            self.assertEqual(response.status_code, 400)
+            data = response.json()
+            self.assertIn("detail", data)
+            self.assertEqual(data["error_code"], "HTTP_400")
+        finally:
+            if os.path.exists(dummy_file_path):
+                os.remove(dummy_file_path)
+
+
 if __name__ == "__main__":
     unittest.main()

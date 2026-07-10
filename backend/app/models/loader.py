@@ -3,6 +3,15 @@ import sys
 import torch
 import pickle
 
+# Force stdout/stderr to use UTF-8 to prevent charmap encoding errors on Windows
+try:
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
+    if hasattr(sys.stderr, 'reconfigure'):
+        sys.stderr.reconfigure(encoding='utf-8')
+except Exception:
+    pass
+
 # Ensure project root is in sys.path for importing project modules
 APP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BACKEND_DIR = os.path.dirname(APP_DIR)
