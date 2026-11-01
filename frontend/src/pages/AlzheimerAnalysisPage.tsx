@@ -373,7 +373,7 @@ export function AlzheimerAnalysisPage({ onBack, onNavigateToReports }: Alzheimer
             {/* 5. QUANTITATIVE EEG (qEEG) TAB */}
             {activeTab === "eeg" && (
               <div className="space-y-4">
-                <EEGViewer disease="Alzheimer's Disease" onDataLoaded={(info) => setEegInfo(info)} />
+                <EEGViewer disease="Alzheimer's Disease" onDataLoaded={(info: EEGSignalPayload) => setEegInfo(info)} />
               </div>
             )}
 

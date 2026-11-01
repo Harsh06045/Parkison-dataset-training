@@ -129,7 +129,11 @@ function saveStoredReports(reports: UnifiedDiagnosticReport[]): void {
 export const reportApi = {
   async getReports(search?: string, disease?: string): Promise<UnifiedDiagnosticReport[]> {
     try {
-      return await apiClient.get<UnifiedDiagnosticReport[]>("/reports", { search, disease });
+      const remote = await apiClient.get<UnifiedDiagnosticReport[]>("/reports", { search, disease });
+      if (remote && remote.length > 0) {
+        return remote;
+      }
+      throw new Error("No backend reports yet");
     } catch {
       let list = getStoredReports();
       if (disease && disease !== "all") {
@@ -166,6 +170,7 @@ export const reportApi = {
       return await apiClient.post<UnifiedDiagnosticReport>("/reports/generate/alzheimer", {
         analysisId: analysis.id,
         doctorName,
+        analysis,
       });
     } catch {
       const reportId = `REP-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -225,6 +230,7 @@ export const reportApi = {
       return await apiClient.post<UnifiedDiagnosticReport>("/reports/generate/parkinson", {
         analysisId: analysis.id,
         doctorName,
+        analysis,
       });
     } catch {
       const reportId = `REP-${Math.floor(1000 + Math.random() * 9000)}`;

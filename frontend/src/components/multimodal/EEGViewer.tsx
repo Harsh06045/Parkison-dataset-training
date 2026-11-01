@@ -33,6 +33,7 @@ export interface EEGSignalPayload {
 interface EEGViewerProps {
   disease: "Alzheimer's Disease" | "Parkinson's Disease";
   onSignalIngested?: (payload: EEGSignalPayload) => void;
+  onDataLoaded?: (payload: EEGSignalPayload) => void;
 }
 
 interface ChannelDef {
@@ -52,7 +53,7 @@ const DEFAULT_CHANNELS: ChannelDef[] = [
   { label: "P4 - O2", color: "#ec4899", region: "Right Occipital" },
 ];
 
-export function EEGViewer({ disease, onSignalIngested }: EEGViewerProps) {
+export function EEGViewer({ disease, onSignalIngested, onDataLoaded }: EEGViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -88,25 +89,25 @@ export function EEGViewer({ disease, onSignalIngested }: EEGViewerProps) {
 
   // Notify parent on initial load or metrics change
   useEffect(() => {
-    if (onSignalIngested) {
-      onSignalIngested({
-        file: currentFile,
-        filename: activeSignalName,
-        channelCount: channelLabels.length,
-        durationSec: metrics.durationSec,
-        samplingRateHz: metrics.samplingRateHz,
-        slowingIndex: metrics.slowingIndex,
-        dominantBand: metrics.dominantBand,
-        deltaPower: metrics.deltaPower,
-        thetaPower: metrics.thetaPower,
-        alphaPower: metrics.alphaPower,
-        betaPower: metrics.betaPower,
-        interpretation:
-          disease === "Alzheimer's Disease"
-            ? "qEEG demonstrates generalized background slowing with elevated fronto-temporal theta activity and marked reduction in occipital alpha peaks."
-            : "qEEG reveals sensorimotor beta frequency desynchronization and motor tremor burst oscillations across central-frontal channels.",
-      });
-    }
+    const payload: EEGSignalPayload = {
+      file: currentFile,
+      filename: activeSignalName,
+      channelCount: channelLabels.length,
+      durationSec: metrics.durationSec,
+      samplingRateHz: metrics.samplingRateHz,
+      slowingIndex: metrics.slowingIndex,
+      dominantBand: metrics.dominantBand,
+      deltaPower: metrics.deltaPower,
+      thetaPower: metrics.thetaPower,
+      alphaPower: metrics.alphaPower,
+      betaPower: metrics.betaPower,
+      interpretation:
+        disease === "Alzheimer's Disease"
+          ? "qEEG demonstrates generalized background slowing with elevated fronto-temporal theta activity and marked reduction in occipital alpha peaks."
+          : "qEEG reveals sensorimotor beta frequency desynchronization and motor tremor burst oscillations across central-frontal channels.",
+    };
+    if (onSignalIngested) onSignalIngested(payload);
+    if (onDataLoaded) onDataLoaded(payload);
   }, [activeSignalName, metrics, currentFile]);
 
   // Parse uploaded CSV/Text EEG file
