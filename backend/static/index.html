@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroFusionAI — Parkinson's Multimodal Diagnostic Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 26, 43, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.12);
+      --primary: #00f2fe;
+      --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      --accent-purple: #8b5cf6;
+      --accent-emerald: #10b981;
+      --accent-rose: #f43f5e;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --radius: 16px;
+      --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(0, 242, 254, 0.07) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.8) 0px, transparent 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #090d16;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .header-links {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .btn-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(0, 242, 254, 0.3);
+      color: var(--primary);
+    }
+
+    .btn-link.primary {
+      background: var(--primary-gradient);
+      color: #090d16;
+      font-weight: 600;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+    }
+
+    .btn-link.primary:hover {
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 0.35rem;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      background: rgba(255, 255, 255, 0.09);
+      color: var(--primary);
+      font-weight: 600;
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Content Cards */
+    .panel {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .panel.active {
+      display: grid;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Upload Dropzone */
+    .dropzone {
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 2.2rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(0, 0, 0, 0.2);
+      margin-bottom: 1.25rem;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--primary);
+      background: rgba(0, 242, 254, 0.04);
+    }
+
+    .dropzone-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .dropzone-text {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .dropzone-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .selected-file-info {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+    }
+
+    .selected-file-info.show {
+      display: flex;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.8rem 1.25rem;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: #090d16;
+      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      box-shadow: 0 6px 22px rgba(0, 242, 254, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Result Panel */
+    .empty-state {
+      height: 100%;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--text-muted);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .empty-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      opacity: 0.4;
+    }
+
+    .result-container {
+      display: none;
+    }
+
+    .result-container.show {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .diagnosis-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 1.25rem;
+    }
+
+    .diagnosis-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .diagnosis-badge {
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+    }
+
+    .diagnosis-badge.normal {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .diagnosis-badge.parkinson {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fb7185;
+    }
+
+    .metric-row {
+      margin-bottom: 1.5rem;
+    }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .progress-bar-bg {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--primary-gradient);
+      transition: width 0.6s ease;
+    }
+
+    /* Explanation Visualizations */
+    .xai-section {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .xai-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.85rem;
+      color: var(--primary);
+    }
+
+    .xai-images-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .xai-card {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      text-align: center;
+    }
+
+    .xai-card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .xai-card img:hover {
+      transform: scale(1.05);
+    }
+
+    .xai-card-caption {
+      padding: 0.45rem 0.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    /* Multimodal Grid */
+    .fusion-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .fusion-slot {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px dashed var(--card-border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .fusion-slot.loaded {
+      border-color: rgba(0, 242, 254, 0.4);
+      background: rgba(0, 242, 254, 0.03);
+    }
+
+    .slot-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .slot-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .slot-status.active {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(9, 13, 22, 0.3);
+      border-top-color: #090d16;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Modal for Image Preview */
+    .img-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .img-modal img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--card-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo-group">
+        <div class="logo-badge">NF</div>
+        <div>
+          <h1>NeuroFusionAI</h1>
+          <div class="subtitle">Multimodal Parkinson's Disease Diagnostic & Explainable AI Suite</div>
+        </div>
+      </div>
+
+      <div class="header-links">
+        <span class="status-pill" id="healthPill">
+          <span class="status-dot"></span>
+          <span id="healthText">Models Online</span>
+        </span>
+        <a href="/docs" target="_blank" class="btn-link primary">Swagger UI Docs ↗</a>
+        <a href="/redoc" target="_blank" class="btn-link">ReDoc ↗</a>
+        <a href="/health" target="_blank" class="btn-link">Health API</a>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('fusion')">⚡ Diagnostic Fusion</button>
+      <button class="tab-btn" onclick="switchTab('mri')">🧠 Brain MRI</button>
+      <button class="tab-btn" onclick="switchTab('spiral')">🌀 Spiral Drawing</button>
+      <button class="tab-btn" onclick="switchTab('voice')">🎙️ Voice Acoustics</button>
+      <button class="tab-btn" onclick="switchTab('tele')">📊 Telemonitoring</button>
+    </div>
+
+    <!-- 1. MULTIMODAL FUSION PANEL -->
+    <div class="panel active" id="panel-fusion">
+      <div class="card">
+        <div class="card-title">⚡ Multimodal Diagnostic Fusion</div>
+        <div class="card-desc">Fuses Brain MRI scans, Hand-drawn spirals, Vocal acoustics, and Telemonitoring features simultaneously using an Attention-based Neural Fusion Network.</div>
+
+        <div class="fusion-grid">
+          <div class="fusion-slot" id="slot-mri">
+            <div class="slot-title">1. Brain MRI Scan</div>
+            <div class="slot-status" id="slot-status-mri">Pending upload...</div>
+            <input type="file" id="fusion-input-mri" class="file-input" accept="image/*" onchange="onFusionFileSelected('mri', this.files[0])">
+          </div>
+          <div class="fusion-slot" id="slot-spiral">
+            <div class="slot-title">2. Spiral Drawing</div>
+            <div class="slot-status" id="slot-status-spiral">Pending upload...</div>
+            <input type="file" id="fusion-input-spiral" class="file-input" accept="image/*" onchange="onFusionFileSelected('spiral', this.files[0])">
+          </div>
+          <div class="fusion-slot" id="slot-voice">
+            <div class="slot-title">3. Voice Recording / CSV</div>
+            <div class="slot-status" id="slot-status-voice">Pending upload...</div>
+            <input type="file" id="fusion-input-voice" class="file-input" accept=".wav,.csv" onchange="onFusionFileSelected('voice', this.files[0])">
+          </div>
+          <div class="fusion-slot" id="slot-tele">
+            <div class="slot-title">4. Telemonitoring CSV</div>
+            <div class="slot-status" id="slot-status-tele">Pending upload...</div>
+            <input type="file" id="fusion-input-tele" class="file-input" accept=".csv" onchange="onFusionFileSelected('tele', this.files[0])">
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn btn-secondary" onclick="loadAllSampleData()">📥 Load All 4 Samples</button>
+          <button class="btn btn-primary" id="btn-run-fusion" onclick="runFusionInference()">
+            <span>Run Multimodal Fusion</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Unified Diagnostic Evaluation</div>
+        <div class="card-desc">Comprehensive patient assessment and modality contributions.</div>
+
+        <div class="empty-state" id="fusion-empty">
+          <div class="empty-icon">🧪</div>
+          <div>Load sample inputs or upload files to evaluate multimodal fusion.</div>
+        </div>
+
+        <div class="result-container" id="fusion-result">
+          <div class="diagnosis-header">
+            <div>
+              <div class="diagnosis-label">Unified Classification</div>
+              <div class="diagnosis-badge" id="fusion-badge">Normal</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="diagnosis-label">Overall Confidence</div>
+              <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);" id="fusion-conf-text">99.8%</div>
+            </div>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric-top">
+              <span>Diagnostic Certainty</span>
+              <span id="fusion-bar-pct">99.8%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="fusion-bar" style="width: 99.8%;"></div>
+            </div>
+          </div>
+
+          <div class="xai-section">
+            <div class="xai-title">Feature Importance & Contributions</div>
+            <div class="xai-images-grid">
+              <div class="xai-card">
+                <img src="/plots/fusion_contribution.png" alt="Modality Contributions" onclick="expandImage(this.src)">
+                <div class="xai-card-caption">Modality Contribution</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. BRAIN MRI PANEL -->
+    <div class="panel" id="panel-mri">
+      <div class="card">
+        <div class="card-title">🧠 Brain MRI Scan Classification</div>
+        <div class="card-desc">DenseNet121 & ConvNeXt architecture with Grad-CAM activation mapping.</div>
+
+        <div class="dropzone" id="dropzone-mri" onclick="document.getElementById('mri-file').click()">
+          <div class="dropzone-icon">🧠</div>
+          <div class="dropzone-text">Click or drop MRI image here</div>
+          <div class="dropzone-hint">Supports PNG, JPG, JPEG scans</div>
+          <input type="file" id="mri-file" class="file-input" accept="image/*" onchange="handleSingleFile('mri', this.files[0])">
+        </div>
+
+        <div class="selected-file-info" id="info-mri">
+          <span id="name-mri">filename.png</span>
+          <button class="btn-link" style="padding: 2px 8px; font-size: 0.75rem;" onclick="clearSingleFile('mri')">Remove</button>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn btn-secondary" onclick="loadSampleSingle('mri')">📥 Load Sample MRI</button>
+          <button class="btn btn-primary" id="btn-predict-mri" onclick="runSinglePredict('mri')">
+            <span>Analyze MRI</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Grad-CAM Neural Attention</div>
+        <div class="card-desc">Visual explanation highlighting regions that influenced the model.</div>
+
+        <div class="empty-state" id="mri-empty">
+          <div class="empty-icon">🔬</div>
+          <div>Upload an MRI scan to generate Grad-CAM heatmaps.</div>
+        </div>
+
+        <div class="result-container" id="mri-result">
+          <div class="diagnosis-header">
+            <div>
+              <div class="diagnosis-label">Result</div>
+              <div class="diagnosis-badge" id="mri-badge">Normal</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="diagnosis-label">Confidence</div>
+              <div style="font-size: 1.4rem; font-weight: 700; color: var(--primary);" id="mri-conf">99.95%</div>
+            </div>
+          </div>
+
+          <div class="xai-section">
+            <div class="xai-title">Grad-CAM Heatmap Overlay</div>
+            <div class="xai-images-grid">
+              <div class="xai-card">
+                <img id="mri-gradcam-img" src="/plots/mri_overlay.png" alt="GradCAM" onclick="expandImage(this.src)">
+                <div class="xai-card-caption">Attention Heatmap</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SPIRAL DRAWING PANEL -->
+    <div class="panel" id="panel-spiral">
+      <div class="card">
+        <div class="card-title">🌀 Hand-Drawn Spiral Analysis</div>
+        <div class="card-desc">ResNet18 & EfficientNet-B3 motor tremor and drawing pattern classification.</div>
+
+        <div class="dropzone" id="dropzone-spiral" onclick="document.getElementById('spiral-file').click()">
+          <div class="dropzone-icon">🌀</div>
+          <div class="dropzone-text">Click or drop spiral image here</div>
+          <div class="dropzone-hint">Supports PNG, JPG motor spiral drawing tests</div>
+          <input type="file" id="spiral-file" class="file-input" accept="image/*" onchange="handleSingleFile('spiral', this.files[0])">
+        </div>
+
+        <div class="selected-file-info" id="info-spiral">
+          <span id="name-spiral">spiral.png</span>
+          <button class="btn-link" style="padding: 2px 8px; font-size: 0.75rem;" onclick="clearSingleFile('spiral')">Remove</button>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn btn-secondary" onclick="loadSampleSingle('spiral')">📥 Load Sample Spiral</button>
+          <button class="btn btn-primary" id="btn-predict-spiral" onclick="runSinglePredict('spiral')">
+            <span>Analyze Spiral</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Motor Pattern Grad-CAM</div>
+        <div class="card-desc">Saliency maps revealing irregularities in drawing stroke mechanics.</div>
+
+        <div class="empty-state" id="spiral-empty">
+          <div class="empty-icon">✍️</div>
+          <div>Upload a spiral drawing to generate visual motor analysis.</div>
+        </div>
+
+        <div class="result-container" id="spiral-result">
+          <div class="diagnosis-header">
+            <div>
+              <div class="diagnosis-label">Result</div>
+              <div class="diagnosis-badge" id="spiral-badge">Normal</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="diagnosis-label">Confidence</div>
+              <div style="font-size: 1.4rem; font-weight: 700; color: var(--primary);" id="spiral-conf">99.74%</div>
+            </div>
+          </div>
+
+          <div class="xai-section">
+            <div class="xai-title">Grad-CAM Stroke Map</div>
+            <div class="xai-images-grid">
+              <div class="xai-card">
+                <img id="spiral-gradcam-img" src="/plots/spiral_overlay.png" alt="Spiral GradCAM" onclick="expandImage(this.src)">
+                <div class="xai-card-caption">Stroke Perturbation Map</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. VOICE ACOUSTICS PANEL -->
+    <div class="panel" id="panel-voice">
+      <div class="card">
+        <div class="card-title">🎙️ Vocal Acoustic Analysis</div>
+        <div class="card-desc">Processes phonation jitter, shimmer, pitch perturbation, and HNR using CatBoost and Neural MLP models.</div>
+
+        <div class="dropzone" id="dropzone-voice" onclick="document.getElementById('voice-file').click()">
+          <div class="dropzone-icon">🎙️</div>
+          <div class="dropzone-text">Click or drop audio .wav or features CSV</div>
+          <div class="dropzone-hint">Supports .wav recordings or extracted acoustic CSV</div>
+          <input type="file" id="voice-file" class="file-input" accept=".wav,.csv" onchange="handleSingleFile('voice', this.files[0])">
+        </div>
+
+        <div class="selected-file-info" id="info-voice">
+          <span id="name-voice">sample_voice.wav</span>
+          <button class="btn-link" style="padding: 2px 8px; font-size: 0.75rem;" onclick="clearSingleFile('voice')">Remove</button>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn btn-secondary" onclick="loadSampleSingle('voice')">📥 Load Sample Voice</button>
+          <button class="btn btn-primary" id="btn-predict-voice" onclick="runSinglePredict('voice')">
+            <span>Analyze Vocal Acoustic</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">SHAP Feature Attribution</div>
+        <div class="card-desc">Game-theoretic SHAP explanations attributing each acoustic parameter.</div>
+
+        <div class="empty-state" id="voice-empty">
+          <div class="empty-icon">📈</div>
+          <div>Upload vocal audio to generate SHAP summary and force plots.</div>
+        </div>
+
+        <div class="result-container" id="voice-result">
+          <div class="diagnosis-header">
+            <div>
+              <div class="diagnosis-label">Result</div>
+              <div class="diagnosis-badge" id="voice-badge">Normal</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="diagnosis-label">Confidence</div>
+              <div style="font-size: 1.4rem; font-weight: 700; color: var(--primary);" id="voice-conf">100.0%</div>
+            </div>
+          </div>
+
+          <div class="xai-section">
+            <div class="xai-title">SHAP Acoustic Attribution Plots</div>
+            <div class="xai-images-grid">
+              <div class="xai-card">
+                <img id="voice-shap-summary" src="/plots/voice_shap_summary.png" alt="SHAP Summary" onclick="expandImage(this.src)">
+                <div class="xai-card-caption">SHAP Summary</div>
+              </div>
+              <div class="xai-card">
+                <img id="voice-shap-bar" src="/plots/voice_shap_bar.png" alt="SHAP Bar" onclick="expandImage(this.src)">
+                <div class="xai-card-caption">Feature Importance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. TELEMONITORING PANEL -->
+    <div class="panel" id="panel-tele">
+      <div class="card">
+        <div class="card-title">📊 Telemonitoring Severity Regression</div>
+        <div class="card-desc">XGBoost & Neural Regression forecasting UPDRS motor & total disability scores.</div>
+
+        <div class="dropzone" id="dropzone-tele" onclick="document.getElementById('tele-file').click()">
+          <div class="dropzone-icon">📊</div>
+          <div class="dropzone-text">Click or drop telemonitoring CSV</div>
+          <div class="dropzone-hint">19 clinical telemetry attributes</div>
+          <input type="file" id="tele-file" class="file-input" accept=".csv" onchange="handleSingleFile('tele', this.files[0])">
+        </div>
+
+        <div class="selected-file-info" id="info-tele">
+          <span id="name-tele">sample_telemonitor.csv</span>
+          <button class="btn-link" style="padding: 2px 8px; font-size: 0.75rem;" onclick="clearSingleFile('tele')">Remove</button>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn btn-secondary" onclick="loadSampleSingle('tele')">📥 Load Sample CSV</button>
+          <button class="btn btn-primary" id="btn-predict-tele" onclick="runSinglePredict('tele')">
+            <span>Estimate UPDRS Severity</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">UPDRS Disability Forecast</div>
+        <div class="card-desc">Predicted clinical assessment severity and SHAP attribution.</div>
+
+        <div class="empty-state" id="tele-empty">
+          <div class="empty-icon">📋</div>
+          <div>Upload patient telemetry to predict motor & total UPDRS scores.</div>
+        </div>
+
+        <div class="result-container" id="tele-result">
+          <div class="diagnosis-header">
+            <div>
+              <div class="diagnosis-label">Motor UPDRS</div>
+              <div style="font-size: 1.6rem; font-weight: 700; color: #38bdf8;" id="tele-motor">15.33</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="diagnosis-label">Total UPDRS</div>
+              <div style="font-size: 1.6rem; font-weight: 700; color: #a78bfa;" id="tele-total">21.97</div>
+            </div>
+          </div>
+
+          <div class="xai-section">
+            <div class="xai-title">Feature Attribution Plots</div>
+            <div class="xai-images-grid">
+              <div class="xai-card">
+                <img id="tele-shap-summary" src="/plots/telemonitor_shap_summary.png" alt="SHAP" onclick="expandImage(this.src)">
+                <div class="xai-card-caption">SHAP Summary</div>
+              </div>
+              <div class="xai-card">
+                <img id="tele-shap-bar" src="/plots/telemonitor_shap_bar.png" alt="SHAP Bar" onclick="expandImage(this.src)">
+                <div class="xai-card-caption">Feature Impact</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Image Viewing -->
+  <div class="img-modal" id="imageModal" onclick="this.style.display='none'">
+    <img id="modalImg" src="" alt="Enlarged visualization">
+  </div>
+
+  <script>
+    // Tab Switching
+    function switchTab(name) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      
+      const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.innerText.toLowerCase().includes(name));
+      if (targetBtn) targetBtn.classList.add('active');
+      
+      const panel = document.getElementById('panel-' + name);
+      if (panel) panel.classList.add('active');
+    }
+
+    // Modal Image Viewer
+    function expandImage(src) {
+      const modal = document.getElementById('imageModal');
+      const img = document.getElementById('modalImg');
+      img.src = src;
+      modal.style.display = 'flex';
+    }
+
+    // Single files state
+    const singleFiles = {
+      mri: null,
+      spiral: null,
+      voice: null,
+      tele: null
+    };
+
+    function handleSingleFile(type, file) {
+      if (!file) return;
+      singleFiles[type] = file;
+      document.getElementById('name-' + type).innerText = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+      document.getElementById('info-' + type).classList.add('show');
+    }
+
+    function clearSingleFile(type) {
+      singleFiles[type] = null;
+      document.getElementById('info-' + type).classList.remove('show');
+      const input = document.getElementById(type + '-file');
+      if (input) input.value = '';
+    }
+
+    // Load Built-in Samples via Fetch
+    async function loadSampleSingle(type) {
+      const sampleMap = {
+        mri: { url: '/plots/samples/sample_mri.png', name: 'sample_mri.png', mime: 'image/png' },
+        spiral: { url: '/plots/samples/sample_spiral.png', name: 'sample_spiral.png', mime: 'image/png' },
+        voice: { url: '/plots/samples/sample_voice.wav', name: 'sample_voice.wav', mime: 'audio/wav' },
+        tele: { url: '/plots/samples/sample_telemonitor.csv', name: 'sample_telemonitor.csv', mime: 'text/csv' }
+      };
+
+      const item = sampleMap[type];
+      try {
+        const res = await fetch(item.url);
+        const blob = await res.blob();
+        const file = new File([blob], item.name, { type: item.mime });
+        handleSingleFile(type, file);
+      } catch (err) {
+        alert('Could not load sample file: ' + err.message);
+      }
+    }
+
+    // Single Modality Predict Execution
+    async function runSinglePredict(type) {
+      const file = singleFiles[type];
+      if (!file) {
+        alert('Please choose or load a sample file first!');
+        return;
+      }
+
+      const btn = document.getElementById('btn-predict-' + type);
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<span class="spinner"></span> <span>Analyzing...</span>';
+      btn.disabled = true;
+
+      const endpointMap = {
+        mri: { url: '/predict/mri', field: 'image' },
+        spiral: { url: '/predict/spiral', field: 'image' },
+        voice: { url: '/predict/voice', field: 'file' },
+        tele: { url: '/predict/telemonitor', field: 'file' }
+      };
+
+      const ep = endpointMap[type];
+      const formData = new FormData();
+      formData.append(ep.field, file);
+
+      try {
+        const res = await fetch(ep.url, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.detail || 'Prediction failed');
+        }
+
+        const data = await res.json();
+        
+        // Hide empty state & show result
+        document.getElementById(type + '-empty').style.display = 'none';
+        document.getElementById(type + '-result').classList.add('show');
+
+        if (type === 'tele') {
+          document.getElementById('tele-motor').innerText = data.motor_UPDRS.toFixed(2);
+          document.getElementById('tele-total').innerText = data.total_UPDRS.toFixed(2);
+        } else {
+          const isParkinson = data.prediction.toLowerCase().includes('parkinson');
+          const badge = document.getElementById(type + '-badge');
+          badge.innerText = data.prediction;
+          badge.className = 'diagnosis-badge ' + (isParkinson ? 'parkinson' : 'normal');
+          document.getElementById(type + '-conf').innerText = (data.confidence).toFixed(2) + '%';
+          
+          if (data.gradcam) {
+            document.getElementById(type + '-gradcam-img').src = data.gradcam + '?t=' + Date.now();
+          }
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }
+    }
+
+    // Fusion Modality State
+    const fusionFiles = {
+      mri: null,
+      spiral: null,
+      voice: null,
+      tele: null
+    };
+
+    function onFusionFileSelected(type, file) {
+      if (!file) return;
+      fusionFiles[type] = file;
+      const slot = document.getElementById('slot-' + type);
+      const status = document.getElementById('slot-status-' + type);
+      slot.classList.add('loaded');
+      status.innerText = file.name;
+      status.classList.add('active');
+    }
+
+    async function loadAllSampleData() {
+      const samples = [
+        { type: 'mri', url: '/plots/samples/sample_mri.png', name: 'sample_mri.png', mime: 'image/png' },
+        { type: 'spiral', url: '/plots/samples/sample_spiral.png', name: 'sample_spiral.png', mime: 'image/png' },
+        { type: 'voice', url: '/plots/samples/sample_voice.wav', name: 'sample_voice.wav', mime: 'audio/wav' },
+        { type: 'tele', url: '/plots/samples/sample_telemonitor.csv', name: 'sample_telemonitor.csv', mime: 'text/csv' }
+      ];
+
+      for (const s of samples) {
+        try {
+          const res = await fetch(s.url);
+          const blob = await res.blob();
+          const file = new File([blob], s.name, { type: s.mime });
+          onFusionFileSelected(s.type, file);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    async function runFusionInference() {
+      const missing = Object.keys(fusionFiles).filter(k => !fusionFiles[k]);
+      if (missing.length > 0) {
+        alert('Multimodal fusion requires all 4 inputs. Please click "Load All 4 Samples" or select files for: ' + missing.join(', '));
+        return;
+      }
+
+      const btn = document.getElementById('btn-run-fusion');
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<span class="spinner"></span> <span>Running Fusion...</span>';
+      btn.disabled = true;
+
+      const formData = new FormData();
+      formData.append('mri', fusionFiles.mri);
+      formData.append('spiral', fusionFiles.spiral);
+      formData.append('voice', fusionFiles.voice);
+      formData.append('telemonitor', fusionFiles.tele);
+
+      try {
+        const res = await fetch('/predict/fusion', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.detail || 'Fusion inference failed');
+        }
+
+        const data = await res.json();
+        
+        document.getElementById('fusion-empty').style.display = 'none';
+        document.getElementById('fusion-result').classList.add('show');
+
+        const isParkinson = data.prediction.toLowerCase().includes('parkinson');
+        const badge = document.getElementById('fusion-badge');
+        badge.innerText = data.prediction;
+        badge.className = 'diagnosis-badge ' + (isParkinson ? 'parkinson' : 'normal');
+
+        const conf = data.confidence.toFixed(2);
+        document.getElementById('fusion-conf-text').innerText = conf + '%';
+        document.getElementById('fusion-bar-pct').innerText = conf + '%';
+        document.getElementById('fusion-bar').style.width = conf + '%';
+
+      } catch (err) {
+        alert('Fusion Error: ' + err.message);
+      } finally {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }
+    }
+
+    // Health check poll on startup
+    fetch('/health').then(r => r.json()).then(data => {
+      if (data.status === 'running') {
+        document.getElementById('healthText').innerText = 'Online & Active';
+      }
+    }).catch(() => {
+      document.getElementById('healthText').innerText = 'Offline';
+    });
+  </script>
+</body>
+</html>

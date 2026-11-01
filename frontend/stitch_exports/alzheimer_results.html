@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeuroFusionAI - MRI Analysis Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "background": "#f8f9ff",
+                      "on-tertiary-fixed": "#00201c",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-error": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface-variant": "#d3e4fe",
+                      "inverse-primary": "#bec6e0",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#71f8e4",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-secondary-container": "#004666",
+                      "inverse-surface": "#213145",
+                      "on-primary-container": "#7c839b",
+                      "on-primary-fixed": "#131b2e",
+                      "surface-container-high": "#dce9ff",
+                      "surface": "#f8f9ff",
+                      "surface-dim": "#cbdbf5",
+                      "surface-container": "#e5eeff",
+                      "surface-tint": "#565e74",
+                      "tertiary-container": "#00201c",
+                      "outline-variant": "#c6c6cd",
+                      "secondary-fixed-dim": "#89ceff",
+                      "surface-bright": "#f8f9ff",
+                      "secondary-fixed": "#c9e6ff",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#dae2fd",
+                      "on-surface-variant": "#45464d",
+                      "on-secondary": "#ffffff",
+                      "tertiary": "#000000",
+                      "surface-container-low": "#eff4ff",
+                      "tertiary-fixed-dim": "#4fdbc8",
+                      "on-tertiary-fixed-variant": "#005048",
+                      "on-primary": "#ffffff",
+                      "outline": "#76777d",
+                      "on-secondary-fixed": "#001e2f",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-surface": "#0b1c30",
+                      "primary-container": "#131b2e",
+                      "on-tertiary-container": "#009485",
+                      "primary": "#000000",
+                      "on-background": "#0b1c30",
+                      "secondary-container": "#39b8fd",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-secondary-fixed-variant": "#004c6e",
+                      "secondary": "#006591"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-lg": "32px",
+                      "unit": "4px",
+                      "stack-md": "16px",
+                      "gutter": "24px",
+                      "margin-desktop": "40px",
+                      "stack-sm": "8px",
+                      "margin-mobile": "16px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Inter"],
+                      "headline-lg": ["Manrope"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Manrope"],
+                      "body-md": ["Inter"],
+                      "code-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Manrope"],
+                      "headline-md": ["Manrope"]
+              },
+              "fontSize": {
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "code-sm": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                      "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .progress-bar {
+            width: 94%;
+            animation: fillBar 1.5s ease-out forwards;
+        }
+        @keyframes fillBar {
+            from { width: 0; }
+            to { width: 94%; }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- SideNavBar (Desktop) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col z-50 bg-surface border-r border-outline-variant shadow-sm py-stack-md px-stack-md gap-stack-sm overflow-y-auto">
+<div class="mb-stack-lg px-4">
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary">NeuroFusionAI</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Clinical Portal</p>
+</div>
+<button class="w-full bg-[#0EA5E9] hover:bg-opacity-90 text-white font-label-md text-label-md py-3 rounded-lg mb-4 flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+            New Patient Scan
+        </button>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all scale-95 duration-75 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all scale-95 duration-75 ease-in-out" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold scale-95 duration-75 ease-in-out" href="#">
+<span class="material-symbols-outlined filled-icon">psychology</span>
+<span class="font-label-md text-label-md">New Analysis</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all scale-95 duration-75 ease-in-out" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all scale-95 duration-75 ease-in-out" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-2 border-t border-outline-variant pt-4">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar (Mobile/Tablet & Global Header) -->
+<header class="w-full h-16 flex items-center justify-between sticky top-0 z-40 bg-background shadow-sm px-margin-desktop lg:px-8 border-b border-outline-variant lg:border-none lg:shadow-none">
+<div class="lg:hidden flex items-center gap-4">
+<button class="text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary">NeuroFusionAI</span>
+</div>
+<div class="hidden lg:flex items-center gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">Analysis Results</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Dr. Smith's Profile" class="w-full h-full object-cover" data-alt="Close up professional headshot of a female doctor in her 40s with short dark hair, wearing a white lab coat over a light blue shirt. Bright, clean medical clinic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdBbbDrzQi0wOR_f7-tC0FqYk3AV1LgBv3C9qMVjWmHP1Pz3GA92Ib9a0mHC6tuD964GYZk8lBOHXrQCGxtKZSMlOegMHRSOjnsbEfbq31B7pgFs0b7aUfkUm6bOjDa9aP9AiNJtgDmTaFUY2YrbUvxqkRqudm30mCpZ8zpS_GBTihAq5DYRbW8a21TjlU-7lPhhYTwXqvv9IvGXGgaj9w91bwFC-Qa_sZ-pgwr2S0pTdQfLSEH9NZrQ"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 p-margin-mobile md:p-gutter lg:p-margin-desktop bg-surface-container-lowest">
+<!-- Breadcrumb & Header -->
+<div class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md mb-2">
+<span class="cursor-pointer hover:text-primary">Patients</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="cursor-pointer hover:text-primary">Robert Jenkins</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface">Scan #8492</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Patient Analysis: Robert Jenkins</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Processed on Oct 24, 2023 • Scan ID: MRI-2023-8492</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-secondary text-secondary font-label-md text-label-md rounded-lg hover:bg-secondary-fixed transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Download Report
+                    </button>
+<button class="px-4 py-2 bg-[#0EA5E9] text-white font-label-md text-label-md rounded-lg hover:bg-opacity-90 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                        Verify Results
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Section 1 & 2: Summary and Prediction (Left Col) -->
+<div class="col-span-1 md:col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- AI Prediction Card -->
+<div class="glass-card rounded-xl p-stack-md shadow-sm border-l-4 border-l-[#0EA5E9]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">AI Diagnosis</h3>
+<span class="material-symbols-outlined text-[#0EA5E9]">psychology</span>
+</div>
+<div class="mb-4">
+<p class="font-display-lg text-headline-lg-mobile md:text-display-lg text-on-surface font-bold leading-tight">Early-Stage Alzheimer's</p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Pattern consistent with mild cognitive impairment transitioning to early AD.</p>
+</div>
+<div class="mt-6">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Confidence Score</span>
+<span class="font-headline-md text-headline-md text-[#0EA5E9]">94%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2.5 overflow-hidden">
+<div class="bg-[#0EA5E9] h-2.5 rounded-full progress-bar"></div>
+</div>
+</div>
+</div>
+<!-- Patient Summary Card -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-4 border-b border-outline-variant pb-2">Patient Demographics</h3>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Age / Sex</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">72 / Male</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Weight</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">185 lbs</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Primary Physician</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Dr. S. Reynolds</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Scan Type</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">T1-weighted MRI</p>
+</div>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mt-6 mb-3 border-b border-outline-variant pb-2">Clinical Notes</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3">Patient reports mild memory loss over the past 8 months. Difficulty remembering recent conversations and misplacing objects. No history of stroke or severe head trauma.</p>
+</div>
+</div>
+<!-- Section 3: Explainability & Imaging (Right Col) -->
+<div class="col-span-1 md:col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<!-- MRI Scan Viewer -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant flex-1 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Grad-CAM Activation Map</h3>
+<div class="flex gap-2">
+<button class="p-1 hover:bg-surface-container-low rounded text-on-surface-variant" title="Zoom In"><span class="material-symbols-outlined text-[20px]">zoom_in</span></button>
+<button class="p-1 hover:bg-surface-container-low rounded text-on-surface-variant" title="Toggle Overlay"><span class="material-symbols-outlined text-[20px]">layers</span></button>
+</div>
+</div>
+<div class="relative w-full bg-black rounded-lg overflow-hidden flex-1 min-h-[300px] lg:min-h-[400px] flex items-center justify-center border border-outline-variant">
+<!-- MRI Base Image -->
+<img alt="Base MRI Scan" class="absolute inset-0 w-full h-full object-contain opacity-80" data-alt="High resolution grayscale T1-weighted axial MRI scan of a human brain. Clinical medical imaging showing clear anatomical structures like ventricles and cortex. Dark background, professional medical display style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFivijfbuTm9BvONPyPsuY2KCmDxMiK6BjQn4x6PNerZSkIAJhEPbssqy5V2xSurkgx09iRHSkj69CocGMft_bQ7Ky30uQEuS3G26CBM4ME0eAyVYpBqpN_h5BueCEpVNhPkv7N8b8Wx9R9zYBE0EAjCZeiMqTNCSY_ETE63-IRwmQwCq9IvzC4zLUKtgs1Qg6F0G7zVCu99EnjVdPmIdi9xCurktusN74bfjQi5hs_ieaQo0QlIeKTg"/>
+<!-- Heatmap Overlay (simulated via blended image) -->
+<img alt="Grad-CAM Overlay" class="absolute inset-0 w-full h-full object-contain mix-blend-screen opacity-70" data-alt="A transparent overlay image showing a heat map (red, yellow, green) localized over the hippocampus and temporal lobe areas of a brain, indicating regions of high AI attention for Alzheimer's diagnosis. Used as a Grad-CAM overlay." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfpHWzdDxILVJL1K7atgo3sXqGUZCdxMnjXr90nfoxfktYnbbGRfPMDOLzjjSmYvYQOE8bbh-E4BekKVO7uX9hgEt1mk793HCOekzJXNHJXnz-j6ojO-9iqnvJSPn2YE6yxjaDhQa3AL77WcD03xG2R5I_K5TgWdJBC914HSeF7hhu65DRTj5kUt2fkyQUZQU_h8Hb7wkjNmN9UU9phM-B_nE79gS_MlvUXQ85ThgXia-WoVG1844ssA"/>
+<!-- UI Overlay Elements -->
+<div class="absolute bottom-4 right-4 bg-surface/80 backdrop-blur-sm px-3 py-1.5 rounded-md border border-outline-variant flex flex-col gap-1">
+<span class="text-[10px] font-bold text-on-surface uppercase tracking-wide">Attention Legend</span>
+<div class="w-32 h-2 bg-gradient-to-r from-blue-500 via-green-500 to-red-500 rounded-sm"></div>
+<div class="flex justify-between text-[10px] text-on-surface-variant">
+<span>Low</span>
+<span>High</span>
+</div>
+</div>
+<div class="absolute top-4 left-4 flex flex-col gap-1">
+<span class="bg-surface/80 backdrop-blur-sm px-2 py-1 rounded text-[11px] font-code-sm text-on-surface border border-outline-variant">Slice: Axial 45/120</span>
+<span class="bg-surface/80 backdrop-blur-sm px-2 py-1 rounded text-[11px] font-code-sm text-on-surface border border-outline-variant">Thickness: 1.0mm</span>
+</div>
+</div>
+</div>
+<!-- Pipeline & Feature Importance (Bottom Row) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Pipeline Summary -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant flex flex-col justify-center">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-6">Processing Pipeline</h3>
+<div class="flex items-center justify-between w-full relative">
+<!-- Connecting Line -->
+<div class="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-0.5 bg-outline-variant -z-10"></div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest z-10 px-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">scan</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Input MRI</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest z-10 px-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">memory</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">3D CNN</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest z-10 px-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">ViT</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest z-10 px-2">
+<div class="w-10 h-10 rounded-full bg-[#0EA5E9] border border-[#0EA5E9] flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[20px]">fact_check</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface font-semibold">Result</span>
+</div>
+</div>
+</div>
+<!-- Feature Importance -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">SHAP Feature Importance</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]" title="Information">info</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Bar 1 -->
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface font-medium">Hippocampal Volume Loss</span>
+<span class="text-on-surface-variant">+0.42</span>
+</div>
+<div class="w-full bg-surface-variant rounded-sm h-1.5">
+<div class="bg-[#0EA5E9] h-1.5 rounded-sm w-[85%]"></div>
+</div>
+</div>
+<!-- Bar 2 -->
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface font-medium">Cortical Thinning (Temporal)</span>
+<span class="text-on-surface-variant">+0.28</span>
+</div>
+<div class="w-full bg-surface-variant rounded-sm h-1.5">
+<div class="bg-[#0EA5E9] h-1.5 rounded-sm w-[60%] opacity-80"></div>
+</div>
+</div>
+<!-- Bar 3 -->
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface font-medium">Ventricular Enlargement</span>
+<span class="text-on-surface-variant">+0.15</span>
+</div>
+<div class="w-full bg-surface-variant rounded-sm h-1.5">
+<div class="bg-[#0EA5E9] h-1.5 rounded-sm w-[35%] opacity-60"></div>
+</div>
+</div>
+<!-- Bar 4 -->
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface font-medium">White Matter Hyperintensities</span>
+<span class="text-on-surface-variant">-0.05</span>
+</div>
+<div class="w-full bg-surface-variant rounded-sm h-1.5 flex justify-end">
+<div class="bg-outline h-1.5 rounded-sm w-[15%] opacity-40"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
