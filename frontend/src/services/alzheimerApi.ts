@@ -147,14 +147,22 @@ export const alzheimerApi = {
     onProgress?: (stageId: string, status: "pending" | "running" | "completed") => void
   ): Promise<AlzheimerAnalysisResult> {
     try {
+      let mriFile: File | null = null;
       if (file instanceof File) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("patientId", patientId);
-        formData.append("modality", modality);
-        return await apiClient.post<AlzheimerAnalysisResult>("/analysis/alzheimer/predict", formData);
+        mriFile = file;
+      } else {
+        const sampleRes = await fetch("/plots/samples/sample_mri.png");
+        if (!sampleRes.ok) {
+          throw new Error(`Sample MRI fetch failed: ${sampleRes.status}`);
+        }
+        const sampleBlob = await sampleRes.blob();
+        mriFile = new File([sampleBlob], `${file.name || "sample_mri"}.png`.replace(/\.png\.png$/i, ".png"), { type: "image/png" });
       }
-      throw new Error("Local fallback mode");
+      const formData = new FormData();
+      formData.append("file", mriFile);
+      formData.append("patientId", patientId);
+      formData.append("modality", modality);
+      return await apiClient.post<AlzheimerAnalysisResult>("/analysis/alzheimer/predict", formData);
     } catch {
       // Simulate realistic step-by-step progress for the visual processing pipeline
       const stages = [

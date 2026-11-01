@@ -4,7 +4,7 @@ import shutil
 import uuid
 from datetime import datetime
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, File, UploadFile, Form
+from fastapi import FastAPI, Request, File, UploadFile, Form, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse, FileResponse, HTMLResponse, Response
@@ -19,6 +19,25 @@ from app.services.voice_service import predict_voice
 from app.services.mri_service import predict_mri
 from app.services.gradcam_service import run_gradcam
 from app.api import health, predict, fusion, report, explain
+
+# #region agent log
+def _agent_log(hypothesis_id, location, message, data=None):
+    try:
+        import json as _json
+        payload = {
+            "sessionId": "0eaf95",
+            "timestamp": int(time.time() * 1000),
+            "location": location,
+            "message": message,
+            "data": data or {},
+            "hypothesisId": hypothesis_id,
+            "runId": "conn-check",
+        }
+        with open(r"d:\Parkison DATASET TRAINING\Parkison-dataset-training\.cursor\debug-0eaf95.log", "a", encoding="utf-8") as _f:
+            _f.write(_json.dumps(payload, default=str) + "\n")
+    except Exception:
+        pass
+# #endregion
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -51,6 +70,21 @@ async def log_requests_and_latency(request: Request, call_next):
     start_time = time.time()
     response = await call_next(request)
     process_time = time.time() - start_time
+    # #region agent log
+    _agent_log(
+        "A",
+        "backend/app/main.py:middleware",
+        "http_response",
+        {
+            "method": request.method,
+            "path": request.url.path,
+            "origin": request.headers.get("origin"),
+            "status": response.status_code,
+            "content_type": response.headers.get("content-type"),
+            "acao": response.headers.get("access-control-allow-origin"),
+        },
+    )
+    # #endregion
     
     # Log details
     logger.info(
@@ -65,7 +99,23 @@ async def log_requests_and_latency(request: Request, call_next):
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     # For SPA routes (client-side router), serve index.html instead of 404
     frontend_dist_index = os.path.join(PROJECT_ROOT, "frontend", "dist", "index.html")
-    if exc.status_code == 404 and os.path.exists(frontend_dist_index) and not request.url.path.startswith(("/api", "/predict", "/report", "/plots", "/health", "/analysis")):
+    api_prefixes = ("/api", "/predict", "/report", "/plots", "/health", "/analysis", "/auth", "/patients", "/docs", "/openapi.json")
+    wants_json = "application/json" in (request.headers.get("accept") or "").lower()
+    if (
+        exc.status_code == 404
+        and request.method == "GET"
+        and not wants_json
+        and os.path.exists(frontend_dist_index)
+        and not request.url.path.startswith(api_prefixes)
+    ):
+        # #region agent log
+        _agent_log(
+            "F",
+            "backend/app/main.py:http_exception_handler",
+            "spa_fallback_html",
+            {"path": request.url.path, "method": request.method, "detail": str(exc.detail)},
+        )
+        # #endregion
         return FileResponse(frontend_dist_index, media_type="text/html")
         
     logger.warning(f"HTTP Exception on {request.url.path}: status={exc.status_code}, detail={exc.detail}")
@@ -142,6 +192,14 @@ async def react_parkinson_predict(
     validate_uploaded_file(audio)
     temp_path = os.path.join(UPLOAD_DIR, f"voice_{uuid.uuid4().hex[:8]}_{audio.filename}")
     try:
+        # #region agent log
+        _agent_log(
+            "D",
+            "backend/app/main.py:react_parkinson_predict",
+            "adapter_entry",
+            {"filename": audio.filename, "content_type": str(audio.content_type), "patientId": patientId, "source": source},
+        )
+        # #endregion
         with open(temp_path, "wb") as buffer:
             shutil.copyfileobj(audio.file, buffer)
         
@@ -305,17 +363,161 @@ async def list_parkinson_analyses():
 async def list_alzheimer_analyses():
     return JSONResponse(content=[])
 
+def _frontend_patients():
+    return [
+        {
+            "id": "PAT-1083",
+            "fullName": "Eleanor Vance",
+            "age": 72,
+            "gender": "Female",
+            "dateOfBirth": "1954-11-20",
+            "contactNumber": "+1 (555) 876-5432",
+            "phone": "+1 (555) 876-5432",
+            "email": "eleanor.vance@example.com",
+            "riskLevel": "Moderate",
+            "primaryDiagnosis": "Parkinson's Disease",
+            "stage": "Parkinson's Stage II (Hoehn & Yahr)",
+            "lastAnalysisDate": "2026-08-19",
+            "lastVisit": "2026-08-19",
+            "totalAnalyses": 3,
+            "analysesCount": 3,
+            "medicalHistory": "Unilateral resting tremor, micrographia, mild bradykinesia and hypophonia.",
+            "attendingPhysician": "Dr. Sarah Jenkins, MD",
+            "assignedDoctor": "Dr. Sarah Jenkins, MD",
+            "updrsScore": 28,
+            "status": "Active",
+        },
+        {
+            "id": "PAT-1082",
+            "fullName": "Robert Davis",
+            "age": 68,
+            "gender": "Male",
+            "dateOfBirth": "1958-03-14",
+            "contactNumber": "+1 (555) 234-5678",
+            "phone": "+1 (555) 234-5678",
+            "email": "robert.davis@example.com",
+            "riskLevel": "High",
+            "primaryDiagnosis": "Alzheimer's Disease",
+            "stage": "Mild Dementia (CDR 1.0)",
+            "lastAnalysisDate": "2026-08-18",
+            "lastVisit": "2026-08-18",
+            "totalAnalyses": 4,
+            "analysesCount": 4,
+            "medicalHistory": "Type 2 diabetes, hypertension, progressive short-term memory deficit.",
+            "attendingPhysician": "Dr. Sarah Jenkins, MD",
+            "assignedDoctor": "Dr. Sarah Jenkins, MD",
+            "mmseScore": 21,
+            "status": "Active",
+        },
+    ]
+
+
 @app.get("/patients", tags=["react-frontend"])
 @app.get("/api/v1/patients", tags=["react-frontend"])
 async def list_patients(search: str = ""):
-    demo_patients = [
-        {"id": "P001", "fullName": "Eleanor Vance", "age": 68, "gender": "Female", "bloodType": "A+", "primaryDiagnosis": "Parkinson's Disease (Stage II)", "status": "Active", "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120", "email": "e.vance@example.com", "phone": "+1 (555) 234-5678", "emergencyContact": "Thomas Vance (Son)", "dateOfBirth": "1958-03-14", "mrn": "MRN-88231", "assignedDoctor": "Dr. Sarah Chen, MD", "department": "Movement Disorders", "roomBed": "OPD-3", "riskLevel": "Medium", "lastVisit": "2026-10-24", "nextAppointment": "2026-11-12", "analysesCount": 3, "reportsCount": 2, "telemonitorCount": 1},
-        {"id": "P002", "fullName": "Arthur Pendelton", "age": 74, "gender": "Male", "bloodType": "O+", "primaryDiagnosis": "Suspected Early Parkinson's", "status": "Under Evaluation", "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120", "email": "a.pendelton@example.com", "phone": "+1 (555) 876-5432", "emergencyContact": "Mary Pendelton (Spouse)", "dateOfBirth": "1952-08-22", "mrn": "MRN-64219", "assignedDoctor": "Dr. Sarah Chen, MD", "department": "Movement Disorders", "roomBed": "OPD-1", "riskLevel": "High", "lastVisit": "2026-10-28", "nextAppointment": "2026-11-05", "analysesCount": 2, "reportsCount": 1, "telemonitorCount": 2}
-    ]
+    demo_patients = _frontend_patients()
     if search:
         s = search.lower().strip()
         demo_patients = [p for p in demo_patients if s in p["fullName"].lower() or s in p["id"].lower()]
     return JSONResponse(content=demo_patients)
+
+
+@app.get("/patients/{patient_id}", tags=["react-frontend"])
+@app.get("/api/v1/patients/{patient_id}", tags=["react-frontend"])
+async def get_patient(patient_id: str):
+    found = next((p for p in _frontend_patients() if p["id"] == patient_id), None)
+    if not found:
+        return JSONResponse(status_code=404, content={"detail": f"Patient {patient_id} not found", "error_code": "HTTP_404"})
+    return JSONResponse(content=found)
+
+
+@app.post("/auth/login", tags=["react-frontend"])
+@app.post("/api/v1/auth/login", tags=["react-frontend"])
+async def react_login(payload: dict = Body(default={})):
+    # #region agent log
+    _agent_log("F", "backend/app/main.py:react_login", "login_adapter", {"email": payload.get("email"), "role": payload.get("role")})
+    # #endregion
+    role = str(payload.get("role") or "doctor")
+    email = str(payload.get("email") or "dr.jenkins@neurofusion.ai")
+    profiles = {
+        "doctor": {"id": "DOC-8921", "fullName": "Dr. Sarah Jenkins, MD, PhD", "medicalLicenseId": "MD-98472-NEURO", "specialization": "Cognitive Neurology & Movement Disorders", "hospital": "Metropolitan Neurological Institute", "department": "Division of Neurodegenerative Diseases"},
+        "patient": {"id": "PT-8942-AD", "fullName": "Eleanor Vance", "medicalLicenseId": "MRN-489201", "specialization": "Patient / Longitudinal Monitoring", "hospital": "Metropolitan Neurological Institute", "department": "Outpatient Memory & Movement Clinic"},
+        "admin": {"id": "ADM-0042", "fullName": "Marcus Vance (Hospital IT Admin)", "medicalLicenseId": "IT-ADMIN-894", "specialization": "Chief Medical Information Officer", "hospital": "Metropolitan Health System", "department": "Clinical AI Governance"},
+    }
+    base = profiles.get(role, profiles["doctor"])
+    token = f"nf-{uuid.uuid4().hex}"
+    user = {**base, "email": email, "role": role if role in profiles else "doctor", "token": token}
+    return JSONResponse(content={"user": user, "token": token})
+
+
+@app.get("/reports", tags=["react-frontend"])
+@app.get("/api/v1/reports", tags=["react-frontend"])
+async def list_frontend_reports(search: str = "", disease: str = ""):
+    return JSONResponse(content=[])
+
+
+@app.post("/reports/generate/parkinson", tags=["react-frontend"])
+@app.post("/api/v1/reports/generate/parkinson", tags=["react-frontend"])
+async def generate_parkinson_report(payload: dict = Body(default={})):
+    analysis = payload.get("analysis") or {}
+    report_id = f"REP-{uuid.uuid4().hex[:4].upper()}"
+    return JSONResponse(content={
+        "id": report_id,
+        "analysisId": payload.get("analysisId") or analysis.get("id"),
+        "patientId": analysis.get("patientId") or "PAT-1083",
+        "patientName": analysis.get("patientName") or "Patient",
+        "patientAge": 72,
+        "patientGender": "Unspecified",
+        "doctorName": payload.get("doctorName") or "Dr. Sarah Jenkins, MD, PhD",
+        "doctorLicense": "MD-98472-NEURO",
+        "hospitalName": "Metropolitan Neurological Institute",
+        "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "disease": "Parkinson's Disease",
+        "modalityOrSource": f"Voice Recording ({analysis.get('audioFilename') or 'audio'})",
+        "primaryDiagnosis": analysis.get("prediction") or "Parkinson's assessment",
+        "confidenceScore": analysis.get("confidence") or 0,
+        "status": "Finalized",
+        "keyFindings": [f"Backend model prediction: {analysis.get('prediction')} ({analysis.get('confidence')}%)."],
+        "recommendations": ["Correlate with MDS-UPDRS motor exam.", "Consider speech-language pathology referral."],
+        "explainabilitySummary": {
+            "method": "Vocal SHAP + FastAPI voice classifier",
+            "topFactors": [],
+            "visualSummaryNote": analysis.get("clinicalNotes") or "Generated from NeuroFusionAI backend.",
+        },
+        "disclaimer": "This system provides AI-assisted decision support and should not be treated as a standalone medical diagnosis.",
+    })
+
+
+@app.post("/reports/generate/alzheimer", tags=["react-frontend"])
+@app.post("/api/v1/reports/generate/alzheimer", tags=["react-frontend"])
+async def generate_alzheimer_report(payload: dict = Body(default={})):
+    analysis = payload.get("analysis") or {}
+    report_id = f"REP-{uuid.uuid4().hex[:4].upper()}"
+    return JSONResponse(content={
+        "id": report_id,
+        "analysisId": payload.get("analysisId") or analysis.get("id"),
+        "patientId": analysis.get("patientId") or "PAT-1082",
+        "patientName": analysis.get("patientName") or "Patient",
+        "patientAge": 68,
+        "patientGender": "Unspecified",
+        "doctorName": payload.get("doctorName") or "Dr. Sarah Jenkins, MD, PhD",
+        "doctorLicense": "MD-98472-NEURO",
+        "hospitalName": "Metropolitan Neurological Institute",
+        "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "disease": "Alzheimer's Disease",
+        "modalityOrSource": analysis.get("modality") or "MRI",
+        "primaryDiagnosis": analysis.get("prediction") or "Cognitive assessment",
+        "confidenceScore": analysis.get("confidence") or 0,
+        "status": "Finalized",
+        "keyFindings": [f"Backend MRI prediction: {analysis.get('prediction')} ({analysis.get('confidence')}%)."],
+        "recommendations": ["Correlate with MMSE/MoCA.", "Consider plasma or PET biomarker confirmation."],
+        "explainabilitySummary": {
+            "method": "MRI Grad-CAM + FastAPI MRI classifier",
+            "topFactors": [],
+            "visualSummaryNote": analysis.get("clinicalNotes") or "Generated from NeuroFusionAI backend.",
+        },
+        "disclaimer": "This system provides AI-assisted decision support and should not be treated as a standalone medical diagnosis.",
+    })
 
 
 # Include Routers

@@ -177,7 +177,10 @@ export function DrawingCanvas({ onDrawingComplete, disease }: DrawingCanvasProps
   };
 
   const loadPresetSpiral = (type: "normal" | "parkinson") => {
-    const filename = type === "normal" ? "/plots/spiral_original.png" : "/plots/samples/sample_spiral.png";
+    const filename =
+      type === "normal"
+        ? "/plots/samples/sample_spiral_normal.png"
+        : "/plots/samples/sample_spiral_parkinson.png";
     fetch(filename)
       .then((r) => r.blob())
       .then((blob) => {

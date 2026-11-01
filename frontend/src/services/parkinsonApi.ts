@@ -154,15 +154,31 @@ export const parkinsonApi = {
     onProgress?: (stageId: string, status: "pending" | "running" | "completed") => void
   ): Promise<ParkinsonAnalysisResult> {
     try {
-      if (audioData instanceof Blob || audioData instanceof File) {
-        const formData = new FormData();
-        formData.append("audio", audioData);
-        formData.append("patientId", patientId);
-        formData.append("source", source);
-        return await apiClient.post<ParkinsonAnalysisResult>("/analysis/parkinson/predict", formData);
+      let audioFile: File | null = null;
+      if (audioData instanceof File) {
+        const rawName = audioData.name || "upload.wav";
+        const named = rawName.toLowerCase().endsWith(".wav") ? rawName : `${rawName.replace(/\.[^.]+$/, "")}.wav`;
+        audioFile = new File([audioData], named, { type: "audio/wav" });
+      } else if (audioData instanceof Blob) {
+        audioFile = new File([audioData], "recording.wav", { type: "audio/wav" });
+      } else {
+        const sampleRes = await fetch("/plots/samples/sample_voice.wav");
+        if (!sampleRes.ok) {
+          throw new Error(`Sample audio fetch failed: ${sampleRes.status}`);
+        }
+        const sampleBlob = await sampleRes.blob();
+        const sampleName = `${("name" in audioData && audioData.name) || "sample_voice"}.wav`.replace(/\.wav\.wav$/i, ".wav");
+        audioFile = new File([sampleBlob], sampleName, { type: "audio/wav" });
       }
-      throw new Error("Local fallback simulation mode");
-    } catch {
+      const formData = new FormData();
+      formData.append("audio", audioFile, audioFile.name);
+      formData.append("patientId", patientId);
+      formData.append("source", source);
+      return await apiClient.post<ParkinsonAnalysisResult>("/analysis/parkinson/predict", formData);
+    } catch (err: any) {
+      // #region agent log
+      fetch('http://127.0.0.1:7451/ingest/387c6a68-d642-4114-8036-03f042aad885',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0eaf95'},body:JSON.stringify({sessionId:'0eaf95',location:'frontend/src/services/parkinsonApi.ts:analyzeAudio',message:'falling_back_to_local_simulation',data:{error:String(err?.message||err),isFile:audioData instanceof File,isBlob:audioData instanceof Blob},timestamp:Date.now(),hypothesisId:'B',runId:'conn-check'})}).catch(()=>{});
+      // #endregion
       // Step-by-step pipeline simulation
       const stages = [
         { id: "audio_in", name: "Vocal Audio Ingestion & Normalization", ms: 400 },

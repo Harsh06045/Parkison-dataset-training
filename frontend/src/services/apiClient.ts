@@ -81,7 +81,14 @@ class ApiClient {
     const url = this.buildUrl(endpoint, params);
 
     try {
+      // #region agent log
+      fetch('http://127.0.0.1:7451/ingest/387c6a68-d642-4114-8036-03f042aad885',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0eaf95'},body:JSON.stringify({sessionId:'0eaf95',location:'frontend/src/services/apiClient.ts:request',message:'request_start',data:{url,method:config.method||'GET',endpoint,baseUrl:this.baseUrl,isFormData},timestamp:Date.now(),hypothesisId:'B',runId:'conn-check'})}).catch(()=>{});
+      // #endregion
       const response = await fetch(url, config);
+      const contentType = response.headers.get("content-type") || "";
+      // #region agent log
+      fetch('http://127.0.0.1:7451/ingest/387c6a68-d642-4114-8036-03f042aad885',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0eaf95'},body:JSON.stringify({sessionId:'0eaf95',location:'frontend/src/services/apiClient.ts:response',message:'request_response',data:{url,ok:response.ok,status:response.status,contentType},timestamp:Date.now(),hypothesisId:'F',runId:'conn-check'})}).catch(()=>{});
+      // #endregion
 
       if (!response.ok) {
         let errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
@@ -96,8 +103,15 @@ class ApiClient {
         throw new Error(errorMessage);
       }
 
+      if (!contentType.includes("application/json")) {
+        throw new Error(`Expected JSON from ${url}, got ${contentType || "unknown"} (${response.status})`);
+      }
+
       return (await response.json()) as T;
     } catch (err: any) {
+      // #region agent log
+      fetch('http://127.0.0.1:7451/ingest/387c6a68-d642-4114-8036-03f042aad885',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0eaf95'},body:JSON.stringify({sessionId:'0eaf95',location:'frontend/src/services/apiClient.ts:catch',message:'request_failed',data:{url,endpoint,error:String(err?.message||err)},timestamp:Date.now(),hypothesisId:'B',runId:'conn-check'})}).catch(()=>{});
+      // #endregion
       throw err;
     }
   }

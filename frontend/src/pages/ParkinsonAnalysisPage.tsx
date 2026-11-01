@@ -377,7 +377,7 @@ export function ParkinsonAnalysisPage({ onBack, onNavigateToReports }: Parkinson
             {/* 5. QUANTITATIVE EEG (qEEG) TAB */}
             {activeTab === "eeg" && (
               <div className="space-y-4">
-                <EEGViewer disease="Parkinson's Disease" onDataLoaded={(info) => setEegInfo(info)} />
+                <EEGViewer disease="Parkinson's Disease" onDataLoaded={(info: EEGSignalPayload) => setEegInfo(info)} />
               </div>
             )}
 
