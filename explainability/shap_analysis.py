@@ -1,10 +1,6 @@
 """
 SHAP (SHapley Additive exPlanations) analysis for Voice and Telemonitoring models.
-
-Generates:
-  - {modality}_shap_summary.png  — beeswarm summary plot
-  - {modality}_shap_bar.png      — mean |SHAP| bar chart
-  - {modality}_force_plot.png    — force plot for a single prediction
+Generates genuine TreeExplainer Shapley values and beeswarm/bar/force plots.
 
 Usage:
     python explainability/shap_analysis.py --modality voice
@@ -23,7 +19,10 @@ except Exception:
     pass
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, PROJECT_ROOT)
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+from app.preprocessing.voice import extract_acoustic_features
 
 VOICE_FEATURE_NAMES = [
     "MDVP:Fo(Hz)", "MDVP:Fhi(Hz)", "MDVP:Flo(Hz)", "MDVP:Jitter(%)",
@@ -33,73 +32,134 @@ VOICE_FEATURE_NAMES = [
     "RPDE", "DFA", "spread1", "spread2", "D2", "PPE"
 ]
 
+VOICE_FEATURE_DESCRIPTIONS = {
+    "MDVP:Fo(Hz)": ("Average vocal fundamental frequency", "100-250 Hz", "Pitch"),
+    "MDVP:Fhi(Hz)": ("Maximum vocal fundamental frequency", "120-300 Hz", "Pitch"),
+    "MDVP:Flo(Hz)": ("Minimum vocal fundamental frequency", "80-200 Hz", "Pitch"),
+    "MDVP:Jitter(%)": ("Cycle-to-cycle frequency variation ratio", "< 0.40%", "Fundamental Frequency"),
+    "MDVP:Jitter(Abs)": ("Absolute cycle-to-cycle frequency variation", "< 0.00004 s", "Fundamental Frequency"),
+    "MDVP:RAP": ("Relative amplitude perturbation (3-period average)", "< 0.25%", "Period Perturbation"),
+    "MDVP:PPQ": ("Period perturbation quotient (5-period average)", "< 0.30%", "Period Perturbation"),
+    "Jitter:DDP": ("Average absolute difference of differences between cycles", "< 0.75%", "Period Perturbation"),
+    "MDVP:Shimmer": ("Local cycle-to-cycle amplitude deviation ratio", "< 3.0%", "Amplitude Perturbation"),
+    "MDVP:Shimmer(dB)": ("Local shimmer expressed in decibels", "< 0.025 dB", "Amplitude Perturbation"),
+    "Shimmer:APQ3": ("3-point amplitude perturbation quotient", "< 1.5%", "Amplitude Perturbation"),
+    "Shimmer:APQ5": ("5-point amplitude perturbation quotient", "< 1.8%", "Amplitude Perturbation"),
+    "MDVP:APQ": ("11-point amplitude perturbation quotient", "< 2.5%", "Amplitude Perturbation"),
+    "Shimmer:DDA": ("Average absolute difference between consecutive amplitude differences", "< 4.5%", "Amplitude Perturbation"),
+    "NHR": ("Noise-to-Harmonics Ratio", "< 0.03", "Noise Ratio"),
+    "HNR": ("Harmonics-to-Noise Ratio (acoustic purity)", "> 20.0 dB", "Noise Ratio"),
+    "RPDE": ("Recurrence Period Density Entropy", "< 0.45", "Nonlinear Dynamics"),
+    "DFA": ("Detrended Fluctuation Analysis fractal exponent", "0.55 - 0.70", "Nonlinear Dynamics"),
+    "spread1": ("Nonlinear measure of fundamental frequency variation", "< -5.5", "Nonlinear Dynamics"),
+    "spread2": ("Higher-order fundamental frequency variation", "< 0.20", "Nonlinear Dynamics"),
+    "D2": ("Correlation dimension (system complexity)", "1.8 - 2.5", "Nonlinear Dynamics"),
+    "PPE": ("Pitch Period Entropy (impaired phonatory control)", "< 0.15", "Nonlinear Dynamics")
+}
+
 TELEMONITOR_FEATURE_NAMES = [
-    "subject#", "age", "sex", "test_time",
+    "age", "sex", "test_time",
     "Jitter(%)", "Jitter(Abs)", "Jitter:RAP", "Jitter:PPQ5", "Jitter:DDP",
     "Shimmer", "Shimmer(dB)", "Shimmer:APQ3", "Shimmer:APQ5", "Shimmer:APQ11",
-    "Shimmer:DDA", "NHR", "HNR", "RPDE", "DFA"
+    "Shimmer:DDA", "NHR", "HNR", "RPDE", "DFA", "PPE"
 ]
 
 
-def extract_audio_features(wav_path):
-    """Simple feature extraction from wav file matching the pipeline features."""
+def compute_real_shap_metrics(features_scaled, raw_features_dict=None, model=None, modality="voice"):
+    """
+    Computes genuine SHAP values for a single patient sample using TreeExplainer on CatBoost or XGBoost.
+    Returns ranked feature attributions with medical descriptions.
+    """
+    import shap
+    from app.models.loader import loader
+
+    if features_scaled is None:
+        return []
+
     try:
-        from scipy.io import wavfile
-        sr, y = wavfile.read(wav_path)
-        if len(y.shape) > 1:
-            y = np.mean(y, axis=1)
-        y = y.astype(np.float32) / max(np.max(np.abs(y)), 1e-8)
-        
-        # Simple pitch estimation via autocorrelation
-        min_lag = int(sr / 400)
-        max_lag = int(sr / 60)
-        corr = np.correlate(y, y, mode='full')
-        corr = corr[len(corr)//2:]
-        lag = np.argmax(corr[min_lag:max_lag]) + min_lag
-        fo = sr / lag
-        
-        fhi = fo * 1.2
-        flo = fo * 0.8
-        jitter_pct = 0.005
-        jitter_abs = jitter_pct / fo
-        rap = jitter_pct * 0.5
-        ppq = jitter_pct * 0.6
-        ddp = rap * 3.0
-        shimmer = 0.02
-        shimmer_db = 0.2
-        apq3 = shimmer * 0.4
-        apq5 = shimmer * 0.5
-        apq = shimmer * 0.6
-        dda = apq3 * 3.0
-        nhr = 0.02
-        hnr = 21.6
-        rpde = 0.49
-        dfa = 0.71
-        spread1 = -5.68
-        spread2 = 0.22
-        d2 = 2.38
-        ppe = 0.20
-        
-        return np.array([
-            fo, fhi, flo, 
-            jitter_pct, jitter_abs, rap, ppq, ddp,
-            shimmer, shimmer_db, apq3, apq5, apq, dda,
-            nhr, hnr,
-            rpde, dfa,
-            spread1, spread2, d2, ppe
-        ])
+        if modality == "telemonitor":
+            if model is None:
+                model = loader.telemonitor_xgb_model
+            if hasattr(model, 'total_model'):
+                inner = model.total_model
+            elif isinstance(model, tuple):
+                inner = model[1]
+            else:
+                inner = model
+            feature_names = TELEMONITOR_FEATURE_NAMES
+        else:
+            if model is None:
+                model = loader.voice_catboost_model
+            inner = model.model if hasattr(model, 'model') else model
+            feature_names = VOICE_FEATURE_NAMES
+
+        if inner is None:
+            return []
+
+        explainer = shap.TreeExplainer(inner)
+        x = np.array(features_scaled).reshape(1, -1)
+        shap_vals = explainer.shap_values(x)
+
+        if isinstance(shap_vals, list):
+            p_shap = shap_vals[1][0] if len(shap_vals) > 1 else shap_vals[0][0]
+        elif len(np.array(shap_vals).shape) == 3:
+            p_shap = shap_vals[0, :, 1]
+        else:
+            p_shap = shap_vals[0]
+
+        # Rank features by absolute SHAP magnitude
+        ranked_indices = np.argsort(np.abs(p_shap))[::-1]
+
+        metrics = []
+        for rank, idx in enumerate(ranked_indices[:6], start=1):
+            if idx >= len(feature_names):
+                continue
+            name = feature_names[idx]
+            shap_val = float(round(p_shap[idx], 4))
+            desc, threshold, category = VOICE_FEATURE_DESCRIPTIONS.get(name, ("Progression biomarker", "Normal range", "Clinical Metric"))
+
+            raw_val = None
+            if raw_features_dict and name in raw_features_dict:
+                raw_val = raw_features_dict[name]
+            elif idx < len(features_scaled):
+                raw_val = float(features_scaled[idx])
+            else:
+                raw_val = 0.0
+
+            # Format patient value representation
+            if "%" in name or "Jitter(%)" in name or "Shimmer" in name and "dB" not in name:
+                val_str = f"{raw_val * 100:.3f}%" if raw_val < 0.1 else f"{raw_val:.3f}%"
+            elif "dB" in name or "HNR" in name:
+                val_str = f"{raw_val:.2f} dB"
+            elif "Hz" in name:
+                val_str = f"{raw_val:.1f} Hz"
+            else:
+                val_str = f"{raw_val:.4f}"
+
+            status = "Elevated Risk" if shap_val > 0.02 else ("Protective / Normal" if shap_val < -0.02 else "Neutral")
+
+            metrics.append({
+                "name": name,
+                "code": name,
+                "category": category,
+                "patientValue": val_str,
+                "normalThreshold": threshold,
+                "shapValue": shap_val,
+                "importanceRank": rank,
+                "status": status,
+                "clinicalDescription": desc
+            })
+
+        return metrics
     except Exception as e:
-        print(f"  Warning: Audio feature extraction failed: {e}")
-        return None
+        logger.warning(f"Failed to compute SHAP metrics: {e}")
+        return []
 
 
 def generate_shap_analysis(modality, output_dir=None, max_samples=100, single_sample_path=None, model=None):
     """
-    Generate SHAP analysis plots for a tabular modality.
+    Generate genuine SHAP analysis plots for a tabular modality.
     Supports patient-specific explanation if single_sample_path is provided.
-
-    Returns:
-        dict with keys 'summary', 'bar', 'force' (file paths)
     """
     import shap
     import matplotlib
@@ -110,130 +170,98 @@ def generate_shap_analysis(modality, output_dir=None, max_samples=100, single_sa
         output_dir = os.path.join(PROJECT_ROOT, "outputs", "plots")
     os.makedirs(output_dir, exist_ok=True)
 
-    # --- Load data & model ---
     if modality == "voice":
         test_csv = os.path.join(PROJECT_ROOT, "datasets", "test", "voice", "oxford_test.csv")
-        if not os.path.exists(test_csv):
-            raise FileNotFoundError(f"Voice test data not found: {test_csv}")
         df = pd.read_csv(test_csv)
         X = df.drop(columns=["status"]).values
         feature_names = VOICE_FEATURE_NAMES if len(VOICE_FEATURE_NAMES) == X.shape[1] else [f"F{i}" for i in range(X.shape[1])]
-
-        title_base = "Voice (CatBoost)"
+        title_base = "Voice Phonation (CatBoost)"
         prefix = "voice"
+
         if model is None:
             from training.models.voice.catboost import VoiceCatBoostClassifier
             model_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "voice_best_model.pkl")
-            if not os.path.exists(model_path):
-                raise FileNotFoundError(f"Voice model not found: {model_path}")
             model = VoiceCatBoostClassifier()
             model.load(model_path)
-            print(f"  ✓ Loaded model: {model_path}")
-        else:
-            print("  ✓ Using pre-loaded Voice model")
 
     elif modality == "telemonitor":
         test_csv = os.path.join(PROJECT_ROOT, "datasets", "test", "telemonitoring", "telemonitor_test.csv")
-        if not os.path.exists(test_csv):
-            raise FileNotFoundError(f"Telemonitoring test data not found: {test_csv}")
         df = pd.read_csv(test_csv)
         X = df.drop(columns=["motor_UPDRS", "total_UPDRS"]).values
         feature_names = TELEMONITOR_FEATURE_NAMES if len(TELEMONITOR_FEATURE_NAMES) == X.shape[1] else [f"F{i}" for i in range(X.shape[1])]
-
-        title_base = "Telemonitoring (XGBoost)"
+        title_base = "Telemonitoring UPDRS (XGBoost)"
         prefix = "telemonitor"
+
         if model is None:
             from training.models.telemonitor.xgboost import TelemonitorXGBRegressor
             model_path = os.path.join(PROJECT_ROOT, "outputs", "checkpoints", "telemonitor_best_model.pkl")
-            if not os.path.exists(model_path):
-                raise FileNotFoundError(f"Telemonitoring model not found: {model_path}")
             model = TelemonitorXGBRegressor()
             model.load(model_path)
-            print(f"  ✓ Loaded model: {model_path}")
-        else:
-            print("  ✓ Using pre-loaded Telemonitoring model")
     else:
         raise ValueError(f"Unknown modality: {modality}. Use 'voice' or 'telemonitor'.")
 
-
-    # Limit samples
+    # Limit samples for global background
     if X.shape[0] > max_samples:
         idx = np.random.RandomState(42).choice(X.shape[0], max_samples, replace=False)
-        X_sample = X[idx]
+        X_sample = X[idx].copy()
     else:
-        X_sample = X
+        X_sample = X.copy()
 
-    # Parse and override the first sample if a single patient file is provided
+    # Override first sample if patient file is provided
     if single_sample_path:
         patient_features = None
         if modality == "voice":
-            if "," in single_sample_path:
-                try:
-                    patient_features = np.array([float(x.strip()) for x in single_sample_path.split(",")])
-                except Exception:
-                    pass
-            elif single_sample_path.lower().endswith(".wav"):
-                patient_features = extract_audio_features(single_sample_path)
+            if single_sample_path.lower().endswith(".wav"):
+                # Use genuine acoustic signal extraction
+                raw_feat = extract_acoustic_features(single_sample_path)
+                from app.models.loader import loader
+                if loader.voice_scaler is not None:
+                    patient_features = loader.voice_scaler.transform(raw_feat.reshape(1, -1))[0]
+                else:
+                    patient_features = raw_feat
             elif single_sample_path.lower().endswith(".csv"):
-                try:
-                    pdf = pd.read_csv(single_sample_path)
-                    if "status" in pdf.columns:
-                        pdf = pdf.drop(columns=["status"])
-                    patient_features = pdf.iloc[0].values.astype(float)
-                except Exception as e:
-                    print(f"  Warning: Failed to load voice CSV: {e}")
-        elif modality == "telemonitor":
-            if "," in single_sample_path and not single_sample_path.lower().endswith(".csv"):
-                try:
-                    patient_features = np.array([float(x.strip()) for x in single_sample_path.split(",")])
-                except Exception:
-                    pass
-            elif single_sample_path.lower().endswith(".csv") or os.path.exists(single_sample_path):
-                try:
-                    pdf = pd.read_csv(single_sample_path)
-                    for col in ["motor_UPDRS", "total_UPDRS"]:
-                        if col in pdf.columns:
-                            pdf = pdf.drop(columns=[col])
-                    patient_features = pdf.iloc[0].values.astype(float)
-                except Exception as e:
-                    print(f"  Warning: Failed to load telemonitoring CSV: {e}")
+                pdf = pd.read_csv(single_sample_path)
+                for c in ["status", "name", "id"]:
+                    if c in pdf.columns:
+                        pdf = pdf.drop(columns=[c])
+                patient_features = pdf.iloc[0].values.astype(float)
+        elif modality == "telemonitor" and single_sample_path.lower().endswith(".csv"):
+            pdf = pd.read_csv(single_sample_path)
+            for col in ["motor_UPDRS", "total_UPDRS", "subject#", "subject_id", "id"]:
+                if col in pdf.columns:
+                    pdf = pdf.drop(columns=[col])
+            patient_features = pdf.iloc[0].values.astype(float)
 
-        if patient_features is not None:
-            if len(patient_features) == X_sample.shape[1]:
-                X_sample[0] = patient_features
-                print(f"  ✓ Injected patient features from '{os.path.basename(single_sample_path)}' for SHAP force plot")
-            else:
-                print(f"  Warning: Patient features size mismatch (expected {X_sample.shape[1]}, got {len(patient_features)})")
+        if patient_features is not None and len(patient_features) == X_sample.shape[1]:
+            X_sample[0] = patient_features
 
-    # --- Create SHAP explainer ---
+    # Create TreeExplainer
+    inner = model.model if hasattr(model, 'model') else model
+    if isinstance(inner, tuple):
+        inner = inner[1] if len(inner) > 1 else inner[0]
+    elif hasattr(inner, 'total_model'):
+        inner = inner.total_model
+    else:
+        inner = inner
+
     try:
-        if hasattr(model, 'model'):
-            inner = model.model
-        else:
-            inner = model
-        # For multi-output XGBoost regressor, use the total_UPDRS model
-        if hasattr(inner, 'total_model'):
-            explainer = shap.TreeExplainer(inner.total_model)
-        else:
-            explainer = shap.TreeExplainer(inner)
-    except Exception:
-        predict_fn = model.predict if modality == "telemonitor" else model.predict_proba
-        background = shap.sample(X_sample, min(50, len(X_sample)))
+        explainer = shap.TreeExplainer(inner)
+        shap_values = explainer.shap_values(X_sample)
+    except Exception as te:
+        print(f"TreeExplainer fallback: {te}")
+        predict_fn = inner.predict if hasattr(inner, 'predict') else (model.predict if hasattr(model, 'predict') else None)
+        background = shap.sample(X_sample, min(30, len(X_sample)))
         explainer = shap.KernelExplainer(predict_fn, background)
-
-    shap_values = explainer.shap_values(X_sample)
-
-    # Select the right slice for plotting
+        shap_values = explainer.shap_values(X_sample[:10])
     if isinstance(shap_values, list):
         shap_plot = shap_values[1] if len(shap_values) > 1 else shap_values[0]
     else:
         shap_plot = shap_values
 
     X_df = pd.DataFrame(X_sample, columns=feature_names)
-
     paths = {}
 
-    # 1. Summary (beeswarm) plot
+    # 1. Summary plot
     p = os.path.join(output_dir, f"{prefix}_shap_summary.png")
     plt.figure(figsize=(10, 7))
     shap.summary_plot(shap_plot, X_df, show=False, plot_size=None)
@@ -253,49 +281,28 @@ def generate_shap_analysis(modality, output_dir=None, max_samples=100, single_sa
     plt.close('all')
     paths["bar"] = p
 
-    # 3. Force plot (single prediction)
+    # 3. Force plot
     p = os.path.join(output_dir, f"{prefix}_force_plot.png")
     try:
-        expected_value = explainer.expected_value
-        if isinstance(expected_value, (list, np.ndarray)):
-            expected_value = expected_value[1] if len(expected_value) > 1 else expected_value[0]
+        exp_val = explainer.expected_value
+        if isinstance(exp_val, (list, np.ndarray)):
+            exp_val = exp_val[1] if len(exp_val) > 1 else exp_val[0]
         single_shap = shap_plot[0]
 
-        # Use matplotlib force plot
         fig = shap.force_plot(
-            expected_value,
+            exp_val,
             single_shap,
             X_df.iloc[0],
             feature_names=feature_names,
             matplotlib=True,
             show=False
         )
-        plt.title(f"Force Plot (Sample 0) — {title_base}", fontsize=12, fontweight='bold', pad=20)
+        plt.title(f"SHAP Force Plot — {title_base}", fontsize=12, fontweight='bold', pad=20)
         plt.tight_layout()
         plt.savefig(p, dpi=150, bbox_inches='tight')
         plt.close('all')
         paths["force"] = p
     except Exception as e:
-        print(f"  ⚠ Force plot generation skipped: {e}")
-
-    print(f"  ✓ SHAP plots saved: {prefix}_shap_summary.png, {prefix}_shap_bar.png, {prefix}_force_plot.png")
-    print(f"    Analyzed {X_sample.shape[0]} samples × {X_sample.shape[1]} features")
+        print(f"  ⚠ Force plot generation note: {e}")
 
     return paths
-
-
-def main():
-    parser = argparse.ArgumentParser(description="SHAP Explainability for Voice and Telemonitoring")
-    parser.add_argument("--modality", type=str, required=True, choices=["voice", "telemonitor"])
-    parser.add_argument("--output-dir", type=str, default=None)
-    parser.add_argument("--max-samples", type=int, default=100)
-    args = parser.parse_args()
-
-    print("=" * 60)
-    print("        NEUROFUSIONAI SHAP EXPLAINABILITY")
-    print("=" * 60)
-    generate_shap_analysis(args.modality, args.output_dir, args.max_samples)
-
-
-if __name__ == "__main__":
-    main()

@@ -40,7 +40,9 @@ def predict_mri_endpoint(image: UploadFile = File(...)):
         return ImagePredictionResponse(
             prediction=result["prediction"],
             confidence=result["confidence"],
-            gradcam=gradcam_res["overlay"]  # return overlay url
+            gradcam=gradcam_res["overlay"],
+            uncertainty=result.get("uncertainty"),
+            quality=result.get("quality")
         )
     except Exception as e:
         raise HTTPException(
@@ -75,7 +77,9 @@ def predict_spiral_endpoint(image: UploadFile = File(...)):
         return ImagePredictionResponse(
             prediction=result["prediction"],
             confidence=result["confidence"],
-            gradcam=gradcam_res["overlay"]  # return overlay url
+            gradcam=gradcam_res["overlay"],
+            uncertainty=result.get("uncertainty"),
+            quality=result.get("quality")
         )
     except Exception as e:
         raise HTTPException(
@@ -110,6 +114,8 @@ def predict_voice_endpoint(file: UploadFile = File(...)):
         return VoicePredictionResponse(
             prediction=result["prediction"],
             confidence=result["confidence"],
+            uncertainty=result.get("uncertainty"),
+            acoustic_features=result.get("acoustic_features"),
             shap=shap_res
         )
     except Exception as e:
@@ -144,6 +150,10 @@ def predict_telemonitor_endpoint(file: UploadFile = File(...)):
         return TelemonitorPredictionResponse(
             motor_updrs=result["motor_updrs"],
             total_updrs=result["total_updrs"],
+            motor_confidence_interval=result.get("motor_confidence_interval"),
+            total_confidence_interval=result.get("total_confidence_interval"),
+            uncertainty_margin=result.get("uncertainty_margin"),
+            clinical_data_type=result.get("clinical_data_type"),
             shap=shap_res
         )
     except Exception as e:

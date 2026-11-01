@@ -21,6 +21,8 @@ VOICE_PYTORCH_PATH = os.path.join(CHECKPOINTS_DIR, "voice_mlp_best.pth")
 VOICE_CATBOOST_PATH = os.path.join(CHECKPOINTS_DIR, "voice_best_model.pkl")
 TELEMONITOR_PYTORCH_PATH = os.path.join(CHECKPOINTS_DIR, "telemonitor_mlp_best.pth")
 TELEMONITOR_XGB_PATH = os.path.join(CHECKPOINTS_DIR, "telemonitor_best_model.pkl")
+VOICE_SCALER_PATH = os.path.join(CHECKPOINTS_DIR, "voice_scaler.pkl")
+TELEMONITOR_SCALER_PATH = os.path.join(CHECKPOINTS_DIR, "telemonitor_scaler.pkl")
 FUSION_MODEL_PATH = os.path.join(CHECKPOINTS_DIR, "fusion_best.pth")
 
 # Server settings

@@ -26,7 +26,7 @@ export interface QuantumCircuitStep {
 }
 
 export interface QuantumDecisionData {
-  layerName: "Quantum-Inspired Decision Layer";
+  layerName: string;
   qubitsCount: number; // e.g., 4 simulated parameterized qubits
   encodingScheme: "Angle & Amplitude Quantum State Encoding";
   ansatzArchitecture: "Parameterized Strongly Entangling Quantum Circuit (Variational)";
@@ -35,7 +35,7 @@ export interface QuantumDecisionData {
   pauliZExpectationValue: number; // e.g., +0.874 (-1.0 to +1.0)
   quantumDecisionScore: number; // 0 to 100% (e.g. 92.8%)
   quantumAdvantageMargin: number; // e.g., +4.2% decision boundary separation vs classical MLP
-  isQuantumSimulation: true; // Accurately noted as Quantum-Inspired decision model
+  isQuantumSimulation: boolean;
   circuitSteps: QuantumCircuitStep[];
   stateVectorCoefficients: { state: string; amplitude: string; probability: number }[];
 }

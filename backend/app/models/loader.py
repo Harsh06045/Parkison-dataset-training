@@ -34,8 +34,10 @@ from app.config import (
     SPIRAL_MODEL_PATH,
     VOICE_PYTORCH_PATH,
     VOICE_CATBOOST_PATH,
+    VOICE_SCALER_PATH,
     TELEMONITOR_PYTORCH_PATH,
     TELEMONITOR_XGB_PATH,
+    TELEMONITOR_SCALER_PATH,
     FUSION_MODEL_PATH
 )
 
@@ -57,8 +59,10 @@ class ModelLoader:
         self.spiral_model = None
         self.voice_mlp_model = None
         self.voice_catboost_model = None
+        self.voice_scaler = None
         self.telemonitor_mlp_model = None
         self.telemonitor_xgb_model = None
+        self.telemonitor_scaler = None
         self.fusion_model = None
         self._initialized = True
 
@@ -77,7 +81,7 @@ class ModelLoader:
         self.voice_mlp_model = VoiceMLPClassifier(input_dim=22, hidden_dim=64, num_classes=2).to(self.device)
         self._load_pytorch_weights(self.voice_mlp_model, VOICE_PYTORCH_PATH)
         
-        # 4. Voice ML CatBoost
+        # 4. Voice ML CatBoost & Scaler
         if os.path.exists(VOICE_CATBOOST_PATH):
             self.voice_catboost_model = VoiceCatBoostClassifier()
             self.voice_catboost_model.load(VOICE_CATBOOST_PATH)
@@ -85,17 +89,27 @@ class ModelLoader:
         else:
             print(f"  ✗ WARNING: Voice CatBoost model not found at {VOICE_CATBOOST_PATH}")
 
+        if os.path.exists(VOICE_SCALER_PATH):
+            with open(VOICE_SCALER_PATH, "rb") as f:
+                self.voice_scaler = pickle.load(f)
+            print(f"  ✓ Loaded Voice Scaler from {VOICE_SCALER_PATH}")
+
         # 5. Telemonitoring PyTorch MLP
         self.telemonitor_mlp_model = TelemonitorMLPRegressor(input_dim=19, hidden_dim=64, output_dim=2).to(self.device)
         self._load_pytorch_weights(self.telemonitor_mlp_model, TELEMONITOR_PYTORCH_PATH)
         
-        # 6. Telemonitoring ML XGBoost
+        # 6. Telemonitoring ML XGBoost & Scaler
         if os.path.exists(TELEMONITOR_XGB_PATH):
             self.telemonitor_xgb_model = TelemonitorXGBRegressor()
             self.telemonitor_xgb_model.load(TELEMONITOR_XGB_PATH)
             print(f"  ✓ Loaded Telemonitoring XGBoost model from {TELEMONITOR_XGB_PATH}")
         else:
             print(f"  ✗ WARNING: Telemonitoring XGBoost model not found at {TELEMONITOR_XGB_PATH}")
+
+        if os.path.exists(TELEMONITOR_SCALER_PATH):
+            with open(TELEMONITOR_SCALER_PATH, "rb") as f:
+                self.telemonitor_scaler = pickle.load(f)
+            print(f"  ✓ Loaded Telemonitor Scaler from {TELEMONITOR_SCALER_PATH}")
 
         # 7. Fusion Model
         from training.models.fusion.attention_fusion import AttentionFusionClassifier

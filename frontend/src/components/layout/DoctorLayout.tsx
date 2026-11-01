@@ -38,6 +38,7 @@ export function DoctorLayout({ currentPath, onNavigate, children }: DoctorLayout
     { label: "New Analysis", icon: BrainCircuit, path: "/doctor/analysis" },
     { label: "Alzheimer's Analysis", icon: Brain, path: "/doctor/analysis/alzheimer" },
     { label: "Parkinson's Analysis", icon: Activity, path: "/doctor/analysis/parkinson" },
+    { label: "AI Testing Dashboard", icon: Sparkles, path: "/doctor/testing" },
     { label: "Analysis History", icon: History, path: "/doctor/history" },
     { label: "Reports", icon: FileText, path: "/doctor/reports" },
     { label: "Notifications", icon: Bell, path: "/doctor/notifications" },

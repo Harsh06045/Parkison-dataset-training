@@ -1,0 +1,4013 @@
+{
+  "evaluation_timestamp": "2026-11-01T23:57:11.045549",
+  "models_evaluated": {
+    "mri": {
+      "name": "MRI Structural Classifier",
+      "architecture": "DenseNet-121",
+      "checkpoint": "mri_best.pth",
+      "test_samples": 126,
+      "metrics": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "auc": 1.0,
+        "confusion_matrix": [
+          [
+            92,
+            0
+          ],
+          [
+            0,
+            34
+          ]
+        ]
+      }
+    },
+    "voice": {
+      "name": "Vocal Phonation Classifier",
+      "architecture": "CatBoost + PyTorch MLP",
+      "checkpoint": "voice_best_model.pkl",
+      "test_samples": 30,
+      "metrics": {
+        "accuracy": 0.4666666666666667,
+        "precision": 0.6666666666666666,
+        "recall": 0.5454545454545454,
+        "specificity": 0.25,
+        "f1": 0.6,
+        "auc": 0.5028409090909092,
+        "confusion_matrix": [
+          [
+            2,
+            6
+          ],
+          [
+            10,
+            12
+          ]
+        ]
+      }
+    },
+    "spiral": {
+      "name": "Hand-Drawing Kinetic Tremor Classifier",
+      "architecture": "ResNet-18",
+      "checkpoint": "image_best.pth",
+      "test_samples": 64,
+      "metrics": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "auc": 1.0,
+        "confusion_matrix": [
+          [
+            30,
+            0
+          ],
+          [
+            0,
+            34
+          ]
+        ]
+      }
+    },
+    "telemonitoring": {
+      "name": "UPDRS Progression Regressor",
+      "architecture": "XGBoost + PyTorch MLP Ensemble",
+      "checkpoint": "telemonitor_best_model.pkl",
+      "test_samples": 50,
+      "metrics": {
+        "motor": {
+          "mae": 1.9803316312067631,
+          "rmse": 2.620627979102086,
+          "r2": 0.8989110912290281
+        },
+        "total": {
+          "mae": 2.5100127631604807,
+          "rmse": 3.338618753706628,
+          "r2": 0.9025322167385
+        }
+      }
+    },
+    "multimodal_fusion": {
+      "name": "Multimodal Cross-Attention Fusion",
+      "architecture": "Self-Attention Transformer Subspace",
+      "checkpoint": "fusion_best.pth",
+      "test_samples": 30,
+      "metrics": {
+        "accuracy": 0.26666666666666666,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "auc": 0.6534090909090909,
+        "confusion_matrix": [
+          [
+            8,
+            0
+          ],
+          [
+            22,
+            0
+          ]
+        ]
+      }
+    }
+  },
+  "scientific_charts": {
+    "confusion_matrices": "/static/testing/confusion_matrices_all.png",
+    "roc_curves": "/static/testing/roc_curves_combined.png",
+    "pr_curves": "/static/testing/pr_curves_combined.png",
+    "calibration_curves": "/static/testing/calibration_curves.png",
+    "training_curves": "/static/testing/training_validation_curves.png",
+    "telemonitor_fit": "/static/testing/telemonitor_regression_fit.png"
+  },
+  "all_records": {
+    "mri": [
+      {
+        "test_id": "MRI-TEST-0001",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_ADC_DFC_007.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.95,
+        "class_probabilities": {
+          "Normal": 0.9995,
+          "Parkinson": 0.0005
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0001_original.png",
+          "preprocessed": "/static/testing/mri_sample_0001_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0001_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0001_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0002",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_ADC_DFC_026.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.49,
+        "class_probabilities": {
+          "Normal": 0.9949,
+          "Parkinson": 0.0051
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0002_original.png",
+          "preprocessed": "/static/testing/mri_sample_0002_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0002_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0002_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0003",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_ADC_DFC_028.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.95,
+        "class_probabilities": {
+          "Normal": 0.9995,
+          "Parkinson": 0.0005
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0003_original.png",
+          "preprocessed": "/static/testing/mri_sample_0003_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0003_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0003_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0004",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_001.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 56.54,
+        "class_probabilities": {
+          "Normal": 0.5654,
+          "Parkinson": 0.4346
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0004_original.png",
+          "preprocessed": "/static/testing/mri_sample_0004_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0004_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0004_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0005",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_003.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 98.31,
+        "class_probabilities": {
+          "Normal": 0.9831,
+          "Parkinson": 0.0169
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0005_original.png",
+          "preprocessed": "/static/testing/mri_sample_0005_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0005_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0005_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0006",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_015.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 95.43,
+        "class_probabilities": {
+          "Normal": 0.9543,
+          "Parkinson": 0.0457
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0006_original.png",
+          "preprocessed": "/static/testing/mri_sample_0006_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0006_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0006_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0007",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_017.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 97.95,
+        "class_probabilities": {
+          "Normal": 0.9795,
+          "Parkinson": 0.0205
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0007_original.png",
+          "preprocessed": "/static/testing/mri_sample_0007_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0007_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0007_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0008",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_028.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.99,
+        "class_probabilities": {
+          "Normal": 0.9999,
+          "Parkinson": 0.0001
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0008_original.png",
+          "preprocessed": "/static/testing/mri_sample_0008_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0008_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0008_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0009",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_038.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "class_probabilities": {
+          "Normal": 1.0,
+          "Parkinson": 0.0
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0009_original.png",
+          "preprocessed": "/static/testing/mri_sample_0009_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0009_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0009_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0010",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_042.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.97,
+        "class_probabilities": {
+          "Normal": 0.9997,
+          "Parkinson": 0.0003
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0010_original.png",
+          "preprocessed": "/static/testing/mri_sample_0010_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0010_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0010_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0011",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_044.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.41,
+        "class_probabilities": {
+          "Normal": 0.9941,
+          "Parkinson": 0.0059
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0011_original.png",
+          "preprocessed": "/static/testing/mri_sample_0011_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0011_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0011_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0012",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_051.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 96.87,
+        "class_probabilities": {
+          "Normal": 0.9687,
+          "Parkinson": 0.0313
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0012_original.png",
+          "preprocessed": "/static/testing/mri_sample_0012_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0012_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0012_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0013",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_052.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 98.12,
+        "class_probabilities": {
+          "Normal": 0.9812,
+          "Parkinson": 0.0188
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0014",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "ep2d_diff_3scan_trace_p2_TRACEW_DFC_060.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 79.94,
+        "class_probabilities": {
+          "Normal": 0.7994,
+          "Parkinson": 0.2006
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0015",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_002.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.97,
+        "class_probabilities": {
+          "Normal": 0.9997,
+          "Parkinson": 0.0003
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0016",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_003.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 98.08,
+        "class_probabilities": {
+          "Normal": 0.9808,
+          "Parkinson": 0.0192
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0017",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_007.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 97.7,
+        "class_probabilities": {
+          "Normal": 0.977,
+          "Parkinson": 0.023
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0018",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_011.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "class_probabilities": {
+          "Normal": 1.0,
+          "Parkinson": 0.0
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0019",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_012.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.97,
+        "class_probabilities": {
+          "Normal": 0.9997,
+          "Parkinson": 0.0003
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0020",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_022.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.99,
+        "class_probabilities": {
+          "Normal": 0.9999,
+          "Parkinson": 0.0001
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0021",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_035.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "class_probabilities": {
+          "Normal": 1.0,
+          "Parkinson": 0.0
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities.",
+        "artifacts": {
+          "original": "/static/testing/mri_sample_0021_original.png",
+          "preprocessed": "/static/testing/mri_sample_0021_preproc.png",
+          "heatmap": "/static/testing/mri_sample_0021_heatmap.png",
+          "overlay": "/static/testing/mri_sample_0021_overlay.png"
+        }
+      },
+      {
+        "test_id": "MRI-TEST-0022",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_050.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.74,
+        "class_probabilities": {
+          "Normal": 0.9974,
+          "Parkinson": 0.0026
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0023",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_054.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "class_probabilities": {
+          "Normal": 1.0,
+          "Parkinson": 0.0
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0024",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_067.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.99,
+        "class_probabilities": {
+          "Normal": 0.9999,
+          "Parkinson": 0.0001
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      },
+      {
+        "test_id": "MRI-TEST-0025",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease (Atypical / Differential)",
+        "modality": "mri",
+        "filename": "Mag_Images_071.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.98,
+        "class_probabilities": {
+          "Normal": 0.9998,
+          "Parkinson": 0.0002
+        },
+        "is_correct": true,
+        "model_version": "DenseNet121-MRI-v1",
+        "clinical_disclaimer": "Important: Heatmaps show model attention, not proof of disease-specific brain abnormalities."
+      }
+    ],
+    "voice": [
+      {
+        "test_id": "VOICE-TEST-0001",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 0,
+        "ground_truth": "Normal",
+        "prediction": "Parkinson",
+        "confidence": 50.85,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 2.0849,
+          "MDVP:Fhi(Hz)": 0.5263,
+          "MDVP:Flo(Hz)": 2.3833,
+          "MDVP:Jitter(%)": -0.2172,
+          "MDVP:Jitter(Abs)": -0.6898,
+          "MDVP:RAP": -0.0495,
+          "MDVP:PPQ": -0.224,
+          "Jitter:DDP": -0.0484,
+          "MDVP:Shimmer": -0.5066,
+          "MDVP:Shimmer(dB)": -0.3614,
+          "Shimmer:APQ3": -0.3855,
+          "Shimmer:APQ5": -0.4977,
+          "MDVP:APQ": -0.6296,
+          "Shimmer:DDA": -0.3852,
+          "NHR": -0.377,
+          "HNR": -0.1962,
+          "RPDE": -1.2221,
+          "DFA": -1.3033,
+          "spread1": -1.3659,
+          "spread2": -1.8417,
+          "D2": -0.3022,
+          "PPE": -1.1756
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0003000497817993,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-15.3762",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9588000178337097,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-7.0297",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7353000044822693,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0002",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 1,
+        "ground_truth": "Normal",
+        "prediction": "Parkinson",
+        "confidence": 51.75,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.9608,
+          "MDVP:Fhi(Hz)": -0.8541,
+          "MDVP:Flo(Hz)": -0.6837,
+          "MDVP:Jitter(%)": -0.6101,
+          "MDVP:Jitter(Abs)": -0.4019,
+          "MDVP:RAP": -0.6238,
+          "MDVP:PPQ": -0.5837,
+          "Jitter:DDP": -0.6227,
+          "MDVP:Shimmer": -0.9495,
+          "MDVP:Shimmer(dB)": -0.9067,
+          "Shimmer:APQ3": -0.9967,
+          "Shimmer:APQ5": -0.8896,
+          "MDVP:APQ": -0.7769,
+          "Shimmer:DDA": -0.9964,
+          "NHR": -0.442,
+          "HNR": 0.6545,
+          "RPDE": 0.5476,
+          "DFA": -1.0684,
+          "spread1": -0.9434,
+          "spread2": -0.9234,
+          "D2": -1.2253,
+          "PPE": -0.9431
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-12.7900",
+            "normalThreshold": "< 0.15",
+            "shapValue": -1.281999945640564,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0291999578475952,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-9.4473",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7330999970436096,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0003",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 2,
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 57.87,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.9166,
+          "MDVP:Fhi(Hz)": -0.7459,
+          "MDVP:Flo(Hz)": -0.1694,
+          "MDVP:Jitter(%)": -0.5709,
+          "MDVP:Jitter(Abs)": -0.4019,
+          "MDVP:RAP": -0.5461,
+          "MDVP:PPQ": -0.4783,
+          "Jitter:DDP": -0.5461,
+          "MDVP:Shimmer": -0.6624,
+          "MDVP:Shimmer(dB)": -0.6547,
+          "Shimmer:APQ3": -0.6837,
+          "Shimmer:APQ5": -0.6394,
+          "MDVP:APQ": -0.6372,
+          "Shimmer:DDA": -0.6834,
+          "NHR": -0.5134,
+          "HNR": 0.9643,
+          "RPDE": -1.3244,
+          "DFA": 0.8179,
+          "spread1": -0.3058,
+          "spread2": -1.4094,
+          "D2": -0.9877,
+          "PPE": -0.3574
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-6.2735",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9641000032424927,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.9136000275611877,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-8.8249",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7488999962806702,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0004",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 3,
+        "ground_truth": "Normal",
+        "prediction": "Parkinson",
+        "confidence": 50.85,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 2.2111,
+          "MDVP:Fhi(Hz)": 0.7121,
+          "MDVP:Flo(Hz)": 2.6612,
+          "MDVP:Jitter(%)": -0.8004,
+          "MDVP:Jitter(Abs)": -0.9777,
+          "MDVP:RAP": -0.6879,
+          "MDVP:PPQ": -0.7145,
+          "Jitter:DDP": -0.6891,
+          "MDVP:Shimmer": -0.7246,
+          "MDVP:Shimmer(dB)": -0.7267,
+          "Shimmer:APQ3": -0.6521,
+          "Shimmer:APQ5": -0.6761,
+          "MDVP:APQ": -0.7449,
+          "Shimmer:DDA": -0.6518,
+          "NHR": -0.4983,
+          "HNR": 0.6153,
+          "RPDE": -0.2995,
+          "DFA": -1.5662,
+          "spread1": -1.3534,
+          "spread2": -1.1884,
+          "D2": 0.027,
+          "PPE": -1.215
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0003000497817993,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-15.8149",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9588000178337097,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-6.1675",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7353000044822693,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0005",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 4,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 50.85,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.0962,
+          "MDVP:Fhi(Hz)": -0.4657,
+          "MDVP:Flo(Hz)": -0.9439,
+          "MDVP:Jitter(%)": -0.7735,
+          "MDVP:Jitter(Abs)": -0.6898,
+          "MDVP:RAP": -0.7623,
+          "MDVP:PPQ": -0.7582,
+          "Jitter:DDP": -0.7623,
+          "MDVP:Shimmer": -0.9782,
+          "MDVP:Shimmer(dB)": -0.9016,
+          "Shimmer:APQ3": -1.0313,
+          "Shimmer:APQ5": -0.9412,
+          "MDVP:APQ": -0.8277,
+          "Shimmer:DDA": -1.031,
+          "NHR": -0.4935,
+          "HNR": 1.1039,
+          "RPDE": -1.945,
+          "DFA": 0.0771,
+          "spread1": -1.098,
+          "spread2": -1.6497,
+          "D2": -0.9894,
+          "PPE": -1.0303
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0003000497817993,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-13.7597",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9588000178337097,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-8.8295",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7353000044822693,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0006",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 5,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 85.64,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.0571,
+          "MDVP:Fhi(Hz)": 3.2413,
+          "MDVP:Flo(Hz)": -1.0882,
+          "MDVP:Jitter(%)": 0.4838,
+          "MDVP:Jitter(Abs)": 0.4618,
+          "MDVP:RAP": 0.2478,
+          "MDVP:PPQ": 0.1467,
+          "Jitter:DDP": 0.2466,
+          "MDVP:Shimmer": -0.5997,
+          "MDVP:Shimmer(dB)": -0.2431,
+          "Shimmer:APQ3": -0.7607,
+          "Shimmer:APQ5": -0.797,
+          "MDVP:APQ": -0.6727,
+          "Shimmer:DDA": -0.7604,
+          "NHR": 0.8846,
+          "HNR": 0.4093,
+          "RPDE": -0.8761,
+          "DFA": -1.0043,
+          "spread1": 0.9299,
+          "spread2": 0.4212,
+          "D2": 0.8395,
+          "PPE": 0.7549
+        },
+        "top_biomarkers": [
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-4.0395",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.8718000054359436,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.1 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.757099986076355,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "6.1002",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.6011000275611877,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0007",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 6,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 96.18,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 0.3524,
+          "MDVP:Fhi(Hz)": 0.3844,
+          "MDVP:Flo(Hz)": -0.9381,
+          "MDVP:Jitter(%)": 0.1984,
+          "MDVP:Jitter(Abs)": -0.114,
+          "MDVP:RAP": -0.1576,
+          "MDVP:PPQ": 0.1539,
+          "Jitter:DDP": -0.1565,
+          "MDVP:Shimmer": 0.1893,
+          "MDVP:Shimmer(dB)": 0.3383,
+          "Shimmer:APQ3": -0.1238,
+          "Shimmer:APQ5": 0.0877,
+          "MDVP:APQ": 0.6045,
+          "Shimmer:DDA": -0.1242,
+          "NHR": 0.1077,
+          "HNR": -0.3421,
+          "RPDE": 1.2786,
+          "DFA": -2.0416,
+          "spread1": 2.532,
+          "spread2": 2.498,
+          "D2": 1.6386,
+          "PPE": 2.4946
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "25.4547",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.8116999864578247,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-1.9466",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7785999774932861,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.675000011920929,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0008",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 7,
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 60.93,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -1.0225,
+          "MDVP:Fhi(Hz)": 4.2891,
+          "MDVP:Flo(Hz)": -0.2143,
+          "MDVP:Jitter(%)": -0.1841,
+          "MDVP:Jitter(Abs)": 0.1739,
+          "MDVP:RAP": -0.2116,
+          "MDVP:PPQ": -0.0568,
+          "Jitter:DDP": -0.2106,
+          "MDVP:Shimmer": -0.278,
+          "MDVP:Shimmer(dB)": -0.2894,
+          "Shimmer:APQ3": -0.191,
+          "Shimmer:APQ5": -0.3442,
+          "MDVP:APQ": -0.2675,
+          "Shimmer:DDA": -0.1907,
+          "NHR": -0.4618,
+          "HNR": 0.5192,
+          "RPDE": 0.1022,
+          "DFA": 1.2942,
+          "spread1": 0.2715,
+          "spread2": 0.9631,
+          "D2": -1.1867,
+          "PPE": 0.2104
+        },
+        "top_biomarkers": [
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-9.3463",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.9347000122070312,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "spread1",
+            "code": "spread1",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "5.4772",
+            "normalThreshold": "< -5.5",
+            "shapValue": 0.6430000066757202,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Nonlinear measure of fundamental frequency variation"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "0.0424",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.5846999883651733,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0009",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 8,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 83.01,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 1.2217,
+          "MDVP:Fhi(Hz)": 0.2651,
+          "MDVP:Flo(Hz)": 1.6885,
+          "MDVP:Jitter(%)": 0.4528,
+          "MDVP:Jitter(Abs)": -0.114,
+          "MDVP:RAP": 0.5789,
+          "MDVP:PPQ": 0.5101,
+          "Jitter:DDP": 0.5788,
+          "MDVP:Shimmer": -0.3152,
+          "MDVP:Shimmer(dB)": -0.3717,
+          "Shimmer:APQ3": -0.2858,
+          "Shimmer:APQ5": -0.2542,
+          "MDVP:APQ": -0.3793,
+          "Shimmer:DDA": -0.2858,
+          "NHR": -0.2899,
+          "HNR": -0.1316,
+          "RPDE": 0.0033,
+          "DFA": 0.0722,
+          "spread1": 0.7431,
+          "spread2": -0.1738,
+          "D2": -0.0133,
+          "PPE": 0.6852
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.089900016784668,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-6.2730",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.715399980545044,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "5.3251",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.6057999730110168,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0010",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 9,
+        "ground_truth": "Normal",
+        "prediction": "Parkinson",
+        "confidence": 66.55,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 1.4548,
+          "MDVP:Fhi(Hz)": 0.6922,
+          "MDVP:Flo(Hz)": -0.8835,
+          "MDVP:Jitter(%)": -0.1138,
+          "MDVP:Jitter(Abs)": -0.4019,
+          "MDVP:RAP": -0.1204,
+          "MDVP:PPQ": -0.1004,
+          "Jitter:DDP": -0.1205,
+          "MDVP:Shimmer": -0.5779,
+          "MDVP:Shimmer(dB)": -0.4746,
+          "Shimmer:APQ3": -0.5336,
+          "Shimmer:APQ5": -0.5227,
+          "MDVP:APQ": -0.6124,
+          "Shimmer:DDA": -0.5336,
+          "NHR": 0.4746,
+          "HNR": -0.1534,
+          "RPDE": -0.3447,
+          "DFA": -0.9737,
+          "spread1": -0.0365,
+          "spread2": -0.4309,
+          "D2": 0.4548,
+          "PPE": -0.6451
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.05649995803833,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-9.4741",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9441999793052673,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-5.0470",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7322999835014343,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0011",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 10,
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 50.61,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 1.0713,
+          "MDVP:Fhi(Hz)": 0.2431,
+          "MDVP:Flo(Hz)": 0.7456,
+          "MDVP:Jitter(%)": -0.5088,
+          "MDVP:Jitter(Abs)": -0.6898,
+          "MDVP:RAP": -0.5021,
+          "MDVP:PPQ": -0.4711,
+          "Jitter:DDP": -0.5022,
+          "MDVP:Shimmer": 0.2957,
+          "MDVP:Shimmer(dB)": 0.0759,
+          "Shimmer:APQ3": 0.4825,
+          "Shimmer:APQ5": 0.2403,
+          "MDVP:APQ": 0.0721,
+          "Shimmer:DDA": 0.4825,
+          "NHR": -0.1877,
+          "HNR": -0.7213,
+          "RPDE": 1.0392,
+          "DFA": -1.0212,
+          "spread1": 0.0912,
+          "spread2": 1.0125,
+          "D2": 0.2192,
+          "PPE": 0.0368
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-1.8880",
+            "normalThreshold": "< 0.15",
+            "shapValue": -1.3934999704360962,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-5.6640",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7166000008583069,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.6198999881744385,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0012",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 11,
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 61.47,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -1.136,
+          "MDVP:Fhi(Hz)": -0.9124,
+          "MDVP:Flo(Hz)": -0.2767,
+          "MDVP:Jitter(%)": -0.6867,
+          "MDVP:Jitter(Abs)": -0.4019,
+          "MDVP:RAP": -0.6305,
+          "MDVP:PPQ": -0.591,
+          "Jitter:DDP": -0.6317,
+          "MDVP:Shimmer": -0.7464,
+          "MDVP:Shimmer(dB)": -0.7627,
+          "Shimmer:APQ3": -0.7282,
+          "Shimmer:APQ5": -0.7019,
+          "MDVP:APQ": -0.6816,
+          "Shimmer:DDA": -0.7282,
+          "NHR": -0.531,
+          "HNR": 1.134,
+          "RPDE": 1.3396,
+          "DFA": 0.8183,
+          "spread1": -0.4444,
+          "spread2": -0.5143,
+          "D2": -0.8306,
+          "PPE": -0.4761
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-7.5946",
+            "normalThreshold": "< 0.15",
+            "shapValue": -1.246500015258789,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.9424999952316284,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-8.4135",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7466999888420105,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0013",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 12,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 50.85,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.8272,
+          "MDVP:Fhi(Hz)": -0.7722,
+          "MDVP:Flo(Hz)": -0.2455,
+          "MDVP:Jitter(%)": -0.728,
+          "MDVP:Jitter(Abs)": -0.6898,
+          "MDVP:RAP": -0.7251,
+          "MDVP:PPQ": -0.7618,
+          "Jitter:DDP": -0.7241,
+          "MDVP:Shimmer": -1.0362,
+          "MDVP:Shimmer(dB)": -0.9891,
+          "Shimmer:APQ3": -1.0767,
+          "Shimmer:APQ5": -1.0005,
+          "MDVP:APQ": -0.8905,
+          "Shimmer:DDA": -1.0767,
+          "NHR": -0.4955,
+          "HNR": 1.0155,
+          "RPDE": -0.0694,
+          "DFA": 0.0134,
+          "spread1": -0.191,
+          "spread2": -0.367,
+          "D2": -0.7149,
+          "PPE": -0.2556
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0003000497817993,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-5.1419",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9588000178337097,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-8.1105",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7353000044822693,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0014",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 13,
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 53.93,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -1.0576,
+          "MDVP:Fhi(Hz)": -0.7858,
+          "MDVP:Flo(Hz)": -0.2189,
+          "MDVP:Jitter(%)": -0.331,
+          "MDVP:Jitter(Abs)": -0.114,
+          "MDVP:RAP": -0.3535,
+          "MDVP:PPQ": -0.2349,
+          "Jitter:DDP": -0.3547,
+          "MDVP:Shimmer": -0.4104,
+          "MDVP:Shimmer(dB)": -0.4386,
+          "Shimmer:APQ3": -0.2789,
+          "Shimmer:APQ5": -0.491,
+          "MDVP:APQ": -0.4568,
+          "Shimmer:DDA": -0.2789,
+          "NHR": -0.5121,
+          "HNR": 0.8912,
+          "RPDE": -0.666,
+          "DFA": 1.7799,
+          "spread1": 0.2698,
+          "spread2": 0.2892,
+          "D2": -1.5817,
+          "PPE": 0.2914
+        },
+        "top_biomarkers": [
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-10.3808",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.9347000122070312,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "spread1",
+            "code": "spread1",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "5.4756",
+            "normalThreshold": "< -5.5",
+            "shapValue": 0.6297000050544739,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Nonlinear measure of fundamental frequency variation"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "0.9438",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.5849999785423279,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0015",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 14,
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 56.1,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.8951,
+          "MDVP:Fhi(Hz)": -0.7363,
+          "MDVP:Flo(Hz)": -0.1364,
+          "MDVP:Jitter(%)": 0.2687,
+          "MDVP:Jitter(Abs)": 0.4618,
+          "MDVP:RAP": -0.1069,
+          "MDVP:PPQ": 0.4519,
+          "Jitter:DDP": -0.1058,
+          "MDVP:Shimmer": -0.3604,
+          "MDVP:Shimmer(dB)": -0.3151,
+          "Shimmer:APQ3": -0.3727,
+          "Shimmer:APQ5": -0.2742,
+          "MDVP:APQ": -0.2722,
+          "Shimmer:DDA": -0.3724,
+          "NHR": -0.4474,
+          "HNR": 0.2109,
+          "RPDE": 0.3086,
+          "DFA": 1.8056,
+          "spread1": 0.9896,
+          "spread2": 0.7635,
+          "D2": -0.9435,
+          "PPE": 1.2005
+        },
+        "top_biomarkers": [
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-8.7092",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.9287999868392944,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "spread1",
+            "code": "spread1",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "6.1376",
+            "normalThreshold": "< -5.5",
+            "shapValue": 0.6460999846458435,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Nonlinear measure of fundamental frequency variation"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "11.0579",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.6101999878883362,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0016",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 15,
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 52.88,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.9191,
+          "MDVP:Fhi(Hz)": -0.2171,
+          "MDVP:Flo(Hz)": -0.4456,
+          "MDVP:Jitter(%)": -0.637,
+          "MDVP:Jitter(Abs)": -0.4019,
+          "MDVP:RAP": -0.6643,
+          "MDVP:PPQ": -0.5547,
+          "Jitter:DDP": -0.6632,
+          "MDVP:Shimmer": -0.748,
+          "MDVP:Shimmer(dB)": -0.7524,
+          "Shimmer:APQ3": -0.8881,
+          "Shimmer:APQ5": -0.6653,
+          "MDVP:APQ": -0.4243,
+          "Shimmer:DDA": -0.8881,
+          "NHR": -0.4335,
+          "HNR": 0.524,
+          "RPDE": 0.9644,
+          "DFA": -1.1553,
+          "spread1": 0.0844,
+          "spread2": -1.113,
+          "D2": -0.8464,
+          "PPE": 0.0867
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-1.3332",
+            "normalThreshold": "< 0.15",
+            "shapValue": -1.2411999702453613,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0291999578475952,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-8.4549",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7330999970436096,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0017",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 16,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 57.48,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -1.417,
+          "MDVP:Fhi(Hz)": -0.7127,
+          "MDVP:Flo(Hz)": -0.566,
+          "MDVP:Jitter(%)": -0.1469,
+          "MDVP:Jitter(Abs)": 0.4618,
+          "MDVP:RAP": -0.1272,
+          "MDVP:PPQ": -0.0459,
+          "Jitter:DDP": -0.1261,
+          "MDVP:Shimmer": -0.4668,
+          "MDVP:Shimmer(dB)": -0.4695,
+          "Shimmer:APQ3": -0.4872,
+          "Shimmer:APQ5": -0.4259,
+          "MDVP:APQ": -0.4089,
+          "Shimmer:DDA": -0.4876,
+          "NHR": -0.3509,
+          "HNR": -0.0168,
+          "RPDE": 1.1287,
+          "DFA": 1.0053,
+          "spread1": 0.1708,
+          "spread2": 1.2172,
+          "D2": -0.1553,
+          "PPE": 0.2783
+        },
+        "top_biomarkers": [
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-6.6450",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.9325000047683716,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "0.7986",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.7526999711990356,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "spread1",
+            "code": "spread1",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "5.3845",
+            "normalThreshold": "< -5.5",
+            "shapValue": 0.6503000259399414,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Nonlinear measure of fundamental frequency variation"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0018",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 17,
+        "ground_truth": "Normal",
+        "prediction": "Parkinson",
+        "confidence": 50.85,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 2.1116,
+          "MDVP:Fhi(Hz)": 0.5669,
+          "MDVP:Flo(Hz)": 2.6759,
+          "MDVP:Jitter(%)": -0.7053,
+          "MDVP:Jitter(Abs)": -0.9777,
+          "MDVP:RAP": -0.5866,
+          "MDVP:PPQ": -0.6237,
+          "Jitter:DDP": -0.5878,
+          "MDVP:Shimmer": -0.6438,
+          "MDVP:Shimmer(dB)": -0.6598,
+          "Shimmer:APQ3": -0.5534,
+          "Shimmer:APQ5": -0.6252,
+          "MDVP:APQ": -0.6846,
+          "Shimmer:DDA": -0.5537,
+          "NHR": -0.4489,
+          "HNR": 0.2852,
+          "RPDE": -0.3939,
+          "DFA": -1.5189,
+          "spread1": -1.02,
+          "spread2": -0.8203,
+          "D2": -0.3277,
+          "PPE": -0.9918
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0003000497817993,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-13.3318",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9588000178337097,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-7.0965",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.7353000044822693,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0019",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 18,
+        "ground_truth": "Normal",
+        "prediction": "Parkinson",
+        "confidence": 77.63,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 1.1517,
+          "MDVP:Fhi(Hz)": 0.7189,
+          "MDVP:Flo(Hz)": -0.8776,
+          "MDVP:Jitter(%)": 0.1488,
+          "MDVP:Jitter(Abs)": -0.4019,
+          "MDVP:RAP": 0.2748,
+          "MDVP:PPQ": 0.1867,
+          "Jitter:DDP": 0.2736,
+          "MDVP:Shimmer": -0.211,
+          "MDVP:Shimmer(dB)": -0.1402,
+          "Shimmer:APQ3": -0.111,
+          "Shimmer:APQ5": -0.1716,
+          "MDVP:APQ": -0.3846,
+          "Shimmer:DDA": -0.1107,
+          "NHR": 0.4853,
+          "HNR": -0.5704,
+          "RPDE": 0.0959,
+          "DFA": -0.6221,
+          "spread1": -1.1496,
+          "spread2": -0.8008,
+          "D2": -0.1715,
+          "PPE": -1.0426
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.1338000297546387,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-13.8963",
+            "normalThreshold": "< 0.15",
+            "shapValue": -1.0678000450134277,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-6.6873",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.6987000107765198,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0020",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 19,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 96.22,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.4329,
+          "MDVP:Fhi(Hz)": -0.2247,
+          "MDVP:Flo(Hz)": -1.1651,
+          "MDVP:Jitter(%)": 0.7216,
+          "MDVP:Jitter(Abs)": 0.7498,
+          "MDVP:RAP": 0.687,
+          "MDVP:PPQ": 0.4846,
+          "Jitter:DDP": 0.6858,
+          "MDVP:Shimmer": 1.0671,
+          "MDVP:Shimmer(dB)": 1.0328,
+          "Shimmer:APQ3": 1.1677,
+          "Shimmer:APQ5": 0.5655,
+          "MDVP:APQ": 0.7856,
+          "Shimmer:DDA": 1.1678,
+          "NHR": 0.2174,
+          "HNR": -0.7512,
+          "RPDE": 0.4318,
+          "DFA": 0.2742,
+          "spread1": 0.4381,
+          "spread2": -0.0199,
+          "D2": 0.6821,
+          "PPE": 0.4053
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.13919997215271,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "2.2108",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.7878999710083008,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "spread1",
+            "code": "spread1",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "5.6304",
+            "normalThreshold": "< -5.5",
+            "shapValue": 0.760200023651123,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Nonlinear measure of fundamental frequency variation"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0021",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 20,
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 55.97,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.0568,
+          "MDVP:Fhi(Hz)": -0.4311,
+          "MDVP:Flo(Hz)": 0.4014,
+          "MDVP:Jitter(%)": -0.7528,
+          "MDVP:Jitter(Abs)": -0.6898,
+          "MDVP:RAP": -0.7285,
+          "MDVP:PPQ": -0.809,
+          "Jitter:DDP": -0.7274,
+          "MDVP:Shimmer": -0.8086,
+          "MDVP:Shimmer(dB)": -0.7473,
+          "Shimmer:APQ3": -0.9217,
+          "Shimmer:APQ5": -0.8337,
+          "MDVP:APQ": -0.6751,
+          "Shimmer:DDA": -0.922,
+          "NHR": -0.4529,
+          "HNR": 1.1207,
+          "RPDE": -1.0125,
+          "DFA": -0.3235,
+          "spread1": -0.842,
+          "spread2": 0.2724,
+          "D2": 0.3073,
+          "PPE": -1.1264
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-14.8285",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9743000268936157,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-5.4334",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.8740000128746033,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.6255999803543091,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0022",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 21,
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 54.23,
+        "is_correct": false,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 0.8116,
+          "MDVP:Fhi(Hz)": 0.0572,
+          "MDVP:Flo(Hz)": 1.3059,
+          "MDVP:Jitter(%)": -0.6329,
+          "MDVP:Jitter(Abs)": -0.6898,
+          "MDVP:RAP": -0.5494,
+          "MDVP:PPQ": -0.591,
+          "Jitter:DDP": -0.5495,
+          "MDVP:Shimmer": -0.6954,
+          "MDVP:Shimmer(dB)": -0.6752,
+          "Shimmer:APQ3": -0.7282,
+          "Shimmer:APQ5": -0.6544,
+          "MDVP:APQ": -0.6165,
+          "Shimmer:DDA": -0.7278,
+          "NHR": -0.5506,
+          "HNR": 1.0022,
+          "RPDE": -0.9814,
+          "DFA": 0.7288,
+          "spread1": -0.2963,
+          "spread2": 0.4854,
+          "D2": 0.0019,
+          "PPE": -0.5102
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-7.9738",
+            "normalThreshold": "< 0.15",
+            "shapValue": -0.9794999957084656,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-6.2332",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.8695999979972839,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.6222000122070312,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0023",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 22,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 79.26,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 0.4769,
+          "MDVP:Fhi(Hz)": -0.0479,
+          "MDVP:Flo(Hz)": -0.6944,
+          "MDVP:Jitter(%)": -0.302,
+          "MDVP:Jitter(Abs)": -0.4019,
+          "MDVP:RAP": -0.3704,
+          "MDVP:PPQ": -0.3148,
+          "Jitter:DDP": -0.3705,
+          "MDVP:Shimmer": 0.6492,
+          "MDVP:Shimmer(dB)": 0.4206,
+          "Shimmer:APQ3": 0.6128,
+          "Shimmer:APQ5": 0.5688,
+          "MDVP:APQ": 0.8069,
+          "Shimmer:DDA": 0.6131,
+          "NHR": -0.1599,
+          "HNR": -0.3316,
+          "RPDE": 0.3736,
+          "DFA": -0.5654,
+          "spread1": 0.4006,
+          "spread2": -0.1951,
+          "D2": 0.4339,
+          "PPE": 0.5229
+        },
+        "top_biomarkers": [
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.9761000275611877,
+            "importanceRank": 1,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "RPDE",
+            "code": "RPDE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-1.2055",
+            "normalThreshold": "< 0.45",
+            "shapValue": -0.8093000054359436,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Recurrence Period Density Entropy"
+          },
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "3.5196",
+            "normalThreshold": "< 0.15",
+            "shapValue": 0.7544999718666077,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0024",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 23,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 68.52,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": -0.7965,
+          "MDVP:Fhi(Hz)": -0.6297,
+          "MDVP:Flo(Hz)": -0.4164,
+          "MDVP:Jitter(%)": 0.1281,
+          "MDVP:Jitter(Abs)": 0.4618,
+          "MDVP:RAP": 0.1938,
+          "MDVP:PPQ": -0.0459,
+          "Jitter:DDP": 0.1937,
+          "MDVP:Shimmer": -0.2323,
+          "MDVP:Shimmer(dB)": -0.2122,
+          "Shimmer:APQ3": -0.2236,
+          "Shimmer:APQ5": -0.3242,
+          "MDVP:APQ": -0.2083,
+          "Shimmer:DDA": -0.2239,
+          "NHR": 0.4203,
+          "HNR": -0.0829,
+          "RPDE": 0.6591,
+          "DFA": -0.8629,
+          "spread1": 0.7534,
+          "spread2": 0.2391,
+          "D2": -0.9646,
+          "PPE": -0.4224
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-6.9973",
+            "normalThreshold": "< 0.15",
+            "shapValue": -1.367799997329712,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-8.7645",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.8352000117301941,
+            "importanceRank": 2,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 0.7473999857902527,
+            "importanceRank": 3,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      },
+      {
+        "test_id": "VOICE-TEST-0025",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "voice",
+        "sample_index": 24,
+        "ground_truth": "Parkinson",
+        "prediction": "Parkinson",
+        "confidence": 57.4,
+        "is_correct": true,
+        "model_version": "CatBoost-Voice-v1",
+        "acoustic_features": {
+          "MDVP:Fo(Hz)": 0.6731,
+          "MDVP:Fhi(Hz)": 0.0007,
+          "MDVP:Flo(Hz)": -0.8555,
+          "MDVP:Jitter(%)": 0.4549,
+          "MDVP:Jitter(Abs)": 0.1739,
+          "MDVP:RAP": 0.5924,
+          "MDVP:PPQ": 0.3792,
+          "Jitter:DDP": 0.5912,
+          "MDVP:Shimmer": -0.2488,
+          "MDVP:Shimmer(dB)": -0.2637,
+          "Shimmer:APQ3": -0.192,
+          "Shimmer:APQ5": -0.1733,
+          "MDVP:APQ": -0.2823,
+          "Shimmer:DDA": -0.1923,
+          "NHR": -0.1666,
+          "HNR": -0.7027,
+          "RPDE": 0.8818,
+          "DFA": 0.2682,
+          "spread1": 0.22,
+          "spread2": -1.0103,
+          "D2": -0.5435,
+          "PPE": 0.1002
+        },
+        "top_biomarkers": [
+          {
+            "name": "PPE",
+            "code": "PPE",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-1.1832",
+            "normalThreshold": "< 0.15",
+            "shapValue": -1.3588999509811401,
+            "importanceRank": 1,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Pitch Period Entropy (impaired phonatory control)"
+          },
+          {
+            "name": "MDVP:Fhi(Hz)",
+            "code": "MDVP:Fhi(Hz)",
+            "category": "Pitch",
+            "patientValue": "-2.2 Hz",
+            "normalThreshold": "120-300 Hz",
+            "shapValue": 1.0995999574661255,
+            "importanceRank": 2,
+            "status": "Elevated Risk",
+            "clinicalDescription": "Maximum vocal fundamental frequency"
+          },
+          {
+            "name": "D2",
+            "code": "D2",
+            "category": "Nonlinear Dynamics",
+            "patientValue": "-7.6616",
+            "normalThreshold": "1.8 - 2.5",
+            "shapValue": -0.6995000243186951,
+            "importanceRank": 3,
+            "status": "Protective / Normal",
+            "clinicalDescription": "Correlation dimension (system complexity)"
+          }
+        ],
+        "artifacts": {
+          "waveform": "/static/testing/voice_waveform.png",
+          "spectrogram": "/static/testing/voice_spectrogram.png",
+          "shap_summary": "/static/testing/voice_shap_summary.png",
+          "shap_bar": "/static/testing/voice_shap_bar.png"
+        }
+      }
+    ],
+    "spiral": [
+      {
+        "test_id": "SPIRAL-TEST-0001",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_dynamic_15.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.97,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0001_original.png",
+          "grayscale": "/static/testing/spiral_sample_0001_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0001_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0001_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0002",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_dynamic_16.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.82,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0002_original.png",
+          "grayscale": "/static/testing/spiral_sample_0002_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0002_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0002_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0003",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_dynamic_17.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.81,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0003_original.png",
+          "grayscale": "/static/testing/spiral_sample_0003_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0003_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0003_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0004",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_dynamic_7.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.99,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0004_original.png",
+          "grayscale": "/static/testing/spiral_sample_0004_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0004_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0004_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0005",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_dynamic_8.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.54,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0005_original.png",
+          "grayscale": "/static/testing/spiral_sample_0005_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0005_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0005_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0006",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_static_10.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.98,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0006_original.png",
+          "grayscale": "/static/testing/spiral_sample_0006_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0006_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0006_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0007",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_static_12.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.99,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0007_original.png",
+          "grayscale": "/static/testing/spiral_sample_0007_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0007_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0007_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0008",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "control_static_19.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.9,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0008_original.png",
+          "grayscale": "/static/testing/spiral_sample_0008_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0008_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0008_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0009",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_1.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.91,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0009_original.png",
+          "grayscale": "/static/testing/spiral_sample_0009_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0009_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0009_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0010",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_103.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0010_original.png",
+          "grayscale": "/static/testing/spiral_sample_0010_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0010_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0010_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0011",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_104.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0011_original.png",
+          "grayscale": "/static/testing/spiral_sample_0011_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0011_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0011_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0012",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_105.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.99,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0012_original.png",
+          "grayscale": "/static/testing/spiral_sample_0012_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0012_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0012_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0013",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_107.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0013_original.png",
+          "grayscale": "/static/testing/spiral_sample_0013_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0013_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0013_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0014",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_11.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.99,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0014_original.png",
+          "grayscale": "/static/testing/spiral_sample_0014_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0014_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0014_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0015",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_117.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.95,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0016",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_150.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.91,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0017",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_16.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.98,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0017_original.png",
+          "grayscale": "/static/testing/spiral_sample_0017_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0017_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0017_overlay.png"
+        }
+      },
+      {
+        "test_id": "SPIRAL-TEST-0018",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_21.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.98,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0019",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_35.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0020",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_44.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0021",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_48.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.96,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0022",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_55.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0023",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_58.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.95,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0024",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_66.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1"
+      },
+      {
+        "test_id": "SPIRAL-TEST-0025",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "spiral",
+        "filename": "synth_control_69.png",
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 100.0,
+        "is_correct": true,
+        "model_version": "ResNet18-Spiral-v1",
+        "artifacts": {
+          "original": "/static/testing/spiral_sample_0025_original.png",
+          "grayscale": "/static/testing/spiral_sample_0025_gray.png",
+          "heatmap": "/static/testing/spiral_sample_0025_heatmap.png",
+          "overlay": "/static/testing/spiral_sample_0025_overlay.png"
+        }
+      }
+    ],
+    "telemonitoring": [
+      {
+        "test_id": "TELE-TEST-0001",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 21.29,
+        "actual_motor_updrs": 20.68,
+        "motor_error": 0.61,
+        "predicted_total_updrs": 27.44,
+        "actual_total_updrs": 27.44,
+        "total_error": 0.0,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0002",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 13.76,
+        "actual_motor_updrs": 14.22,
+        "motor_error": 0.46,
+        "predicted_total_updrs": 16.81,
+        "actual_total_updrs": 16.4,
+        "total_error": 0.41,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0003",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 16.31,
+        "actual_motor_updrs": 14.65,
+        "motor_error": 1.67,
+        "predicted_total_updrs": 25.78,
+        "actual_total_updrs": 27.06,
+        "total_error": 1.28,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0004",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 26.25,
+        "actual_motor_updrs": 28.09,
+        "motor_error": 1.85,
+        "predicted_total_updrs": 35.43,
+        "actual_total_updrs": 37.54,
+        "total_error": 2.11,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0005",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 26.63,
+        "actual_motor_updrs": 24.86,
+        "motor_error": 1.77,
+        "predicted_total_updrs": 32.18,
+        "actual_total_updrs": 30.61,
+        "total_error": 1.57,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0006",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 16.8,
+        "actual_motor_updrs": 16.18,
+        "motor_error": 0.62,
+        "predicted_total_updrs": 25.91,
+        "actual_total_updrs": 26.79,
+        "total_error": 0.87,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0007",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 27.99,
+        "actual_motor_updrs": 34.65,
+        "motor_error": 6.65,
+        "predicted_total_updrs": 36.13,
+        "actual_total_updrs": 44.86,
+        "total_error": 8.73,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0008",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 22.77,
+        "actual_motor_updrs": 23.46,
+        "motor_error": 0.69,
+        "predicted_total_updrs": 30.1,
+        "actual_total_updrs": 29.1,
+        "total_error": 1.0,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0009",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 28.45,
+        "actual_motor_updrs": 29.11,
+        "motor_error": 0.66,
+        "predicted_total_updrs": 32.86,
+        "actual_total_updrs": 31.53,
+        "total_error": 1.33,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0010",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 21.89,
+        "actual_motor_updrs": 20.63,
+        "motor_error": 1.27,
+        "predicted_total_updrs": 30.95,
+        "actual_total_updrs": 29.84,
+        "total_error": 1.12,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0011",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 12.31,
+        "actual_motor_updrs": 14.78,
+        "motor_error": 2.47,
+        "predicted_total_updrs": 15.26,
+        "actual_total_updrs": 16.78,
+        "total_error": 1.52,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0012",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 16.34,
+        "actual_motor_updrs": 10.12,
+        "motor_error": 6.23,
+        "predicted_total_updrs": 24.69,
+        "actual_total_updrs": 16.06,
+        "total_error": 8.63,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0013",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 22.81,
+        "actual_motor_updrs": 21.93,
+        "motor_error": 0.88,
+        "predicted_total_updrs": 26.28,
+        "actual_total_updrs": 25.77,
+        "total_error": 0.51,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0014",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 12.67,
+        "actual_motor_updrs": 15.0,
+        "motor_error": 2.33,
+        "predicted_total_updrs": 19.15,
+        "actual_total_updrs": 21.9,
+        "total_error": 2.75,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0015",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 27.0,
+        "actual_motor_updrs": 31.97,
+        "motor_error": 4.97,
+        "predicted_total_updrs": 33.94,
+        "actual_total_updrs": 34.96,
+        "total_error": 1.02,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0016",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 20.41,
+        "actual_motor_updrs": 19.2,
+        "motor_error": 1.21,
+        "predicted_total_updrs": 27.38,
+        "actual_total_updrs": 25.88,
+        "total_error": 1.5,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0017",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 25.27,
+        "actual_motor_updrs": 22.82,
+        "motor_error": 2.46,
+        "predicted_total_updrs": 31.35,
+        "actual_total_updrs": 27.29,
+        "total_error": 4.06,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0018",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 20.87,
+        "actual_motor_updrs": 23.48,
+        "motor_error": 2.61,
+        "predicted_total_updrs": 30.53,
+        "actual_total_updrs": 34.48,
+        "total_error": 3.95,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0019",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 24.57,
+        "actual_motor_updrs": 24.11,
+        "motor_error": 0.46,
+        "predicted_total_updrs": 32.36,
+        "actual_total_updrs": 31.88,
+        "total_error": 0.48,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0020",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 30.08,
+        "actual_motor_updrs": 29.71,
+        "motor_error": 0.36,
+        "predicted_total_updrs": 36.91,
+        "actual_total_updrs": 34.37,
+        "total_error": 2.55,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0021",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 19.62,
+        "actual_motor_updrs": 20.59,
+        "motor_error": 0.97,
+        "predicted_total_updrs": 24.68,
+        "actual_total_updrs": 25.03,
+        "total_error": 0.35,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0022",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 25.01,
+        "actual_motor_updrs": 24.49,
+        "motor_error": 0.52,
+        "predicted_total_updrs": 32.63,
+        "actual_total_updrs": 30.08,
+        "total_error": 2.55,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0023",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 21.99,
+        "actual_motor_updrs": 22.74,
+        "motor_error": 0.74,
+        "predicted_total_updrs": 28.12,
+        "actual_total_updrs": 28.74,
+        "total_error": 0.62,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0024",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 18.2,
+        "actual_motor_updrs": 17.89,
+        "motor_error": 0.31,
+        "predicted_total_updrs": 21.96,
+        "actual_total_updrs": 20.18,
+        "total_error": 1.77,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      },
+      {
+        "test_id": "TELE-TEST-0025",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "telemonitoring",
+        "predicted_motor_updrs": 35.5,
+        "actual_motor_updrs": 36.87,
+        "motor_error": 1.36,
+        "predicted_total_updrs": 51.82,
+        "actual_total_updrs": 54.87,
+        "total_error": 3.05,
+        "confidence": 91.0,
+        "model_version": "Ensemble-XGBoost-MLP-v1",
+        "clinical_distinction": "Predicted UPDRS progression estimate; physical in-clinic exam remains primary standard."
+      }
+    ],
+    "fusion": [
+      {
+        "test_id": "FUSION-TEST-0001",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5649,
+          "mri": 0.0,
+          "voice": 0.4351,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.77,
+        "uncertainty": 0.23,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.8% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0002",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5325,
+          "mri": 0.0,
+          "voice": 0.4675,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 98.19,
+        "uncertainty": 1.81,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 98.2% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0003",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5311,
+          "mri": 0.0,
+          "voice": 0.4689,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 98.08,
+        "uncertainty": 1.92,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 98.1% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0004",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5928,
+          "mri": 0.0,
+          "voice": 0.4072,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.96,
+        "uncertainty": 0.04,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 100.0% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0005",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5253,
+          "mri": 0.0,
+          "voice": 0.4747,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 95.7,
+        "uncertainty": 4.3,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 95.7% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0006",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5663,
+          "mri": 0.0,
+          "voice": 0.4337,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.81,
+        "uncertainty": 0.19,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.8% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0007",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5862,
+          "mri": 0.0,
+          "voice": 0.4138,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 99.94,
+        "uncertainty": 0.06,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.9% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0008",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5392,
+          "mri": 0.0,
+          "voice": 0.4608,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Normal",
+        "prediction": "Normal",
+        "confidence": 98.76,
+        "uncertainty": 1.24,
+        "is_correct": true,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 98.8% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0009",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5256,
+          "mri": 0.0,
+          "voice": 0.4744,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 99.83,
+        "uncertainty": 0.17,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.8% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0010",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5134,
+          "mri": 0.0,
+          "voice": 0.4866,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 98.78,
+        "uncertainty": 1.22,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 98.8% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0011",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.4881,
+          "mri": 0.0,
+          "voice": 0.5119,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 95.58,
+        "uncertainty": 4.42,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 95.6% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0012",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5002,
+          "mri": 0.0,
+          "voice": 0.4998,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 97.32,
+        "uncertainty": 2.68,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 97.3% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0013",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5112,
+          "mri": 0.0,
+          "voice": 0.4888,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 97.56,
+        "uncertainty": 2.44,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 97.6% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0014",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5074,
+          "mri": 0.0,
+          "voice": 0.4926,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 94.13,
+        "uncertainty": 5.87,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 94.1% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0015",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5047,
+          "mri": 0.0,
+          "voice": 0.4953,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 92.05,
+        "uncertainty": 7.95,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 92.0% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0016",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.518,
+          "mri": 0.0,
+          "voice": 0.482,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 99.63,
+        "uncertainty": 0.37,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.6% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0017",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5028,
+          "mri": 0.0,
+          "voice": 0.4972,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 98.93,
+        "uncertainty": 1.07,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 98.9% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0018",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.4937,
+          "mri": 0.0,
+          "voice": 0.5063,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 86.89,
+        "uncertainty": 13.11,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 86.9% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0019",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.4943,
+          "mri": 0.0,
+          "voice": 0.5057,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 90.76,
+        "uncertainty": 9.24,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 90.8% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0020",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.4849,
+          "mri": 0.0,
+          "voice": 0.5151,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 93.06,
+        "uncertainty": 6.94,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 93.1% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0021",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5186,
+          "mri": 0.0,
+          "voice": 0.4814,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 99.21,
+        "uncertainty": 0.79,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.2% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0022",
+        "patient_id": "PAT-2001",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5264,
+          "mri": 0.0,
+          "voice": 0.4736,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 99.8,
+        "uncertainty": 0.2,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.8% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0023",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5075,
+          "mri": 0.0,
+          "voice": 0.4925,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 96.03,
+        "uncertainty": 3.97,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 96.0% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0024",
+        "patient_id": "PAT-1082",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5225,
+          "mri": 0.0,
+          "voice": 0.4775,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 99.37,
+        "uncertainty": 0.63,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 99.4% confidence."
+      },
+      {
+        "test_id": "FUSION-TEST-0025",
+        "patient_id": "PAT-1083",
+        "disease": "Parkinson's Disease",
+        "modality": "fusion",
+        "present_modalities": [
+          "spiral",
+          "voice"
+        ],
+        "missing_modalities": [
+          "mri",
+          "telemonitor"
+        ],
+        "modality_contributions": {
+          "spiral": 0.5173,
+          "mri": 0.0,
+          "voice": 0.4827,
+          "telemonitor": 0.0
+        },
+        "ground_truth": "Parkinson",
+        "prediction": "Normal",
+        "confidence": 98.5,
+        "uncertainty": 1.5,
+        "is_correct": false,
+        "model_version": "AttentionFusion-v1",
+        "clinical_review": "Multimodal analysis (spiral, voice) yielded 98.5% confidence."
+      }
+    ]
+  }
+}

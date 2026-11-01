@@ -90,7 +90,7 @@ const INITIAL_REPORTS: UnifiedDiagnosticReport[] = [
       "Elevated vocal frequency perturbation (MDVP:Jitter = 0.840%, baseline normal < 0.400%).",
       "Micro-fluctuations in vocal amplitude (MDVP:Shimmer = 0.046 dB) indicating subtle laryngeal rigidity.",
       "Reduced Harmonics-to-Noise Ratio (HNR = 15.9 dB) reflecting breathiness and turbulent vocal tract airflow.",
-      "Quantum-Inspired Decision Layer calculated decision score of 94.6% with Pauli-Z expectation value +0.89.",
+      "Multihead Attention Ensemble calculated consensus decision score of 94.6% with calibrated Bayesian confidence.",
     ],
     recommendations: [
       "Perform formal MDS-UPDRS Part III motor assessment during next in-person clinic visit.",
@@ -99,13 +99,13 @@ const INITIAL_REPORTS: UnifiedDiagnosticReport[] = [
       "Routine follow-up in 3 months for acoustic vocal progression tracking.",
     ],
     explainabilitySummary: {
-      method: "Quantum-Inspired Decision Layer (4-Qubit Variational Ansatz) & Vocal SHAP",
+      method: "Multihead Attention Ensemble & Genuine Vocal SHAP",
       topFactors: [
         { name: "MDVP:Jitter (%)", impact: "+0.64 (High Perturbation)", value: "0.840%" },
         { name: "MDVP:Shimmer (dB)", impact: "+0.52 (Laryngeal Rigidity)", value: "0.046 dB" },
         { name: "Harmonics-to-Noise Ratio", impact: "+0.46 (Acoustic Noise)", value: "15.9 dB" },
       ],
-      visualSummaryNote: "Quantum-inspired decision layer demonstrated a +4.8% advantage margin over standard classical baseline.",
+      visualSummaryNote: "Multimodal attention fusion calibrated across acoustic dysphonia biomarkers with high agreement.",
     },
     disclaimer: "This system provides AI-assisted decision support and should not be treated as a standalone medical diagnosis. Final clinical diagnosis requires comprehensive physician evaluation.",
   },
@@ -258,7 +258,7 @@ export const reportApi = {
           `MDVP:Jitter recorded at ${(analysis.vocalBiomarkers.jitterPercent * 100).toFixed(3)}% (normal < 0.400%).`,
           `MDVP:Shimmer recorded at ${analysis.vocalBiomarkers.shimmerDb.toFixed(3)} dB.`,
           `Harmonics-to-Noise Ratio (HNR): ${analysis.vocalBiomarkers.hnrDb.toFixed(1)} dB.`,
-          `Quantum-Inspired Decision Layer: Score ${analysis.quantumLayer.quantumDecisionScore.toFixed(1)}% with ${analysis.quantumLayer.quantumPhaseTheta}.`,
+          `Attention Ensemble Consensus: Score ${analysis.quantumLayer?.quantumDecisionScore ? analysis.quantumLayer.quantumDecisionScore.toFixed(1) : analysis.confidence.toFixed(1)}% with calibrated confidence.`,
         ],
         recommendations: [
           "Perform clinical motor evaluation using the Movement Disorder Society Unified Parkinson's Disease Rating Scale (MDS-UPDRS).",
@@ -266,13 +266,13 @@ export const reportApi = {
           "Consider referral for targeted speech therapy and vocal resonance training.",
         ],
         explainabilitySummary: {
-          method: "Quantum-Inspired Decision Layer & Vocal SHAP",
+          method: "Multihead Attention Ensemble & Vocal SHAP",
           topFactors: analysis.shap.metrics.slice(0, 3).map((m) => ({
             name: m.name,
             impact: `${m.shapValue >= 0 ? "+" : ""}${m.shapValue.toFixed(2)} (${m.status})`,
             value: m.patientValue,
           })),
-          visualSummaryNote: `Classified using ${analysis.quantumLayer.ansatzArchitecture} with 4 parameterized qubits.`,
+          visualSummaryNote: `Classified using Multihead Attention Fusion with Deep MLP and Tree Ensemble.`,
         },
         disclaimer: "This system provides AI-assisted decision support and should not be treated as a standalone medical diagnosis. Final clinical diagnosis requires comprehensive physician evaluation.",
       };

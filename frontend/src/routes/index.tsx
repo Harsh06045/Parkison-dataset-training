@@ -18,6 +18,7 @@ import { HistoryPage } from "@/pages/HistoryPage";
 import { ReportsPage } from "@/pages/ReportsPage";
 import { SettingsPage } from "@/pages/SettingsPage";
 import { DoctorNotificationsPage } from "@/pages/doctor/DoctorNotificationsPage";
+import { TestingDashboardPage } from "@/pages/TestingDashboardPage";
 
 // 2. Patient Portal Components & Pages
 import { PatientLayout } from "@/components/layout/PatientLayout";
@@ -217,6 +218,8 @@ export function MainAppShell() {
               onNavigateToReports={() => navigateTo("/doctor/reports")}
             />
           );
+        case "/doctor/testing":
+          return <TestingDashboardPage />;
         case "/doctor/history":
           return (
             <HistoryPage

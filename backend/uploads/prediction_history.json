@@ -1,0 +1,866 @@
+[
+  {
+    "id": "PD-PRED-1B0A43",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "attention_fusion_v1",
+    "modality": "fusion",
+    "disease": "Parkinson's Disease",
+    "prediction": "Normal",
+    "confidence": 95.8,
+    "uncertainty": 18.77,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Multimodal assessment combined 1 modality/modalities (voice). Primary attention contribution was driven by Voice (100.0%). Overall diagnostic confidence is 95.8% with an estimated uncertainty of 18.8%.",
+    "details": {
+      "present_modalities": [
+        "voice"
+      ],
+      "missing_modalities": [
+        "spiral",
+        "mri",
+        "telemonitor"
+      ],
+      "modality_contributions": {
+        "spiral": 0.0,
+        "mri": 0.0,
+        "voice": 1.0,
+        "telemonitor": 0.0
+      },
+      "ood_analysis": {
+        "is_out_of_distribution": false,
+        "ood_anomaly_score": 17.29,
+        "modality_flags": {
+          "voice_ood": false
+        }
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:18:18.175709",
+    "created_at": "2026-11-01T18:18:18.175709"
+  },
+  {
+    "id": "PD-PRED-B94AA8",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "telemonitor_xgboost_v1",
+    "modality": "telemonitoring",
+    "disease": "Parkinson's Disease",
+    "prediction": "UPDRS Assessment",
+    "confidence": 91.0,
+    "uncertainty": 0.6,
+    "motor_updrs": 21.22,
+    "total_updrs": 27.39,
+    "clinical_notes": "Predicted continuous motor UPDRS: 21.22, total UPDRS: 27.39.",
+    "details": {
+      "csv_filename": "sample_telemonitor.csv",
+      "motor_updrs": 21.22,
+      "total_updrs": 27.39,
+      "confidence_intervals": {
+        "motor": [
+          20.24,
+          22.2
+        ],
+        "total": [
+          26.41,
+          28.37
+        ]
+      },
+      "shap_summary": "/plots/telemonitor_shap_summary.png",
+      "clinical_type": "PREDICTED_UPDRS_ASSESSMENT"
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:18:17.887221",
+    "created_at": "2026-11-01T18:18:17.887221"
+  },
+  {
+    "id": "PD-PRED-8364FF",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "spiral_resnet18_v1",
+    "modality": "spiral",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 100.0,
+    "uncertainty": 0.0,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Spiral drawing analysis: Parkinson (100.0% confidence).",
+    "details": {
+      "image_filename": "H_P000-0001_static.png",
+      "gradcam_overlay": "/plots/spiral_overlay.png",
+      "quality": {
+        "valid": true,
+        "width": 224,
+        "height": 224,
+        "contrast_std": 61.42,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:18:15.517633",
+    "created_at": "2026-11-01T18:18:15.517633"
+  },
+  {
+    "id": "PD-PRED-750887",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "voice_catboost_v1",
+    "modality": "voice",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 69.13,
+    "uncertainty": 2.28,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Vocal phonation analysis: Parkinson (69.13% confidence).",
+    "details": {
+      "audio_filename": "sample_voice.wav",
+      "acoustic_features": {
+        "MDVP:Fo(Hz)": 151.0274,
+        "MDVP:Fhi(Hz)": 151.0274,
+        "MDVP:Flo(Hz)": 151.0274,
+        "MDVP:Jitter(%)": 2e-05,
+        "MDVP:Jitter(Abs)": 0.0,
+        "MDVP:RAP": 2e-05,
+        "MDVP:PPQ": 2e-05,
+        "Jitter:DDP": 5e-05,
+        "MDVP:Shimmer": 0.0,
+        "MDVP:Shimmer(dB)": 0.0,
+        "Shimmer:APQ3": 0.0,
+        "Shimmer:APQ5": 0.0,
+        "MDVP:APQ": 0.0,
+        "Shimmer:DDA": 0.0,
+        "NHR": 0.16416,
+        "HNR": 7.84739,
+        "RPDE": 0.24268,
+        "DFA": 0.4,
+        "spread1": -8.0,
+        "spread2": 0.15,
+        "D2": 1.4,
+        "PPE": 0.05
+      },
+      "shap_summary": "/plots/voice_shap_summary.png",
+      "quality": {
+        "valid": true,
+        "duration": 2.0,
+        "rms": 0.7071,
+        "snr_db": 16.0,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:18:14.878038",
+    "created_at": "2026-11-01T18:18:14.878038"
+  },
+  {
+    "id": "PD-PRED-CBC145",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "attention_fusion_v1",
+    "modality": "fusion",
+    "disease": "Parkinson's Disease",
+    "prediction": "Normal",
+    "confidence": 99.92,
+    "uncertainty": 5.22,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Multimodal assessment combined 2 modality/modalities (spiral, voice). Primary attention contribution was driven by Spiral (53.7%). Overall diagnostic confidence is 99.9% with an estimated uncertainty of 5.2%.",
+    "details": {
+      "present_modalities": [
+        "spiral",
+        "voice"
+      ],
+      "missing_modalities": [
+        "mri",
+        "telemonitor"
+      ],
+      "modality_contributions": {
+        "spiral": 0.5372,
+        "mri": 0.0,
+        "voice": 0.4628,
+        "telemonitor": 0.0
+      },
+      "ood_analysis": {
+        "is_out_of_distribution": false,
+        "ood_anomaly_score": 17.29,
+        "modality_flags": {
+          "voice_ood": false,
+          "drawing_ood": false
+        }
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:17:51.294211",
+    "created_at": "2026-11-01T18:17:51.294211"
+  },
+  {
+    "id": "PD-PRED-F214E2",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "telemonitor_xgboost_v1",
+    "modality": "telemonitoring",
+    "disease": "Parkinson's Disease",
+    "prediction": "UPDRS Assessment",
+    "confidence": 91.0,
+    "uncertainty": 0.6,
+    "motor_updrs": 21.22,
+    "total_updrs": 27.39,
+    "clinical_notes": "Predicted continuous motor UPDRS: 21.22, total UPDRS: 27.39.",
+    "details": {
+      "csv_filename": "test_tele_p5.csv",
+      "motor_updrs": 21.22,
+      "total_updrs": 27.39,
+      "confidence_intervals": {
+        "motor": [
+          20.24,
+          22.2
+        ],
+        "total": [
+          26.41,
+          28.37
+        ]
+      },
+      "shap_summary": "/plots/telemonitor_shap_summary.png",
+      "clinical_type": "PREDICTED_UPDRS_ASSESSMENT"
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:17:50.676593",
+    "created_at": "2026-11-01T18:17:50.676593"
+  },
+  {
+    "id": "PD-PRED-993311",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "spiral_resnet18_v1",
+    "modality": "spiral",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 100.0,
+    "uncertainty": 0.0,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Spiral drawing analysis: Parkinson (100.0% confidence).",
+    "details": {
+      "image_filename": "test_spiral_p5.png",
+      "gradcam_overlay": "/plots/spiral_overlay.png",
+      "quality": {
+        "valid": true,
+        "width": 224,
+        "height": 224,
+        "contrast_std": 61.42,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:17:48.273437",
+    "created_at": "2026-11-01T18:17:48.273437"
+  },
+  {
+    "id": "PD-PRED-8F4601",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "voice_catboost_v1",
+    "modality": "voice",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 69.13,
+    "uncertainty": 2.28,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Vocal phonation analysis: Parkinson (69.13% confidence).",
+    "details": {
+      "audio_filename": "test_voice_p5.wav",
+      "acoustic_features": {
+        "MDVP:Fo(Hz)": 151.0274,
+        "MDVP:Fhi(Hz)": 151.0274,
+        "MDVP:Flo(Hz)": 151.0274,
+        "MDVP:Jitter(%)": 2e-05,
+        "MDVP:Jitter(Abs)": 0.0,
+        "MDVP:RAP": 2e-05,
+        "MDVP:PPQ": 2e-05,
+        "Jitter:DDP": 5e-05,
+        "MDVP:Shimmer": 0.0,
+        "MDVP:Shimmer(dB)": 0.0,
+        "Shimmer:APQ3": 0.0,
+        "Shimmer:APQ5": 0.0,
+        "MDVP:APQ": 0.0,
+        "Shimmer:DDA": 0.0,
+        "NHR": 0.16416,
+        "HNR": 7.84739,
+        "RPDE": 0.24268,
+        "DFA": 0.4,
+        "spread1": -8.0,
+        "spread2": 0.15,
+        "D2": 1.4,
+        "PPE": 0.05
+      },
+      "shap_summary": "/plots/voice_shap_summary.png",
+      "quality": {
+        "valid": true,
+        "duration": 2.0,
+        "rms": 0.7071,
+        "snr_db": 16.0,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": true,
+    "deleted_at": "2026-11-01T18:17:51.389294",
+    "timestamp": "2026-11-01T18:17:47.449953",
+    "created_at": "2026-11-01T18:17:47.449953"
+  },
+  {
+    "id": "PD-PRED-021D2A",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "attention_fusion_v1",
+    "modality": "fusion",
+    "disease": "Parkinson's Disease",
+    "prediction": "Normal",
+    "confidence": 99.92,
+    "uncertainty": 5.22,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Multimodal assessment combined 2 modality/modalities (spiral, voice). Primary attention contribution was driven by Spiral (53.7%). Overall diagnostic confidence is 99.9% with an estimated uncertainty of 5.2%.",
+    "details": {
+      "present_modalities": [
+        "spiral",
+        "voice"
+      ],
+      "missing_modalities": [
+        "mri",
+        "telemonitor"
+      ],
+      "modality_contributions": {
+        "spiral": 0.5372,
+        "mri": 0.0,
+        "voice": 0.4628,
+        "telemonitor": 0.0
+      },
+      "ood_analysis": {
+        "is_out_of_distribution": false,
+        "ood_anomaly_score": 17.29,
+        "modality_flags": {
+          "voice_ood": false,
+          "drawing_ood": false
+        }
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:17:06.154401",
+    "created_at": "2026-11-01T18:17:06.154401"
+  },
+  {
+    "id": "PD-PRED-AD67E0",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "telemonitor_xgboost_v1",
+    "modality": "telemonitoring",
+    "disease": "Parkinson's Disease",
+    "prediction": "UPDRS Assessment",
+    "confidence": 91.0,
+    "uncertainty": 0.6,
+    "motor_updrs": 21.22,
+    "total_updrs": 27.39,
+    "clinical_notes": "Predicted continuous motor UPDRS: 21.22, total UPDRS: 27.39.",
+    "details": {
+      "csv_filename": "test_tele_p5.csv",
+      "motor_updrs": 21.22,
+      "total_updrs": 27.39,
+      "confidence_intervals": {
+        "motor": [
+          20.24,
+          22.2
+        ],
+        "total": [
+          26.41,
+          28.37
+        ]
+      },
+      "shap_summary": "/plots/telemonitor_shap_summary.png",
+      "clinical_type": "PREDICTED_UPDRS_ASSESSMENT"
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:17:05.645063",
+    "created_at": "2026-11-01T18:17:05.645063"
+  },
+  {
+    "id": "PD-PRED-8F42FD",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "spiral_resnet18_v1",
+    "modality": "spiral",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 100.0,
+    "uncertainty": 0.0,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Spiral drawing analysis: Parkinson (100.0% confidence).",
+    "details": {
+      "image_filename": "test_spiral_p5.png",
+      "gradcam_overlay": "/plots/spiral_overlay.png",
+      "quality": {
+        "valid": true,
+        "width": 224,
+        "height": 224,
+        "contrast_std": 61.42,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:17:03.271208",
+    "created_at": "2026-11-01T18:17:03.271208"
+  },
+  {
+    "id": "PD-PRED-BFC38D",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "voice_catboost_v1",
+    "modality": "voice",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 69.13,
+    "uncertainty": 2.28,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Vocal phonation analysis: Parkinson (69.13% confidence).",
+    "details": {
+      "audio_filename": "test_voice_p5.wav",
+      "acoustic_features": {
+        "MDVP:Fo(Hz)": 151.0274,
+        "MDVP:Fhi(Hz)": 151.0274,
+        "MDVP:Flo(Hz)": 151.0274,
+        "MDVP:Jitter(%)": 2e-05,
+        "MDVP:Jitter(Abs)": 0.0,
+        "MDVP:RAP": 2e-05,
+        "MDVP:PPQ": 2e-05,
+        "Jitter:DDP": 5e-05,
+        "MDVP:Shimmer": 0.0,
+        "MDVP:Shimmer(dB)": 0.0,
+        "Shimmer:APQ3": 0.0,
+        "Shimmer:APQ5": 0.0,
+        "MDVP:APQ": 0.0,
+        "Shimmer:DDA": 0.0,
+        "NHR": 0.16416,
+        "HNR": 7.84739,
+        "RPDE": 0.24268,
+        "DFA": 0.4,
+        "spread1": -8.0,
+        "spread2": 0.15,
+        "D2": 1.4,
+        "PPE": 0.05
+      },
+      "shap_summary": "/plots/voice_shap_summary.png",
+      "quality": {
+        "valid": true,
+        "duration": 2.0,
+        "rms": 0.7071,
+        "snr_db": 16.0,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": true,
+    "deleted_at": "2026-11-01T18:17:06.245248",
+    "timestamp": "2026-11-01T18:17:02.432731",
+    "created_at": "2026-11-01T18:17:02.432731"
+  },
+  {
+    "id": "PD-PRED-69F461",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "spiral_resnet18_v1",
+    "modality": "spiral",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 100.0,
+    "uncertainty": 0.0,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Spiral drawing analysis: Parkinson (100.0% confidence).",
+    "details": {
+      "image_filename": "test_spiral_p5.png",
+      "gradcam_overlay": "/plots/spiral_overlay.png",
+      "quality": {
+        "valid": true,
+        "width": 224,
+        "height": 224,
+        "contrast_std": 61.42,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:14:36.769650",
+    "created_at": "2026-11-01T18:14:36.769650"
+  },
+  {
+    "id": "PD-PRED-63AB27",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "voice_catboost_v1",
+    "modality": "voice",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 69.13,
+    "uncertainty": 2.28,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Vocal phonation analysis: Parkinson (69.13% confidence).",
+    "details": {
+      "audio_filename": "test_voice_p5.wav",
+      "acoustic_features": {
+        "MDVP:Fo(Hz)": 151.0274,
+        "MDVP:Fhi(Hz)": 151.0274,
+        "MDVP:Flo(Hz)": 151.0274,
+        "MDVP:Jitter(%)": 2e-05,
+        "MDVP:Jitter(Abs)": 0.0,
+        "MDVP:RAP": 2e-05,
+        "MDVP:PPQ": 2e-05,
+        "Jitter:DDP": 5e-05,
+        "MDVP:Shimmer": 0.0,
+        "MDVP:Shimmer(dB)": 0.0,
+        "Shimmer:APQ3": 0.0,
+        "Shimmer:APQ5": 0.0,
+        "MDVP:APQ": 0.0,
+        "Shimmer:DDA": 0.0,
+        "NHR": 0.16416,
+        "HNR": 7.84739,
+        "RPDE": 0.24268,
+        "DFA": 0.4,
+        "spread1": -8.0,
+        "spread2": 0.15,
+        "D2": 1.4,
+        "PPE": 0.05
+      },
+      "shap_summary": "/plots/voice_shap_summary.png",
+      "quality": {
+        "valid": true,
+        "duration": 2.0,
+        "rms": 0.7071,
+        "snr_db": 16.0,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:14:35.952771",
+    "created_at": "2026-11-01T18:14:35.952771"
+  },
+  {
+    "id": "PD-PRED-D393E0",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "spiral_resnet18_v1",
+    "modality": "spiral",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 100.0,
+    "uncertainty": 0.0,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Spiral drawing analysis: Parkinson (100.0% confidence).",
+    "details": {
+      "image_filename": "test_spiral_p5.png",
+      "gradcam_overlay": "/plots/spiral_overlay.png",
+      "quality": {
+        "valid": true,
+        "width": 224,
+        "height": 224,
+        "contrast_std": 61.42,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:09:26.474654",
+    "created_at": "2026-11-01T18:09:26.474654"
+  },
+  {
+    "id": "PD-PRED-7143B2",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "voice_catboost_v1",
+    "modality": "voice",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 69.13,
+    "uncertainty": 2.28,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Vocal phonation analysis: Parkinson (69.13% confidence).",
+    "details": {
+      "audio_filename": "test_voice_p5.wav",
+      "acoustic_features": {
+        "MDVP:Fo(Hz)": 151.0274,
+        "MDVP:Fhi(Hz)": 151.0274,
+        "MDVP:Flo(Hz)": 151.0274,
+        "MDVP:Jitter(%)": 2e-05,
+        "MDVP:Jitter(Abs)": 0.0,
+        "MDVP:RAP": 2e-05,
+        "MDVP:PPQ": 2e-05,
+        "Jitter:DDP": 5e-05,
+        "MDVP:Shimmer": 0.0,
+        "MDVP:Shimmer(dB)": 0.0,
+        "Shimmer:APQ3": 0.0,
+        "Shimmer:APQ5": 0.0,
+        "MDVP:APQ": 0.0,
+        "Shimmer:DDA": 0.0,
+        "NHR": 0.16416,
+        "HNR": 7.84739,
+        "RPDE": 0.24268,
+        "DFA": 0.4,
+        "spread1": -8.0,
+        "spread2": 0.15,
+        "D2": 1.4,
+        "PPE": 0.05
+      },
+      "shap_summary": "/plots/voice_shap_summary.png",
+      "quality": {
+        "valid": true,
+        "duration": 2.0,
+        "rms": 0.7071,
+        "snr_db": 16.0,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:09:25.675137",
+    "created_at": "2026-11-01T18:09:25.675137"
+  },
+  {
+    "id": "PD-PRED-3AE077",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "spiral_resnet18_v1",
+    "modality": "spiral",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 100.0,
+    "uncertainty": 0.0,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Spiral drawing analysis: Parkinson (100.0% confidence).",
+    "details": {
+      "image_filename": "test_spiral_p5.png",
+      "gradcam_overlay": "/plots/spiral_overlay.png",
+      "quality": {
+        "valid": true,
+        "width": 224,
+        "height": 224,
+        "contrast_std": 61.42,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:08:04.714756",
+    "created_at": "2026-11-01T18:08:04.714756"
+  },
+  {
+    "id": "PD-PRED-58C6D5",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "voice_catboost_v1",
+    "modality": "voice",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 69.13,
+    "uncertainty": 2.28,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Vocal phonation analysis: Parkinson (69.13% confidence).",
+    "details": {
+      "audio_filename": "test_voice_p5.wav",
+      "acoustic_features": {
+        "MDVP:Fo(Hz)": 151.0274,
+        "MDVP:Fhi(Hz)": 151.0274,
+        "MDVP:Flo(Hz)": 151.0274,
+        "MDVP:Jitter(%)": 2e-05,
+        "MDVP:Jitter(Abs)": 0.0,
+        "MDVP:RAP": 2e-05,
+        "MDVP:PPQ": 2e-05,
+        "Jitter:DDP": 5e-05,
+        "MDVP:Shimmer": 0.0,
+        "MDVP:Shimmer(dB)": 0.0,
+        "Shimmer:APQ3": 0.0,
+        "Shimmer:APQ5": 0.0,
+        "MDVP:APQ": 0.0,
+        "Shimmer:DDA": 0.0,
+        "NHR": 0.16416,
+        "HNR": 7.84739,
+        "RPDE": 0.24268,
+        "DFA": 0.4,
+        "spread1": -8.0,
+        "spread2": 0.15,
+        "D2": 1.4,
+        "PPE": 0.05
+      },
+      "shap_summary": "/plots/voice_shap_summary.png",
+      "quality": {
+        "valid": true,
+        "duration": 2.0,
+        "rms": 0.7071,
+        "snr_db": 16.0,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:08:03.886740",
+    "created_at": "2026-11-01T18:08:03.886740"
+  },
+  {
+    "id": "PD-PRED-544A6B",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "spiral_resnet18_v1",
+    "modality": "spiral",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 100.0,
+    "uncertainty": 0.0,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Spiral drawing analysis: Parkinson (100.0% confidence).",
+    "details": {
+      "image_filename": "test_spiral_p5.png",
+      "gradcam_overlay": "/plots/spiral_overlay.png",
+      "quality": {
+        "valid": true,
+        "width": 224,
+        "height": 224,
+        "contrast_std": 61.42,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:05:12.231382",
+    "created_at": "2026-11-01T18:05:12.231382"
+  },
+  {
+    "id": "PD-PRED-F018F4",
+    "patient_id": "PAT-1083",
+    "patient_name": "Eleanor Vance",
+    "doctor_id": "DOC-8921",
+    "doctor_name": "Dr. Clara Rodriguez, MD",
+    "model_version_id": "voice_catboost_v1",
+    "modality": "voice",
+    "disease": "Parkinson's Disease",
+    "prediction": "Parkinson",
+    "confidence": 69.13,
+    "uncertainty": 2.28,
+    "motor_updrs": null,
+    "total_updrs": null,
+    "clinical_notes": "Vocal phonation analysis: Parkinson (69.13% confidence).",
+    "details": {
+      "audio_filename": "test_voice_p5.wav",
+      "acoustic_features": {
+        "MDVP:Fo(Hz)": 151.0274,
+        "MDVP:Fhi(Hz)": 151.0274,
+        "MDVP:Flo(Hz)": 151.0274,
+        "MDVP:Jitter(%)": 2e-05,
+        "MDVP:Jitter(Abs)": 0.0,
+        "MDVP:RAP": 2e-05,
+        "MDVP:PPQ": 2e-05,
+        "Jitter:DDP": 5e-05,
+        "MDVP:Shimmer": 0.0,
+        "MDVP:Shimmer(dB)": 0.0,
+        "Shimmer:APQ3": 0.0,
+        "Shimmer:APQ5": 0.0,
+        "MDVP:APQ": 0.0,
+        "Shimmer:DDA": 0.0,
+        "NHR": 0.16416,
+        "HNR": 7.84739,
+        "RPDE": 0.24268,
+        "DFA": 0.4,
+        "spread1": -8.0,
+        "spread2": 0.15,
+        "D2": 1.4,
+        "PPE": 0.05
+      },
+      "shap_summary": "/plots/voice_shap_summary.png",
+      "quality": {
+        "valid": true,
+        "duration": 2.0,
+        "rms": 0.7071,
+        "snr_db": 16.0,
+        "reason": "OK"
+      }
+    },
+    "files": [],
+    "is_deleted": false,
+    "deleted_at": null,
+    "timestamp": "2026-11-01T18:05:11.398360",
+    "created_at": "2026-11-01T18:05:11.398360"
+  }
+]
