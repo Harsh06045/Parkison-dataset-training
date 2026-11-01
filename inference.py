@@ -602,8 +602,14 @@ Examples:
     # =========================================================================
     if drawing_embedding is not None and mri_embedding is not None and voice_tensor is not None and tele_tensor is not None:
         print("Fusing All Modalities for Unified Parkinson Diagnosis...")
-        fusion_model = NotebookMultimodalClassifier(image_dim=256, mri_dim=256, voice_dim=22, clinical_dim=19, fusion_dim=32).to(device)
-        if load_pytorch_weights(fusion_model, 'outputs/checkpoints/fusion_best.pth'):
+        from training.models.fusion.attention_fusion import AttentionFusionClassifier
+        fusion_model = AttentionFusionClassifier(image_dim=256, mri_dim=256, voice_dim=22, clinical_dim=19, fusion_dim=64, num_heads=4, num_classes=2).to(device)
+        loaded = load_pytorch_weights(fusion_model, 'outputs/checkpoints/fusion_best.pth')
+        if not loaded:
+            fusion_model = NotebookMultimodalClassifier(image_dim=256, mri_dim=256, voice_dim=22, clinical_dim=19, fusion_dim=32).to(device)
+            loaded = load_pytorch_weights(fusion_model, 'outputs/checkpoints/fusion_best.pth')
+            
+        if loaded:
             try:
                 with torch.no_grad():
                     logits = fusion_model(drawing_embedding, mri_embedding, voice_tensor, tele_tensor)

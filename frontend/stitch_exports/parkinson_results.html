@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voice Analysis Result - NeuroFusionAI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#00201c",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#71f8e4",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-secondary-container": "#004666",
+                        "inverse-surface": "#213145",
+                        "on-primary-container": "#7c839b",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container": "#e5eeff",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#00201c",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed-dim": "#89ceff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed": "#c9e6ff",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-fixed-dim": "#4fdbc8",
+                        "on-tertiary-fixed-variant": "#005048",
+                        "on-primary": "#ffffff",
+                        "outline": "#76777d",
+                        "on-secondary-fixed": "#001e2f",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-container": "#009485",
+                        "primary": "#000000",
+                        "on-background": "#0b1c30",
+                        "secondary-container": "#39b8fd",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed-variant": "#004c6e",
+                        "secondary": "#006591"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "32px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "code-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "code-sm": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .waveform-bar {
+            animation: pulse-wave 1.5s infinite ease-in-out alternate;
+        }
+        @keyframes pulse-wave {
+            0% { height: 10%; opacity: 0.5; }
+            100% { height: 90%; opacity: 1; }
+        }
+        .circuit-line {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: dash 2s linear forwards;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased h-screen flex overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col z-50 bg-surface border-r border-outline-variant shadow-sm py-stack-md px-stack-md gap-stack-sm flex-shrink-0">
+<div class="mb-stack-lg px-2">
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary">NeuroFusionAI</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Clinical Portal</p>
+</div>
+<div class="flex-grow flex flex-col gap-unit">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">groups</span>
+<span class="font-label-md text-label-md">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">psychology</span>
+<span class="font-label-md text-label-md">New Analysis</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold transition-all scale-95 duration-75 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="font-label-md text-label-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-unit pt-stack-md border-t border-outline-variant">
+<button class="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white font-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-sm mb-4">
+<span class="material-symbols-outlined">add</span>
+                New Patient Scan
+            </button>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all scale-95 duration-75 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 flex flex-col h-full overflow-hidden relative">
+<!-- TopNavBar (Shared Component - Mobile/Desktop context hybrid) -->
+<header class="w-full h-16 flex items-center justify-between sticky top-0 z-40 bg-background border-b border-outline-variant shadow-sm px-margin-desktop">
+<div class="flex items-center gap-4 lg:hidden">
+<span class="material-symbols-outlined font-headline-md text-headline-md font-bold text-primary cursor-pointer">menu</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">NeuroFusionAI</span>
+</div>
+<!-- Breadcrumbs / Title for Desktop -->
+<div class="hidden lg:flex items-center text-on-surface-variant font-label-md">
+<span>History</span>
+<span class="material-symbols-outlined mx-2 text-sm">chevron_right</span>
+<span class="text-primary font-bold">Analysis Res-7782</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container-low transition-colors rounded-full p-2 active:opacity-80">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container-low transition-colors rounded-full p-2 active:opacity-80">help</span>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Dr. Smith's Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a clinical physician in a brightly lit modern hospital corridor, looking forward with a reassuring expression, clean modern medical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFJqN-O_wVk6key4ayaxw0ZIbI3PpQwIOftcKBSsdmep7DWTOIYkVJt0QFVauBKS8abL3z0a8sCClzkU469ikp_IVuF0Q9EzzidFVcud284e7VkKQwIgZrLgdMMIUvrCFuIaLIVwOn7KmTC6XFbXAJlEBM25HM6C9yPZ-_c8gMR_ezhpF7A5HS6czlvygaSd9kKrig1lAw-nw3YUCk85fdGWIbQNJnR_a2bPyoPF8S9oWOPjgVcx7W5g"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop">
+<div class="max-w-container-max mx-auto space-y-gutter">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-stack-lg border-b border-outline-variant pb-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Voice Analysis Result</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span> Oct 24, 2023 at 14:30
+                            <span class="mx-2 text-outline-variant">|</span>
+                            ID: V-7782-PD
+                        </p>
+</div>
+<div class="mt-4 md:mt-0 flex gap-3">
+<button class="bg-surface border border-[#006591] text-[#006591] hover:bg-surface-container-high font-label-md py-2 px-4 rounded-lg flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">download</span> Report
+                        </button>
+<button class="bg-[#0EA5E9] hover:bg-[#0284C7] text-white font-label-md py-2 px-4 rounded-lg flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">share</span> Share to EMR
+                        </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Section 1: Patient Info & Waveform (Col Span 7) -->
+<div class="col-span-1 lg:col-span-7 flex flex-col gap-gutter">
+<!-- Patient Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-stack-md shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary font-headline-md">
+                                    JD
+                                </div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Patient Subject</h3>
+<p class="font-headline-md text-body-lg font-semibold">John Doe, 68M</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-outline-variant">
+<div>
+<p class="font-label-md text-[11px] text-on-surface-variant uppercase">Task</p>
+<p class="font-body-md">Sustained 'Ah'</p>
+</div>
+<div>
+<p class="font-label-md text-[11px] text-on-surface-variant uppercase">Duration</p>
+<p class="font-body-md">15.4s</p>
+</div>
+<div>
+<p class="font-label-md text-[11px] text-on-surface-variant uppercase">Quality</p>
+<p class="font-body-md text-[#009485]">Optimal</p>
+</div>
+<div>
+<p class="font-label-md text-[11px] text-on-surface-variant uppercase">Baseline</p>
+<p class="font-body-md">-1.2 Mo</p>
+</div>
+</div>
+</div>
+<!-- Audio Waveform Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-stack-md shadow-sm flex flex-col h-full">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[#00201c]">file_download_done</span> Audio Signal Analysis
+                                </h3>
+<div class="flex gap-2">
+<button class="p-1 rounded hover:bg-surface-container"><span class="material-symbols-outlined text-sm">zoom_in</span></button>
+<button class="p-1 rounded hover:bg-surface-container"><span class="material-symbols-outlined text-sm">zoom_out</span></button>
+</div>
+</div>
+<!-- Simulated Waveform UI -->
+<div class="flex-1 bg-surface-container-low rounded-lg border border-outline-variant/50 p-4 relative overflow-hidden flex flex-col justify-end min-h-[160px]">
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#0EA5E9] via-transparent to-transparent"></div>
+<div class="flex items-end justify-between h-32 gap-[2px] z-10 w-full overflow-hidden">
+<!-- Generating random bars for visual -->
+<script>
+                                        for(let i=0; i<60; i++) {
+                                            const h = Math.random() * 80 + 10;
+                                            const delay = Math.random() * -2;
+                                            document.write(`<div class="w-2 bg-[#00201c] rounded-t-sm waveform-bar" style="height: ${h}%; animation-delay: ${delay}s; opacity: 0.7;"></div>`);
+                                        }
+                                    </script>
+</div>
+<!-- Overlay markers -->
+<div class="absolute top-4 left-1/3 bg-error/10 border border-error/20 text-error text-[10px] px-2 py-1 rounded font-code-sm">
+                                    Micro-tremor detected (3.2s)
+                                </div>
+</div>
+<!-- Player Controls -->
+<div class="flex items-center justify-between mt-4 px-2">
+<button class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-[#3f465c] transition-colors">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<div class="flex-1 mx-4 h-1 bg-outline-variant rounded-full relative">
+<div class="absolute left-0 top-0 h-full w-1/3 bg-[#0EA5E9] rounded-full"></div>
+<div class="absolute left-1/3 top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2 border-[#0EA5E9] rounded-full"></div>
+</div>
+<span class="font-code-sm text-on-surface-variant text-xs">00:05 / 00:15</span>
+<button class="ml-4 font-code-sm text-xs border border-outline-variant rounded px-2 py-1 hover:bg-surface">1.0x</button>
+</div>
+</div>
+</div>
+<!-- Section 2: Prediction Result (Col Span 5) -->
+<div class="col-span-1 lg:col-span-5 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-stack-lg shadow-sm h-full flex flex-col justify-center items-center text-center relative overflow-hidden">
+<!-- Subtle glowing background -->
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-[#0EA5E9]/10 rounded-full blur-3xl"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-8">AI Diagnostic Inference</h3>
+<!-- Circular Progress Indicator -->
+<div class="relative w-48 h-48 mb-6">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="#e5eeff" stroke-width="8"></circle>
+<circle class="transition-all duration-1000 ease-out" cx="50" cy="50" fill="none" r="45" stroke="#ba1a1a" stroke-dasharray="282.7" stroke-dashoffset="33.9" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-error">88<span class="text-2xl">%</span></span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md font-bold text-error mb-2">Parkinson's Risk Detected</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+                                High confidence of phonatory deviations consistent with early-stage PD vocal cord rigidity.
+                            </p>
+<div class="mt-8 w-full bg-error-container/30 border border-error/20 rounded-lg p-4 flex items-start gap-3 text-left">
+<span class="material-symbols-outlined text-error mt-0.5 text-sm">warning</span>
+<div>
+<h4 class="font-label-md text-sm text-on-error-container">Clinical Action Advised</h4>
+<p class="font-body-sm text-xs text-on-error-container/80 mt-1">Recommend comprehensive UPDRS motor evaluation and neurological consult.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: Quantum-Inspired Decision Layer (Full Width) -->
+<div class="col-span-1 lg:col-span-12 bg-[#0b1c30] rounded-xl border border-outline-variant overflow-hidden shadow-lg mt-stack-md relative h-[400px]">
+<!-- Title overlay -->
+<div class="absolute top-6 left-6 z-20">
+<h3 class="font-label-md text-label-md text-white uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[#71f8e4]">memory</span> Quantum-Inspired Decision Layer
+                            </h3>
+<p class="font-body-sm text-white/60 mt-1">Tensor Network State Visualization</p>
+</div>
+<!-- Visualization Canvas Placeholder (Using animation tag as requested for complex visuals) -->
+<div class="absolute inset-0 w-full h-full opacity-80 mix-blend-screen pointer-events-none">
+
+</div>
+<!-- Static Overlay UI mimicking quantum nodes mapping to decision -->
+<div class="absolute inset-0 flex items-center justify-between px-16 z-10 pointer-events-none">
+<!-- Input Features -->
+<div class="flex flex-col gap-6 w-1/4">
+<div class="flex justify-end items-center gap-3"><span class="text-white/80 font-code-sm text-xs bg-white/10 px-2 py-1 rounded">Jitter (Local)</span><div class="w-3 h-3 rounded-full bg-[#0EA5E9] shadow-[0_0_10px_#0EA5E9]"></div></div>
+<div class="flex justify-end items-center gap-3"><span class="text-white/80 font-code-sm text-xs bg-white/10 px-2 py-1 rounded">Shimmer (APQ11)</span><div class="w-3 h-3 rounded-full bg-[#71f8e4] shadow-[0_0_10px_#71f8e4]"></div></div>
+<div class="flex justify-end items-center gap-3"><span class="text-white/80 font-code-sm text-xs bg-white/10 px-2 py-1 rounded">HNR (Noise Ratio)</span><div class="w-3 h-3 rounded-full bg-[#39b8fd] shadow-[0_0_10px_#39b8fd]"></div></div>
+<div class="flex justify-end items-center gap-3"><span class="text-white/80 font-code-sm text-xs bg-white/10 px-2 py-1 rounded">PPE (Pitch Period)</span><div class="w-3 h-3 rounded-full bg-[#0EA5E9] shadow-[0_0_10px_#0EA5E9]"></div></div>
+</div>
+<!-- SVG Connecting Lines (Circuit) -->
+<svg class="absolute inset-0 w-full h-full" style="z-index:-1;">
+<path class="circuit-line" d="M 200 120 C 350 120, 350 200, 500 200" fill="none" stroke="rgba(14, 165, 233, 0.4)" stroke-width="2"></path>
+<path class="circuit-line" d="M 200 170 C 350 170, 350 200, 500 200" fill="none" stroke="rgba(113, 248, 228, 0.4)" stroke-width="2" style="animation-delay: 0.2s;"></path>
+<path class="circuit-line" d="M 200 220 C 350 220, 350 200, 500 200" fill="none" stroke="rgba(57, 184, 253, 0.4)" stroke-width="2" style="animation-delay: 0.4s;"></path>
+<path class="circuit-line" d="M 200 270 C 350 270, 350 200, 500 200" fill="none" stroke="rgba(14, 165, 233, 0.4)" stroke-width="2" style="animation-delay: 0.6s;"></path>
+<path class="circuit-line" d="M 500 200 C 650 200, 650 200, 800 200" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-dasharray="5,5" stroke-width="3" style="animation-delay: 1s;"></path>
+</svg>
+<!-- Hidden Space for Middle Shader -->
+<div class="w-1/2 flex justify-center items-center">
+<div class="w-24 h-24 border border-white/20 rounded-full flex items-center justify-center bg-black/40 backdrop-blur-sm">
+<span class="text-white font-code-sm text-xs opacity-50">Q-NODE</span>
+</div>
+</div>
+<!-- Output -->
+<div class="w-1/4 flex justify-start">
+<div class="bg-error/20 border border-error/50 p-4 rounded-xl backdrop-blur-md">
+<p class="text-white/70 font-label-md text-xs uppercase mb-1">Final Vector State</p>
+<p class="text-error font-headline-md font-bold">0.88 (Risk)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 4: SHAP Feature Contribution (Full Width) -->
+<div class="col-span-1 lg:col-span-12 bg-surface-container-lowest rounded-xl border border-outline-variant p-stack-lg shadow-sm mt-stack-sm mb-margin-desktop">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">insights</span> Feature Contribution (SHAP Values)
+                                </h3>
+<p class="font-body-sm text-sm text-on-surface-variant mt-1">Impact of individual vocal parameters on the final prediction.</p>
+</div>
+<div class="flex gap-4 text-xs font-code-sm">
+<div class="flex items-center gap-1"><div class="w-3 h-3 bg-error rounded-sm"></div> Pushes toward Risk</div>
+<div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#0EA5E9] rounded-sm"></div> Pushes toward Baseline</div>
+</div>
+</div>
+<!-- SHAP Chart -->
+<div class="w-full flex flex-col gap-4 mt-4">
+<!-- Axis -->
+<div class="flex justify-between text-xs font-code-sm text-on-surface-variant border-b border-outline-variant pb-2 px-[150px]">
+<span>-0.2 (Baseline)</span>
+<span>0</span>
+<span>+0.2 (Risk)</span>
+</div>
+<!-- Rows -->
+<div class="flex items-center">
+<div class="w-[150px] font-code-sm text-sm text-on-surface text-right pr-4">PPE</div>
+<div class="flex-1 relative h-6 flex items-center">
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-outline-variant z-0"></div>
+<div class="absolute left-1/2 h-4 bg-error rounded-r opacity-90 z-10" style="width: 35%;"></div>
+<span class="absolute right-[12%] text-xs font-code-sm text-error z-20">+0.14</span>
+</div>
+</div>
+<div class="flex items-center bg-surface-container-low rounded">
+<div class="w-[150px] font-code-sm text-sm text-on-surface text-right pr-4">DFA</div>
+<div class="flex-1 relative h-6 flex items-center">
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-outline-variant z-0"></div>
+<div class="absolute left-1/2 h-4 bg-error rounded-r opacity-90 z-10" style="width: 28%;"></div>
+<span class="absolute right-[19%] text-xs font-code-sm text-error z-20">+0.11</span>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-[150px] font-code-sm text-sm text-on-surface text-right pr-4">HNR</div>
+<div class="flex-1 relative h-6 flex items-center">
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-outline-variant z-0"></div>
+<div class="absolute right-1/2 h-4 bg-[#0EA5E9] rounded-l opacity-90 z-10" style="width: 15%;"></div>
+<span class="absolute left-[30%] text-xs font-code-sm text-[#006591] z-20">-0.06</span>
+</div>
+</div>
+<div class="flex items-center bg-surface-container-low rounded">
+<div class="w-[150px] font-code-sm text-sm text-on-surface text-right pr-4">Shimmer (APQ5)</div>
+<div class="flex-1 relative h-6 flex items-center">
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-outline-variant z-0"></div>
+<div class="absolute left-1/2 h-4 bg-error rounded-r opacity-90 z-10" style="width: 12%;"></div>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-[150px] font-code-sm text-sm text-on-surface text-right pr-4">Jitter (Abs)</div>
+<div class="flex-1 relative h-6 flex items-center">
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-outline-variant z-0"></div>
+<div class="absolute left-1/2 h-4 bg-error rounded-r opacity-90 z-10" style="width: 8%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

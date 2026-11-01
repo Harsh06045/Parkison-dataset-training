@@ -98,8 +98,11 @@ class ModelLoader:
             print(f"  ✗ WARNING: Telemonitoring XGBoost model not found at {TELEMONITOR_XGB_PATH}")
 
         # 7. Fusion Model
-        self.fusion_model = MultimodalClassifier(image_dim=256, mri_dim=256, voice_dim=22, clinical_dim=19, fusion_dim=32).to(self.device)
-        self._load_pytorch_weights(self.fusion_model, FUSION_MODEL_PATH)
+        from training.models.fusion.attention_fusion import AttentionFusionClassifier
+        self.fusion_model = AttentionFusionClassifier(image_dim=256, mri_dim=256, voice_dim=22, clinical_dim=19, fusion_dim=64, num_heads=4, num_classes=2).to(self.device)
+        if not self._load_pytorch_weights(self.fusion_model, FUSION_MODEL_PATH):
+            self.fusion_model = MultimodalClassifier(image_dim=256, mri_dim=256, voice_dim=22, clinical_dim=19, fusion_dim=32).to(self.device)
+            self._load_pytorch_weights(self.fusion_model, FUSION_MODEL_PATH)
         
         print("All models loaded successfully!")
 

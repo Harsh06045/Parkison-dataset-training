@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeuroFusionAI - Doctor Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#00201c",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#71f8e4",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-secondary-container": "#004666",
+                        "inverse-surface": "#213145",
+                        "on-primary-container": "#7c839b",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container": "#e5eeff",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#00201c",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed-dim": "#89ceff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed": "#c9e6ff",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-fixed-dim": "#4fdbc8",
+                        "on-tertiary-fixed-variant": "#005048",
+                        "on-primary": "#ffffff",
+                        "outline": "#76777d",
+                        "on-secondary-fixed": "#001e2f",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-container": "#009485",
+                        "primary": "#000000",
+                        "on-background": "#0b1c30",
+                        "secondary-container": "#39b8fd",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed-variant": "#004c6e",
+                        "secondary": "#006591"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "32px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "code-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "code-sm": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased h-screen w-screen overflow-hidden flex">
+<!-- Left Pane: Branding & Imagery -->
+<div class="hidden lg:flex w-1/2 bg-primary-container text-on-primary flex-col justify-between relative overflow-hidden">
+<!-- Subtle Neural Network Graphic Background (CSS Pattern) -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.2) 1px, transparent 0); background-size: 32px 32px;">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="100" id="neural-net" patternunits="userSpaceOnUse" width="100">
+<circle cx="20" cy="20" fill="#ffffff" r="3"></circle>
+<circle cx="80" cy="30" fill="#ffffff" r="4"></circle>
+<circle cx="40" cy="80" fill="#ffffff" r="3"></circle>
+<line stroke="#ffffff" stroke-width="0.5" x1="20" x2="80" y1="20" y2="30"></line>
+<line stroke="#ffffff" stroke-width="0.5" x1="20" x2="40" y1="20" y2="80"></line>
+<line stroke="#ffffff" stroke-width="0.5" x1="80" x2="40" y1="30" y2="80"></line>
+</pattern>
+</defs>
+<rect fill="url(#neural-net)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<!-- Abstract Medical Image placeholder -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center mix-blend-overlay opacity-30" data-alt="A highly detailed abstract representation of a human brain composed of glowing digital nodes and interconnecting neural pathways, set against a deep medical blue background. The aesthetic is modern, clinical, and technologically advanced, conveying artificial intelligence in healthcare. High-key lighting highlights the intricate network structure." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNh2RFnP4trvhJG9v4peoUJjWUsSAM3hFrbn9Sk_FUHPQR7RrDNuXec9jzp-eIrC2e2ttITNDJFnCbQJQxaDV_8wT_VzGdR7EYRTVYQlMJLiDvO1wqrfY6-KNU_AvJD308LfX0JS-XIzyNb2JE46qhPh8kazpriy8bEt9mID8SUsKpTaZSvS76xCOAvuqouyKsh8mfRf6ovLguV1cRTD4h9jY6581bVcVgbdTy4QcvvDTAieMB60QE5A')"></div>
+</div>
+<div class="p-margin-desktop z-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-4xl" data-icon="psychology">psychology</span>
+<span class="font-headline-md text-headline-md font-extrabold tracking-tight">NeuroFusionAI</span>
+</div>
+</div>
+<div class="p-margin-desktop z-10 mb-stack-lg">
+<h1 class="font-display-lg text-display-lg mb-stack-md leading-tight">
+                AI-assisted<br/>neurological analysis
+            </h1>
+<p class="font-body-lg text-body-lg text-primary-fixed opacity-90 max-w-md">
+                Empowering clinicians with advanced diagnostic insights and secure data management for unparalleled patient care.
+            </p>
+</div>
+</div>
+<!-- Right Pane: Login Form -->
+<div class="w-full lg:w-1/2 flex items-center justify-center p-margin-mobile md:p-margin-desktop bg-surface-container-lowest">
+<div class="w-full max-w-md space-y-stack-lg">
+<!-- Mobile Logo -->
+<div class="flex lg:hidden items-center gap-3 mb-stack-lg text-primary">
+<span class="material-symbols-outlined text-3xl" data-icon="psychology">psychology</span>
+<span class="font-headline-md text-headline-md font-bold tracking-tight">NeuroFusionAI</span>
+</div>
+<!-- Header -->
+<div>
+<h2 class="font-headline-lg text-headline-lg md:text-headline-lg mb-unit">Doctor Login</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Please enter your credentials to access the portal.</p>
+</div>
+<!-- Form -->
+<form class="space-y-stack-md" onsubmit="event.preventDefault();">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-unit" for="email">Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-xl" data-icon="mail">mail</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-[#0EA5E9] focus:border-[#0EA5E9] font-body-md text-body-md bg-surface-container-lowest" id="email" name="email" placeholder="dr.smith@hospital.org" required="" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-unit">
+<label class="block font-label-md text-label-md text-on-surface" for="password">Password</label>
+<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-xl" data-icon="lock">lock</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-[#0EA5E9] focus:border-[#0EA5E9] font-body-md text-body-md bg-surface-container-lowest" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<div class="flex items-center pt-unit">
+<input class="h-4 w-4 text-[#0EA5E9] focus:ring-[#0EA5E9] border-outline-variant rounded" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block font-body-sm text-body-sm text-on-surface-variant" for="remember-me">
+                        Remember me for 30 days
+                    </label>
+</div>
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm font-label-md text-label-md text-white bg-[#0EA5E9] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0EA5E9] transition-all" type="submit">
+                    Sign In
+                </button>
+</form>
+<!-- Badge -->
+<div class="flex items-center justify-center gap-2 pt-stack-md mt-stack-md border-t border-outline-variant">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" data-icon="verified_user">verified_user</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Secure Clinical Platform</span>
+</div>
+</div>
+</div>
+</body></html>
