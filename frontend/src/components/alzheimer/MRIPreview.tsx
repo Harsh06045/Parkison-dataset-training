@@ -30,8 +30,14 @@ export function MRIPreview({ previewUrl, filename, modality = "T1-Weighted" }: M
       {/* Screen Viewport */}
       <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-black border border-[#e2e8f0] flex items-center justify-center group shadow-inner">
         <img
-          src={previewUrl}
+          src={previewUrl || "/assets/xray-brain.jpg"}
           alt="MRI Ingestion Preview"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (!target.src.endsWith("/assets/xray-brain.jpg")) {
+              target.src = "/assets/xray-brain.jpg";
+            }
+          }}
           className="size-full object-cover transition-transform duration-200"
           style={{ transform: `scale(${zoom / 100})` }}
         />
@@ -81,11 +87,10 @@ export function MRIPreview({ previewUrl, filename, modality = "T1-Weighted" }: M
                 key={p}
                 type="button"
                 onClick={() => setPlane(p)}
-                className={`py-1.5 rounded-lg font-semibold transition-all capitalize ${
-                  plane === p
+                className={`py-1.5 rounded-lg font-semibold transition-all capitalize ${plane === p
                     ? "bg-[#0ea5e9] text-white font-bold shadow-sm"
                     : "bg-[#f8f9ff] border border-[#e2e8f0] text-[#64748b] hover:bg-[#e2e8f0]"
-                }`}
+                  }`}
               >
                 {p}
               </button>

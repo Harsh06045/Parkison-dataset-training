@@ -264,12 +264,12 @@ async def react_alzheimer_predict(
             "gradCam": {
                 "available": True,
                 "originalImageUrl": gradcam_res.get("original", "/plots/mri_original.png"),
-                "heatmapImageUrl": gradcam_res.get("heatmap", "/plots/mri_gradcam.png"),
+                "heatmapImageUrl": gradcam_res.get("heatmap") or gradcam_res.get("gradcam") or "/plots/mri_gradcam.png",
                 "overlayImageUrl": gradcam_res.get("overlay", "/plots/mri_overlay.png"),
                 "slices": {
-                    "axial": {"original": gradcam_res.get("original", "/plots/mri_original.png"), "heatmap": gradcam_res.get("heatmap", "/plots/mri_gradcam.png"), "overlay": gradcam_res.get("overlay", "/plots/mri_overlay.png")},
-                    "coronal": {"original": gradcam_res.get("original", "/plots/mri_original.png"), "heatmap": gradcam_res.get("heatmap", "/plots/mri_gradcam.png"), "overlay": gradcam_res.get("overlay", "/plots/mri_overlay.png")},
-                    "sagittal": {"original": gradcam_res.get("original", "/plots/mri_original.png"), "heatmap": gradcam_res.get("heatmap", "/plots/mri_gradcam.png"), "overlay": gradcam_res.get("overlay", "/plots/mri_overlay.png")}
+                    "axial": {"original": gradcam_res.get("original", "/plots/mri_original.png"), "heatmap": gradcam_res.get("heatmap") or gradcam_res.get("gradcam") or "/plots/mri_gradcam.png", "overlay": gradcam_res.get("overlay", "/plots/mri_overlay.png")},
+                    "coronal": {"original": gradcam_res.get("original", "/plots/mri_original.png"), "heatmap": gradcam_res.get("heatmap") or gradcam_res.get("gradcam") or "/plots/mri_gradcam.png", "overlay": gradcam_res.get("overlay", "/plots/mri_overlay.png")},
+                    "sagittal": {"original": gradcam_res.get("original", "/plots/mri_original.png"), "heatmap": gradcam_res.get("heatmap") or gradcam_res.get("gradcam") or "/plots/mri_gradcam.png", "overlay": gradcam_res.get("overlay", "/plots/mri_overlay.png")}
                 },
                 "regions": [
                     {"name": "Hippocampal Formation", "slicePlane": "Coronal", "relevanceScore": 88.5, "description": "Medial temporal lobe atrophy and volume reduction.", "coordinates": "X: 42, Y: 118, Z: 64"},
