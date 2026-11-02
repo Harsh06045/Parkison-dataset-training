@@ -27,7 +27,7 @@ from app.services.mri_service import predict_mri
 from app.services.gradcam_service import run_gradcam
 from app.services.history_service import history_service
 from explainability.shap_analysis import compute_real_shap_metrics
-from app.api import health, predict, fusion, report, explain, parkinson, testing
+from app.api import health, predict, fusion, report, explain, parkinson, testing, reports
 
 # #region agent log
 def _agent_log(hypothesis_id, location, message, data=None):
@@ -579,6 +579,10 @@ app.include_router(report.router, prefix="/api/v1/report", tags=["reports"])
 app.include_router(explain.router, tags=["explainability"])
 app.include_router(explain.router, prefix="/api", tags=["explainability"])
 app.include_router(explain.router, prefix="/api/v1", tags=["explainability"])
+
+# Primary Automated Patient Reports Router
+app.include_router(reports.router, prefix="/api/reports", tags=["patient-reports"])
+app.include_router(reports.router, prefix="/api/v1/reports", tags=["patient-reports"])
 
 # Clinical Testing Results & Evaluation Dashboard Router
 app.include_router(testing.router, prefix="/api/testing", tags=["testing-dashboard"])

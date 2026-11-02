@@ -132,7 +132,7 @@ def log_security_audit(
         req_id = getattr(request.state, "request_id", None) or request.headers.get("X-Request-ID")
         ip_addr = request.client.host if request.client else "unknown"
 
-    now = datetime.utcnow()
+    now = datetime.now()
     db = get_db_session()
     try:
         audit = AuditLog(

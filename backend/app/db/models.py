@@ -232,3 +232,77 @@ class AuditLog(Base):
             "timestamp": self.timestamp.isoformat() if self.timestamp else None
         }
 
+
+class ReportRecord(Base):
+    __tablename__ = "reports"
+
+    id = Column(String(64), primary_key=True)  # e.g., "REP-2026-A89F"
+    analysis_id = Column(String(64), nullable=True, index=True)  # Linked verified analysis ID
+    patient_id = Column(String(64), ForeignKey("patients.id"), nullable=False, index=True)
+    doctor_id = Column(String(64), ForeignKey("doctors.id"), nullable=True, index=True)
+    title = Column(String(256), default="NeuroFusionAI Patient Medical Report")
+    report_stage = Column(String(32), default="AI_ANALYSIS", nullable=False, index=True)  # AI_ANALYSIS or FINAL_CLINICAL
+    disease = Column(String(64), default="Neurodegenerative Assessment")
+    modality = Column(String(64), default="MRI / Multimodal")
+    prediction = Column(String(64), nullable=False)
+    confidence = Column(Float, nullable=False)
+    risk_level = Column(String(32), default="Moderate Risk")  # Low Risk, Moderate Risk, High Risk
+    pdf_path = Column(String(512), nullable=False)
+    file_size_bytes = Column(Integer, default=0)
+    status = Column(String(32), default="Finalized")  # Finalized, Pending Review, Draft
+    clinical_notes = Column(Text, nullable=True)
+    is_approved = Column(Boolean, default=False, nullable=False)
+    approved_by = Column(String(64), nullable=True)
+    approved_at = Column(DateTime, nullable=True)
+    report_data_json = Column(Text, nullable=True)  # Full structured payload
+    generated_by = Column(String(64), default="DOC-8921")
+    is_deleted = Column(Boolean, default=False, nullable=False, index=True)
+    deleted_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+
+    __table_args__ = (
+        Index("ix_reports_patient_created", "patient_id", "created_at"),
+        Index("ix_reports_doctor_created", "doctor_id", "created_at"),
+        Index("ix_reports_deleted_created", "is_deleted", "created_at"),
+    )
+
+    # Relationships
+    patient = relationship("Patient", backref="reports")
+    doctor = relationship("Doctor", backref="reports")
+
+    def to_dict(self):
+        data = {}
+        if self.report_data_json:
+            try:
+                data = json.loads(self.report_data_json)
+            except Exception:
+                data = {"raw": self.report_data_json}
+
+        return {
+            "id": self.id,
+            "analysis_id": self.analysis_id,
+            "patient_id": self.patient_id,
+            "patient_name": self.patient.full_name if self.patient else f"Patient {self.patient_id}",
+            "doctor_id": self.doctor_id,
+            "doctor_name": self.doctor.full_name if self.doctor else "Dr. Sarah Jenkins, MD, PhD",
+            "title": self.title,
+            "report_stage": self.report_stage,
+            "disease": self.disease,
+            "modality": self.modality,
+            "prediction": self.prediction,
+            "confidence": float(round(self.confidence, 2)),
+            "risk_level": self.risk_level,
+            "pdf_path": self.pdf_path,
+            "file_size_bytes": self.file_size_bytes,
+            "status": self.status,
+            "clinical_notes": self.clinical_notes,
+            "is_approved": self.is_approved,
+            "approved_by": self.approved_by,
+            "approved_at": self.approved_at.isoformat() if self.approved_at else None,
+            "download_url": f"/api/reports/{self.id}/download",
+            "report_data": data,
+            "generated_by": self.generated_by,
+            "is_deleted": self.is_deleted,
+            "created_at": self.created_at.isoformat() if self.created_at else None
+        }
+
