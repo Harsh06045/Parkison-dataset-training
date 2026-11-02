@@ -74,7 +74,7 @@ class ModelVersion(Base):
     __tablename__ = "model_versions"
 
     model_id = Column(String(64), primary_key=True)  # e.g., "resnet18-handpd-v1"
-    modality = Column(String(32), nullable=False)    # voice, spiral, telemonitoring, fusion, mri
+    modality = Column(String(128), nullable=False)    # voice, spiral, telemonitoring, fusion, mri
     architecture = Column(String(128), nullable=False)
     checkpoint_hash = Column(String(64), nullable=True)
     input_features = Column(Text, nullable=True)     # JSON string of input features
@@ -104,7 +104,7 @@ class PredictionRecord(Base):
     doctor_id = Column(String(64), ForeignKey("doctors.id"), nullable=True, index=True)
     model_version_id = Column(String(64), ForeignKey("model_versions.model_id"), nullable=True)
 
-    modality = Column(String(32), nullable=False, index=True)  # voice, spiral, telemonitoring, fusion, mri
+    modality = Column(String(128), nullable=False, index=True)  # voice, spiral, telemonitoring, fusion, mri
     disease = Column(String(64), default="Parkinson's Disease")
     prediction = Column(String(64), nullable=False)           # Parkinson, Normal, UPDRS Assessment
     confidence = Column(Float, nullable=False)

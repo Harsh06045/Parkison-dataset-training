@@ -12,9 +12,30 @@ from sqlalchemy.pool import StaticPool
 
 logger = logging.getLogger("neurofusion.db")
 
-from app.config import BACKEND_DIR
+from app.config import BACKEND_DIR, PROJECT_ROOT
 DEFAULT_SQLITE_PATH = os.path.join(BACKEND_DIR, "uploads", "parkinson_neon_store.db")
 os.makedirs(os.path.dirname(DEFAULT_SQLITE_PATH), exist_ok=True)
+
+# Helper to load .env.local and .env
+def _load_env_files():
+    for f in [".env.local", ".env"]:
+        for d in [PROJECT_ROOT, BACKEND_DIR]:
+            p = os.path.join(d, f)
+            if os.path.exists(p):
+                try:
+                    with open(p, "r", encoding="utf-8") as env_file:
+                        for line in env_file:
+                            line = line.strip()
+                            if line and not line.startswith("#") and "=" in line:
+                                k, v = line.split("=", 1)
+                                k = k.strip()
+                                v = v.strip().strip("'\"")
+                                if k not in os.environ:
+                                    os.environ[k] = v
+                except Exception:
+                    pass
+
+_load_env_files()
 
 # Read database URL from environment or .env
 DATABASE_URL = os.environ.get("NEON_DATABASE_URL") or os.environ.get("DATABASE_URL")
@@ -39,7 +60,7 @@ def _create_db_engine():
         try:
             logger.info("Connecting to primary PostgreSQL / Neon instance...")
             # Neon requires SSL; configure robust connection parameters
-            connect_args = {"connect_timeout": 3}
+            connect_args = {"connect_timeout": 10}
             if "neon.tech" in url or "sslmode" not in url:
                 if "?" in url:
                     if "sslmode=" not in url:

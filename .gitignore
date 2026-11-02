@@ -39,3 +39,4 @@ dist/
 frontend/**/dist/
 .env.local
 
+.neon

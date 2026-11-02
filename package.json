@@ -1,0 +1,12 @@
+{
+  "name": "neurofusion-ai",
+  "version": "1.0.0",
+  "description": "NeuroFusionAI Multimodal Diagnostic Backend with Neon PostgreSQL & Auth",
+  "scripts": {
+    "build": "neon config plan"
+  },
+  "dependencies": {
+    "@neon/config": "^1.10.0",
+    "@neon/env": "^1.6.8"
+  }
+}
