@@ -166,4 +166,25 @@ class MedicalStorageService:
                 db.close()
 
 
+    def delete_file(self, file_id: str, db: Optional[Session] = None) -> bool:
+        """Permanently delete file from storage and database."""
+        close_session = False
+        if db is None:
+            db = get_db_session()
+            close_session = True
+
+        try:
+            ref = db.query(FileReference).filter(FileReference.id == file_id).first()
+            if not ref:
+                return False
+            if os.path.exists(ref.storage_path):
+                os.remove(ref.storage_path)
+            db.delete(ref)
+            db.commit()
+            return True
+        finally:
+            if close_session:
+                db.close()
+
+
 storage_service = MedicalStorageService()

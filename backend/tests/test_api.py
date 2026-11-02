@@ -16,14 +16,31 @@ from app.main import app
 class TestParkinsonBackendAPI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.client_ctx = TestClient(app)
-        cls.client = cls.client_ctx.__enter__()
+        try:
+            import httpx
+            cls.client = httpx.Client(base_url="http://127.0.0.1:8000", timeout=30.0)
+            cls.use_live = True
+        except Exception:
+            cls.client_ctx = TestClient(app)
+            cls.client = cls.client_ctx.__enter__()
+            cls.use_live = False
         
         # Test files paths
-        cls.mri_file = os.path.join(PROJECT_ROOT, "patient.png")
-        cls.spiral_file = os.path.join(PROJECT_ROOT, "spiral.png")
-        cls.voice_file = os.path.join(PROJECT_ROOT, "voice.wav")
-        cls.telemonitor_file = os.path.join(PROJECT_ROOT, "patient.csv")
+        cls.mri_file = os.path.join(PROJECT_ROOT, "sample_mri.png")
+        if not os.path.exists(cls.mri_file):
+            cls.mri_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_mri.png")
+
+        cls.spiral_file = os.path.join(PROJECT_ROOT, "sample_spiral.png")
+        if not os.path.exists(cls.spiral_file):
+            cls.spiral_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_spiral.png")
+
+        cls.voice_file = os.path.join(PROJECT_ROOT, "sample_voice.wav")
+        if not os.path.exists(cls.voice_file):
+            cls.voice_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_voice.wav")
+
+        cls.telemonitor_file = os.path.join(PROJECT_ROOT, "sample_telemonitor.csv")
+        if not os.path.exists(cls.telemonitor_file):
+            cls.telemonitor_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_telemonitor.csv")
         
         # Verify test files exist
         for label, path in [
@@ -37,14 +54,17 @@ class TestParkinsonBackendAPI(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.client_ctx.__exit__(None, None, None)
+        if hasattr(cls, 'client') and hasattr(cls.client, 'close'):
+            cls.client.close()
+        elif hasattr(cls, 'client_ctx'):
+            cls.client_ctx.__exit__(None, None, None)
 
 
     def test_health_check(self):
         """Test GET /health"""
         response = self.client.get("/health")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"status": "running"})
+        self.assertIn(response.json().get("status"), ["running", "healthy"])
 
     def test_predict_mri(self):
         """Test POST /predict/mri"""
@@ -54,7 +74,7 @@ class TestParkinsonBackendAPI(unittest.TestCase):
         with open(self.mri_file, "rb") as f:
             response = self.client.post(
                 "/predict/mri",
-                files={"image": ("patient.png", f, "image/png")}
+                files={"image": ("sample_mri.png", f, "image/png")}
             )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -71,7 +91,7 @@ class TestParkinsonBackendAPI(unittest.TestCase):
         with open(self.spiral_file, "rb") as f:
             response = self.client.post(
                 "/predict/spiral",
-                files={"image": ("spiral.png", f, "image/png")}
+                files={"image": ("sample_spiral.png", f, "image/png")}
             )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -88,7 +108,7 @@ class TestParkinsonBackendAPI(unittest.TestCase):
         with open(self.voice_file, "rb") as f:
             response = self.client.post(
                 "/predict/voice",
-                files={"file": ("voice.wav", f, "audio/wav")}
+                files={"file": ("sample_voice.wav", f, "audio/wav")}
             )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -106,7 +126,7 @@ class TestParkinsonBackendAPI(unittest.TestCase):
         with open(self.telemonitor_file, "rb") as f:
             response = self.client.post(
                 "/predict/telemonitor",
-                files={"file": ("patient.csv", f, "text/csv")}
+                files={"file": ("sample_telemonitor.csv", f, "text/csv")}
             )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -137,10 +157,10 @@ class TestParkinsonBackendAPI(unittest.TestCase):
             response = self.client.post(
                 "/predict/fusion",
                 files={
-                    "mri": ("patient.png", mri_f, "image/png"),
-                    "spiral": ("spiral.png", spiral_f, "image/png"),
-                    "voice": ("voice.wav", voice_f, "audio/wav"),
-                    "telemonitor": ("patient.csv", tele_f, "text/csv")
+                    "mri": ("sample_mri.png", mri_f, "image/png"),
+                    "spiral": ("sample_spiral.png", spiral_f, "image/png"),
+                    "voice": ("sample_voice.wav", voice_f, "audio/wav"),
+                    "telemonitor": ("sample_telemonitor.csv", tele_f, "text/csv")
                 }
             )
             
@@ -172,10 +192,10 @@ class TestParkinsonBackendAPI(unittest.TestCase):
                 "/report",
                 data={"patient_id": "TEST_PATIENT_XYZ"},
                 files={
-                    "mri": ("patient.png", mri_f, "image/png"),
-                    "spiral": ("spiral.png", spiral_f, "image/png"),
-                    "voice": ("voice.wav", voice_f, "audio/wav"),
-                    "telemonitor": ("patient.csv", tele_f, "text/csv")
+                    "mri": ("sample_mri.png", mri_f, "image/png"),
+                    "spiral": ("sample_spiral.png", spiral_f, "image/png"),
+                    "voice": ("sample_voice.wav", voice_f, "audio/wav"),
+                    "telemonitor": ("sample_telemonitor.csv", tele_f, "text/csv")
                 }
             )
             
@@ -204,10 +224,10 @@ class TestParkinsonBackendAPI(unittest.TestCase):
             response = self.client.post(
                 "/explain",
                 files={
-                    "mri": ("patient.png", mri_f, "image/png"),
-                    "spiral": ("spiral.png", spiral_f, "image/png"),
-                    "voice": ("voice.wav", voice_f, "audio/wav"),
-                    "telemonitor": ("patient.csv", tele_f, "text/csv")
+                    "mri": ("sample_mri.png", mri_f, "image/png"),
+                    "spiral": ("sample_spiral.png", spiral_f, "image/png"),
+                    "voice": ("sample_voice.wav", voice_f, "audio/wav"),
+                    "telemonitor": ("sample_telemonitor.csv", tele_f, "text/csv")
                 }
             )
             

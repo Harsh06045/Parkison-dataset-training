@@ -70,8 +70,7 @@ def predict_fusion(drawing_embed=None, mri_embed=None, voice_tensor=None, tele_t
             - ood_analysis: out-of-distribution detection summary
             - clinical_review: clinical interpretation summary
     """
-    if loader.fusion_model is None:
-        raise RuntimeError("Multimodal Fusion model is not loaded.")
+    loader.require_model("fusion")
 
     device = loader.device
 
@@ -140,3 +139,7 @@ def predict_fusion(drawing_embed=None, mri_embed=None, voice_tensor=None, tele_t
         "clinical_review": review,
         "fusion": True
     }
+
+
+# Backwards compatibility alias
+predict_multimodal_fusion = predict_fusion

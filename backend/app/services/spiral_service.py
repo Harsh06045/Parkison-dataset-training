@@ -20,8 +20,7 @@ def predict_spiral(image_path_or_pil):
             - quality: image validation summary
             - embedding: 256-d latent feature tensor for multimodal fusion
     """
-    if loader.spiral_model is None:
-        raise RuntimeError("Spiral drawing model is not loaded.")
+    loader.require_model("spiral")
 
     device = loader.device
 

@@ -1,0 +1,31 @@
+{
+  "prediction": "Normal",
+  "confidence": 100.0,
+  "uncertainty": 2.5,
+  "raw_probability": 0.0,
+  "modality_contributions": {
+    "spiral": 0.2024,
+    "mri": 0.5873,
+    "voice": 0.2103,
+    "telemonitor": 0.0
+  },
+  "present_modalities": [
+    "spiral",
+    "mri",
+    "voice"
+  ],
+  "missing_modalities": [
+    "telemonitor"
+  ],
+  "ood_analysis": {
+    "is_out_of_distribution": false,
+    "ood_anomaly_score": 17.29,
+    "modality_flags": {
+      "voice_ood": false,
+      "drawing_ood": false,
+      "mri_ood": false
+    }
+  },
+  "clinical_review": "Multimodal assessment combined 3 modality/modalities (spiral, mri, voice). Primary attention contribution was driven by Mri (58.7%). Overall diagnostic confidence is 100.0% with an estimated uncertainty of 2.5%.",
+  "fusion": true
+}

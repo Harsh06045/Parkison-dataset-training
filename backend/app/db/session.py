@@ -12,7 +12,10 @@ from sqlalchemy.pool import StaticPool
 
 logger = logging.getLogger("neurofusion.db")
 
-from app.config import BACKEND_DIR, PROJECT_ROOT
+DB_DIR = os.path.dirname(os.path.abspath(__file__))
+APP_DIR = os.path.dirname(DB_DIR)
+BACKEND_DIR = os.path.dirname(APP_DIR)
+PROJECT_ROOT = os.path.dirname(BACKEND_DIR)
 DEFAULT_SQLITE_PATH = os.path.join(BACKEND_DIR, "uploads", "parkinson_neon_store.db")
 os.makedirs(os.path.dirname(DEFAULT_SQLITE_PATH), exist_ok=True)
 

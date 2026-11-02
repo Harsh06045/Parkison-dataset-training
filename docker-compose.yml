@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  neurofusion-backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: neurofusion-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=NeuroFusionAI - Parkinson Diagnostic Engine
+      - APP_ENV=production
+      - DEBUG=false
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-neurofusion-production-jwt-ecdsa-key-98472-clinical-sec}
+      - JWT_ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=1440
+      - MODEL_DEVICE=cpu
+    volumes:
+      - medical_storage:/app/backend/uploads/medical_storage
+      - medical_reports:/app/backend/storage/reports
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  medical_storage:
+    driver: local
+  medical_reports:
+    driver: local
+

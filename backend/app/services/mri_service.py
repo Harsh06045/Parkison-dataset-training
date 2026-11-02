@@ -8,8 +8,7 @@ def predict_mri(image_path_or_pil):
     Returns:
         dict: containing prediction class, confidence (percent), and raw embedding tensor.
     """
-    if loader.mri_model is None:
-        raise RuntimeError("MRI model is not loaded.")
+    loader.require_model("mri")
         
     device = loader.device
     

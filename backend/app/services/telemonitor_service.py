@@ -28,8 +28,7 @@ def predict_telemonitor(file_path, measurement_date=None):
             - measured_features: dictionary of patient's recorded values
             - tensor: PyTorch tensor for multimodal fusion
     """
-    if loader.telemonitor_mlp_model is None:
-        raise RuntimeError("Telemonitoring model is not loaded.")
+    loader.require_model("telemonitor_mlp")
 
     device = loader.device
 
@@ -101,3 +100,7 @@ def predict_telemonitor(file_path, measurement_date=None):
         "features_scaled": features_np,
         "tensor": tele_tensor
     }
+
+
+# Backwards compatibility alias
+predict_telemonitoring = predict_telemonitor

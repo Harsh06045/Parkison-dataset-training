@@ -428,16 +428,48 @@ class PatientReportService:
                 }
             }
 
-            # 14. Compile PDF Document with ReportLab
-            pdf_filename = f"{report_id}_{patient.id}_{report_stage.lower()}.pdf"
-            pdf_path = os.path.join(self.storage_dir, pdf_filename)
-            generate_patient_report(report_data, pdf_path)
-            file_size = os.path.getsize(pdf_path) if os.path.exists(pdf_path) else 0
+            # 14. Compile PDF Document with ReportLab & Save to Patient Isolated Folder
+            from app.services.patient_storage_service import patient_storage
+            p_filename, patient_pdf_path = patient_storage.get_next_report_filename(patient.id, now.strftime("%Y-%m-%d"))
+            generate_patient_report(report_data, patient_pdf_path)
+            file_size = os.path.getsize(patient_pdf_path) if os.path.exists(patient_pdf_path) else 0
+
+            # Also maintain backward-compatible copy in self.storage_dir
+            legacy_filename = f"{report_id}_{patient.id}_{report_stage.lower()}.pdf"
+            legacy_pdf_path = os.path.join(self.storage_dir, legacy_filename)
+            try:
+                import shutil
+                shutil.copy2(patient_pdf_path, legacy_pdf_path)
+            except Exception:
+                pass
+
+            rel_storage_path = f"patient_reports/{patient.id}/{p_filename}"
+
+            # Save to patient report_metadata.json
+            meta_entry = {
+                "report_id": report_id,
+                "patient_id": patient.id,
+                "analysis_id": analysis.id,
+                "report_filename": p_filename,
+                "relative_storage_path": rel_storage_path,
+                "report_stage": report_stage,
+                "is_approved": is_approved,
+                "doctor_id": doctor.id,
+                "disease": analysis.disease,
+                "modality": analysis.modality,
+                "prediction": pred_class,
+                "confidence": conf,
+                "risk_level": risk_level,
+                "status": "Finalized" if is_approved else "Preliminary AI Output",
+                "prediction_ids": [analysis.id]
+            }
+            patient_storage.save_patient_report_pdf(patient.id, patient_pdf_path, meta_entry)
 
             # 15. Persist ReportRecord to Database
             report_entity = ReportRecord(
                 id=report_id,
                 analysis_id=analysis.id,
+                assessment_id=analysis.id,
                 patient_id=patient.id,
                 doctor_id=doctor.id,
                 title=f"NeuroFusionAI Patient Medical Report ({report_stage.replace('_', ' ')})",
@@ -447,7 +479,9 @@ class PatientReportService:
                 prediction=pred_class,
                 confidence=conf,
                 risk_level=risk_level,
-                pdf_path=pdf_path,
+                pdf_path=patient_pdf_path,
+                relative_storage_path=rel_storage_path,
+                report_filename=p_filename,
                 file_size_bytes=file_size,
                 status="Finalized" if is_approved else "Preliminary AI Output",
                 clinical_notes=clinical_notes,

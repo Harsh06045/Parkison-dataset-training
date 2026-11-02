@@ -30,8 +30,7 @@ def predict_voice(file_path):
             - quality: audio validation info
             - tensor: PyTorch tensor for multimodal fusion
     """
-    if loader.voice_mlp_model is None:
-        raise RuntimeError("Voice MLP model is not loaded.")
+    loader.require_model("voice_mlp")
 
     device = loader.device
 

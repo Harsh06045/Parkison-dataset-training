@@ -28,6 +28,7 @@ from app.services.gradcam_service import run_gradcam
 from app.services.history_service import history_service
 from explainability.shap_analysis import compute_real_shap_metrics
 from app.api import health, predict, fusion, report, explain, parkinson, testing, reports
+from app.api.v1 import assessments
 
 # #region agent log
 def _agent_log(hypothesis_id, location, message, data=None):
@@ -398,6 +399,41 @@ async def list_alzheimer_analyses():
     return JSONResponse(content=[])
 
 def _frontend_patients():
+    try:
+        from app.db.session import get_db_session
+        from app.db.models import Patient
+        db = get_db_session()
+        db_patients = db.query(Patient).all()
+        db.close()
+        if db_patients:
+            res = []
+            for p in db_patients:
+                res.append({
+                    "id": p.id,
+                    "fullName": p.full_name,
+                    "age": p.age or 70,
+                    "gender": p.gender or "Unspecified",
+                    "dateOfBirth": p.date_of_birth.strftime("%Y-%m-%d") if p.date_of_birth else "1954-11-20",
+                    "contactNumber": p.contact_number or "+1 (555) 876-5432",
+                    "phone": p.contact_number or "+1 (555) 876-5432",
+                    "email": p.email or f"{p.id.lower()}@example.com",
+                    "riskLevel": p.risk_level or "Moderate",
+                    "primaryDiagnosis": p.primary_diagnosis or "Parkinson's Disease",
+                    "stage": p.stage or "Stage II",
+                    "lastAnalysisDate": p.last_analysis_date.strftime("%Y-%m-%d") if p.last_analysis_date else "2026-08-19",
+                    "lastVisit": p.last_analysis_date.strftime("%Y-%m-%d") if p.last_analysis_date else "2026-08-19",
+                    "totalAnalyses": p.total_analyses or 0,
+                    "analysesCount": p.total_analyses or 0,
+                    "medicalHistory": p.medical_history or "Clinical history on file.",
+                    "attendingPhysician": "Dr. Sarah Jenkins, MD",
+                    "assignedDoctor": "Dr. Sarah Jenkins, MD",
+                    "updrsScore": p.updrs_score or 25,
+                    "status": "Active",
+                })
+            return res
+    except Exception:
+        pass
+
     return [
         {
             "id": "PAT-1083",
@@ -465,6 +501,84 @@ async def get_patient(patient_id: str):
     return JSONResponse(content=found)
 
 
+@app.post("/patients", status_code=201, tags=["react-frontend", "patients"])
+@app.post("/api/v1/patients", status_code=201, tags=["react-frontend", "patients"])
+async def create_patient(payload: dict = Body(...)):
+    from app.schemas.patient import PatientCreate
+    from app.db.session import get_db_session
+    from app.db.models import Patient
+    try:
+        validated = PatientCreate(**payload)
+    except Exception as err:
+        return JSONResponse(status_code=400, content={"detail": "Patient validation failed.", "errors": str(err), "error_code": "VALIDATION_ERROR"})
+
+    db = get_db_session()
+    try:
+        pat_id = validated.id or f"PAT-{uuid.uuid4().hex[:6].upper()}"
+        # Check duplicate ID
+        existing = db.query(Patient).filter(Patient.id == pat_id).first()
+        if existing:
+            return JSONResponse(status_code=409, content={"detail": f"Patient with ID '{pat_id}' already exists.", "error_code": "DUPLICATE_PATIENT_ID"})
+        # Check duplicate Email
+        if validated.email:
+            existing_email = db.query(Patient).filter(Patient.email == validated.email).first()
+            if existing_email:
+                return JSONResponse(status_code=409, content={"detail": f"Patient with email '{validated.email}' already exists.", "error_code": "DUPLICATE_EMAIL"})
+
+        dob_dt = datetime.combine(validated.dateOfBirth, datetime.min.time()) if validated.dateOfBirth else None
+        new_patient = Patient(
+            id=pat_id,
+            full_name=validated.fullName,
+            age=validated.age,
+            gender=validated.gender,
+            email=validated.email,
+            contact_number=validated.phone,
+            date_of_birth=dob_dt,
+            primary_diagnosis=validated.primaryDiagnosis,
+            medical_history=validated.medicalHistory,
+            risk_level=validated.riskLevel or "Moderate",
+            stage=validated.stage or "Stage I",
+            created_at=datetime.utcnow()
+        )
+        db.add(new_patient)
+        db.commit()
+        db.refresh(new_patient)
+        return JSONResponse(status_code=201, content=new_patient.to_dict())
+    except Exception as e:
+        db.rollback()
+        return JSONResponse(status_code=500, content={"detail": str(e), "error_code": "DB_ERROR"})
+    finally:
+        db.close()
+
+
+@app.delete("/patients/{patient_id}", tags=["react-frontend", "patients"])
+@app.delete("/api/v1/patients/{patient_id}", tags=["react-frontend", "patients"])
+async def delete_patient_endpoint(patient_id: str):
+    from app.db.session import get_db_session
+    from app.db.models import Patient, ReportRecord, PredictionRecord, FileReference
+    db = get_db_session()
+    try:
+        p = db.query(Patient).filter(Patient.id == patient_id).first()
+        if not p:
+            return JSONResponse(status_code=404, content={"detail": f"Patient '{patient_id}' not found", "error_code": "HTTP_404"})
+        
+        # Cleanly cascade delete child predictions and reports for this patient
+        preds = db.query(PredictionRecord).filter(PredictionRecord.patient_id == patient_id).all()
+        for pr in preds:
+            db.query(FileReference).filter(FileReference.prediction_id == pr.id).delete()
+        db.query(ReportRecord).filter(ReportRecord.patient_id == patient_id).delete()
+        db.query(PredictionRecord).filter(PredictionRecord.patient_id == patient_id).delete()
+        
+        db.delete(p)
+        db.commit()
+        return JSONResponse(status_code=200, content={"status": "deleted", "patient_id": patient_id})
+    except Exception as e:
+        db.rollback()
+        return JSONResponse(status_code=500, content={"detail": str(e), "error_code": "DB_ERROR"})
+    finally:
+        db.close()
+
+
 @app.post("/auth/login", tags=["react-frontend"])
 @app.post("/api/v1/auth/login", tags=["react-frontend"])
 async def react_login(payload: dict = Body(default={})):
@@ -475,11 +589,11 @@ async def react_login(payload: dict = Body(default={})):
     email = str(payload.get("email") or "dr.jenkins@neurofusion.ai")
     profiles = {
         "doctor": {"id": "DOC-8921", "fullName": "Dr. Sarah Jenkins, MD, PhD", "medicalLicenseId": "MD-98472-NEURO", "specialization": "Cognitive Neurology & Movement Disorders", "hospital": "Metropolitan Neurological Institute", "department": "Division of Neurodegenerative Diseases"},
-        "patient": {"id": "PT-8942-AD", "fullName": "Eleanor Vance", "medicalLicenseId": "MRN-489201", "specialization": "Patient / Longitudinal Monitoring", "hospital": "Metropolitan Neurological Institute", "department": "Outpatient Memory & Movement Clinic"},
+        "patient": {"id": "PAT-1083", "fullName": "Eleanor Vance", "medicalLicenseId": "MRN-489201", "specialization": "Patient / Longitudinal Monitoring", "hospital": "Metropolitan Neurological Institute", "department": "Outpatient Memory & Movement Clinic"},
         "admin": {"id": "ADM-0042", "fullName": "Marcus Vance (Hospital IT Admin)", "medicalLicenseId": "IT-ADMIN-894", "specialization": "Chief Medical Information Officer", "hospital": "Metropolitan Health System", "department": "Clinical AI Governance"},
     }
     base = profiles.get(role, profiles["doctor"])
-    token = f"nf-{uuid.uuid4().hex}"
+    token = f"nf-{role}-{uuid.uuid4().hex}"
     user = {**base, "email": email, "role": role if role in profiles else "doctor", "token": token}
     return JSONResponse(content={"user": user, "token": token})
 
@@ -587,3 +701,7 @@ app.include_router(reports.router, prefix="/api/v1/reports", tags=["patient-repo
 # Clinical Testing Results & Evaluation Dashboard Router
 app.include_router(testing.router, prefix="/api/testing", tags=["testing-dashboard"])
 app.include_router(testing.router, prefix="/api/v1/testing", tags=["testing-dashboard"])
+
+# Patient Assessment Workflow & Isolated Reports Router
+app.include_router(assessments.router, prefix="/api", tags=["assessments"])
+app.include_router(assessments.router, prefix="/api/v1", tags=["assessments"])

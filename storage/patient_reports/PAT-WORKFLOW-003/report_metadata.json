@@ -1,0 +1,53 @@
+{
+  "patient_id": "PAT-WORKFLOW-003",
+  "total_reports": 2,
+  "last_updated": "2026-11-02T16:40:50.207434",
+  "reports": [
+    {
+      "report_id": "REP-20261102-E2E3D0",
+      "patient_id": "PAT-WORKFLOW-003",
+      "assessment_id": "ASM-PAT-WORKFLOW-003-20261102-F120",
+      "report_filename": "Report_PAT-WORKFLOW-003_2026-11-02_001.pdf",
+      "relative_storage_path": "patient_reports/PAT-WORKFLOW-003/Report_PAT-WORKFLOW-003_2026-11-02_001.pdf",
+      "file_size_bytes": 109113,
+      "sha256_checksum": "1cd4e9fd2759e587d5eef94114b990ad97523522f0bc56435c34ba0a1f2d2086",
+      "report_stage": "FINAL_CLINICAL",
+      "is_approved": true,
+      "doctor_id": "DOC-8921",
+      "disease": "Parkinson's Disease",
+      "modality": "Multimodal Assessment",
+      "prediction": "Normal",
+      "confidence": 75.16,
+      "risk_level": "Moderate Clinical Risk",
+      "status": "Finalized",
+      "prediction_ids": [
+        "PD-PRED-6E1C3E",
+        "PD-PRED-FD6EE7"
+      ],
+      "generated_timestamp": "2026-11-02T16:40:46.555142"
+    },
+    {
+      "report_id": "REP-20261102-EC0D7F",
+      "patient_id": "PAT-WORKFLOW-003",
+      "assessment_id": "ASM-PAT-WORKFLOW-003-20261102-F120",
+      "report_filename": "Report_PAT-WORKFLOW-003_2026-11-02_002.pdf",
+      "relative_storage_path": "patient_reports/PAT-WORKFLOW-003/Report_PAT-WORKFLOW-003_2026-11-02_002.pdf",
+      "file_size_bytes": 109119,
+      "sha256_checksum": "a754d6dd9df33b5bc5c1068231078ba4692054ae2d05ab33efe08579c3fe20a7",
+      "report_stage": "FINAL_CLINICAL",
+      "is_approved": true,
+      "doctor_id": "DOC-8921",
+      "disease": "Parkinson's Disease",
+      "modality": "Multimodal Assessment",
+      "prediction": "Normal",
+      "confidence": 75.16,
+      "risk_level": "Moderate Clinical Risk",
+      "status": "Finalized",
+      "prediction_ids": [
+        "PD-PRED-6E1C3E",
+        "PD-PRED-FD6EE7"
+      ],
+      "generated_timestamp": "2026-11-02T16:40:50.190754"
+    }
+  ]
+}

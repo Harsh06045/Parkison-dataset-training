@@ -1,0 +1,29 @@
+{
+  "prediction": "Normal",
+  "confidence": 75.16,
+  "uncertainty": 59.77,
+  "raw_probability": 0.2484,
+  "modality_contributions": {
+    "spiral": 1.0,
+    "mri": 0.0,
+    "voice": 0.0,
+    "telemonitor": 0.0
+  },
+  "present_modalities": [
+    "spiral"
+  ],
+  "missing_modalities": [
+    "mri",
+    "voice",
+    "telemonitor"
+  ],
+  "ood_analysis": {
+    "is_out_of_distribution": false,
+    "ood_anomaly_score": 0.83,
+    "modality_flags": {
+      "drawing_ood": false
+    }
+  },
+  "clinical_review": "Multimodal assessment combined 1 modality/modalities (spiral). Primary attention contribution was driven by Spiral (100.0%). Overall diagnostic confidence is 75.2% with an estimated uncertainty of 59.8%.",
+  "fusion": true
+}

@@ -125,6 +125,15 @@ def predict_parkinson_voice(
             "acoustic_features": result.get("acoustic_features"),
             "quality": result.get("quality"),
             "files": files_meta,
+            "shap": {
+                "summary": shap_res.get("summary"),
+                "bar": shap_res.get("bar"),
+                "force": shap_res.get("force"),
+                "summary_plot": shap_res.get("summary"),
+                "bar_plot": shap_res.get("bar"),
+                "force_plot": shap_res.get("force"),
+                "top_biomarkers": real_shap_metrics
+            },
             "shap_explanation": {
                 "summary_plot": shap_res.get("summary"),
                 "bar_plot": shap_res.get("bar"),
@@ -150,7 +159,8 @@ def predict_parkinson_voice(
 # -----------------------------------------------------------------------------
 @router.post("/spiral/predict", tags=["parkinson-spiral"])
 def predict_parkinson_spiral(
-    image: UploadFile = File(...),
+    image: Optional[UploadFile] = File(None),
+    file: Optional[UploadFile] = File(None),
     patient_id: str = Form("PAT-1083"),
     request: Request = None
 ):
@@ -159,12 +169,15 @@ def predict_parkinson_spiral(
     Classifies drawing tremor patterns via ResNet-18, persists drawing and Grad-CAM
     visualizations to durable storage, and writes diagnostic record to database.
     """
-    validate_uploaded_file(image)
-    temp_path = os.path.join(UPLOAD_DIR, f"spiral_{uuid.uuid4().hex[:8]}_{image.filename}")
+    upload = image or file
+    if upload is None:
+        raise HTTPException(status_code=400, detail="Missing required spiral image file.")
+    validate_uploaded_file(upload)
+    temp_path = os.path.join(UPLOAD_DIR, f"spiral_{uuid.uuid4().hex[:8]}_{upload.filename}")
 
     try:
         with open(temp_path, "wb") as buffer:
-            shutil.copyfileobj(image.file, buffer)
+            shutil.copyfileobj(upload.file, buffer)
 
         # 1. Run CNN inference
         result = predict_spiral(temp_path)
@@ -183,7 +196,7 @@ def predict_parkinson_spiral(
             model_version_id="spiral_resnet18_v1",
             uncertainty=result.get("uncertainty", 0.0),
             details={
-                "image_filename": image.filename,
+                "image_filename": upload.filename,
                 "gradcam_overlay": gradcam_res.get("overlay"),
                 "quality": result.get("quality")
             },
@@ -332,6 +345,15 @@ def predict_parkinson_telemonitoring(
             "confidence_intervals": result.get("confidence_intervals"),
             "clinical_disclaimer": result.get("clinical_disclaimer"),
             "files": files_meta,
+            "shap": {
+                "summary": shap_res.get("summary"),
+                "bar": shap_res.get("bar"),
+                "force": shap_res.get("force"),
+                "summary_plot": shap_res.get("summary"),
+                "bar_plot": shap_res.get("bar"),
+                "force_plot": shap_res.get("force"),
+                "top_biomarkers": real_shap_metrics
+            },
             "shap_explanation": {
                 "summary_plot": shap_res.get("summary"),
                 "bar_plot": shap_res.get("bar"),
@@ -353,7 +375,106 @@ def predict_parkinson_telemonitoring(
 
 
 # -----------------------------------------------------------------------------
-# 4. MULTIMODAL ATTENTION FUSION PREDICTION API
+# 4. BRAIN MRI SCAN PREDICTION API
+# -----------------------------------------------------------------------------
+@router.post("/mri/predict", tags=["parkinson-mri"])
+def predict_parkinson_mri(
+    image: Optional[UploadFile] = File(None),
+    file: Optional[UploadFile] = File(None),
+    patient_id: str = Form("PAT-1083"),
+    request: Request = None
+):
+    """
+    Predict Parkinson's / Neurodegeneration from brain MRI scan via DenseNet-121.
+    Computes visual Grad-CAM attention heatmap, persists record to Neon PostgreSQL,
+    stores MRI scan and Grad-CAM overlay in medical object storage.
+    """
+    upload = image or file
+    if upload is None:
+        raise HTTPException(status_code=400, detail="Missing required MRI scan file.")
+    validate_uploaded_file(upload)
+    temp_path = os.path.join(UPLOAD_DIR, f"mri_{uuid.uuid4().hex[:8]}_{upload.filename}")
+
+    try:
+        with open(temp_path, "wb") as buffer:
+            shutil.copyfileobj(upload.file, buffer)
+
+        # 1. Run DenseNet-121 inference
+        result = predict_mri(temp_path)
+
+        # 2. Generate Grad-CAM explainability
+        gradcam_res = run_gradcam("mri", temp_path)
+
+        req_id = request.headers.get("X-Request-ID") if request else None
+
+        # 3. Persist record to prediction history
+        record = history_service.save_prediction(
+            modality="mri",
+            prediction=result["prediction"],
+            confidence=result["confidence"],
+            patient_id=patient_id,
+            model_version_id="mri_densenet121_v1",
+            uncertainty=result.get("uncertainty", 0.0),
+            details={
+                "image_filename": upload.filename,
+                "gradcam_overlay": gradcam_res.get("overlay")
+            },
+            clinical_notes=f"Brain MRI structural assessment: {result['prediction']} ({result['confidence']}% confidence).",
+            request_id=req_id
+        )
+
+        # 4. Store MRI scan and Grad-CAM overlay in durable object storage
+        files_meta = []
+        try:
+            mri_ref = storage_service.store_file(
+                source_path=temp_path,
+                prediction_id=record["id"],
+                file_type="mri_png",
+                original_filename=image.filename
+            )
+            files_meta.append(mri_ref.to_dict())
+
+            overlay_path = os.path.join(STATIC_DIR, "mri_overlay.png")
+            if os.path.exists(overlay_path):
+                overlay_ref = storage_service.store_file(
+                    source_path=overlay_path,
+                    prediction_id=record["id"],
+                    file_type="gradcam_overlay",
+                    original_filename="mri_overlay.png"
+                )
+                files_meta.append(overlay_ref.to_dict())
+        except Exception as fe:
+            logger.warning(f"File storage registration warning: {fe}")
+
+        return {
+            "prediction_id": record["id"],
+            "patient_id": patient_id,
+            "modality": "mri",
+            "prediction": result["prediction"],
+            "confidence": result["confidence"],
+            "uncertainty": result.get("uncertainty"),
+            "files": files_meta,
+            "gradcam": {
+                "original": gradcam_res.get("original"),
+                "heatmap": gradcam_res.get("gradcam"),
+                "overlay": gradcam_res.get("overlay")
+            }
+        }
+
+    except Exception as e:
+        if isinstance(e, HTTPException):
+            raise e
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"MRI prediction failed: {e}"
+        )
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
+
+# -----------------------------------------------------------------------------
+# 5. MULTIMODAL ATTENTION FUSION PREDICTION API
 # -----------------------------------------------------------------------------
 @router.post("/fusion/predict", tags=["parkinson-fusion"])
 def predict_parkinson_fusion(

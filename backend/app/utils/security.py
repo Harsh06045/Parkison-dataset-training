@@ -60,11 +60,11 @@ def get_current_user(
     if x_user_role:
         role = x_user_role.lower().strip()
     elif authorization and authorization.startswith("Bearer "):
-        token = authorization.replace("Bearer ", "").strip()
+        token = authorization.replace("Bearer ", "").strip().lower()
         # Extract role from token prefix or query if encoded
-        if "patient" in token.lower():
+        if "patient" in token:
             role = "patient"
-        elif "admin" in token.lower():
+        elif "admin" in token:
             role = "admin"
         else:
             role = "doctor"

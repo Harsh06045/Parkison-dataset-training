@@ -54,6 +54,15 @@ class Patient(Base):
     age = Column(Integer, nullable=True)
     gender = Column(String(16), nullable=True)
     primary_diagnosis = Column(String(256), default="Suspected Parkinson's Disease")
+    date_of_birth = Column(DateTime, nullable=True)
+    contact_number = Column(String(64), nullable=True)
+    email = Column(String(128), nullable=True)
+    risk_level = Column(String(64), default="Moderate")
+    stage = Column(String(64), default="Stage I")
+    last_analysis_date = Column(DateTime, nullable=True)
+    total_analyses = Column(Integer, default=0)
+    medical_history = Column(Text, nullable=True)
+    updrs_score = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationships
@@ -63,9 +72,29 @@ class Patient(Base):
         return {
             "id": self.id,
             "full_name": self.full_name,
+            "fullName": self.full_name,
             "age": self.age,
             "gender": self.gender,
             "primary_diagnosis": self.primary_diagnosis,
+            "primaryDiagnosis": self.primary_diagnosis,
+            "date_of_birth": self.date_of_birth.strftime("%Y-%m-%d") if self.date_of_birth else None,
+            "dateOfBirth": self.date_of_birth.strftime("%Y-%m-%d") if self.date_of_birth else None,
+            "contact_number": self.contact_number,
+            "contactNumber": self.contact_number,
+            "phone": self.contact_number,
+            "email": self.email,
+            "risk_level": self.risk_level,
+            "riskLevel": self.risk_level,
+            "stage": self.stage,
+            "last_analysis_date": self.last_analysis_date.isoformat() if self.last_analysis_date else None,
+            "lastVisit": self.last_analysis_date.strftime("%Y-%m-%d") if self.last_analysis_date else None,
+            "total_analyses": self.total_analyses,
+            "totalAnalyses": self.total_analyses,
+            "analysesCount": self.total_analyses,
+            "medical_history": self.medical_history,
+            "medicalHistory": self.medical_history,
+            "updrs_score": self.updrs_score,
+            "updrsScore": self.updrs_score,
             "created_at": self.created_at.isoformat() if self.created_at else None
         }
 
@@ -238,6 +267,7 @@ class ReportRecord(Base):
 
     id = Column(String(64), primary_key=True)  # e.g., "REP-2026-A89F"
     analysis_id = Column(String(64), nullable=True, index=True)  # Linked verified analysis ID
+    assessment_id = Column(String(64), nullable=True, index=True)  # Linked assessment ID
     patient_id = Column(String(64), ForeignKey("patients.id"), nullable=False, index=True)
     doctor_id = Column(String(64), ForeignKey("doctors.id"), nullable=True, index=True)
     title = Column(String(256), default="NeuroFusionAI Patient Medical Report")
@@ -248,6 +278,8 @@ class ReportRecord(Base):
     confidence = Column(Float, nullable=False)
     risk_level = Column(String(32), default="Moderate Risk")  # Low Risk, Moderate Risk, High Risk
     pdf_path = Column(String(512), nullable=False)
+    relative_storage_path = Column(String(512), nullable=True)
+    report_filename = Column(String(256), nullable=True)
     file_size_bytes = Column(Integer, default=0)
     status = Column(String(32), default="Finalized")  # Finalized, Pending Review, Draft
     clinical_notes = Column(Text, nullable=True)
@@ -281,28 +313,144 @@ class ReportRecord(Base):
         return {
             "id": self.id,
             "analysis_id": self.analysis_id,
+            "analysisId": self.analysis_id,
+            "assessment_id": self.assessment_id,
+            "assessmentId": self.assessment_id,
             "patient_id": self.patient_id,
+            "patientId": self.patient_id,
             "patient_name": self.patient.full_name if self.patient else f"Patient {self.patient_id}",
+            "patientName": self.patient.full_name if self.patient else f"Patient {self.patient_id}",
             "doctor_id": self.doctor_id,
+            "doctorId": self.doctor_id,
             "doctor_name": self.doctor.full_name if self.doctor else "Dr. Sarah Jenkins, MD, PhD",
+            "doctorName": self.doctor.full_name if self.doctor else "Dr. Sarah Jenkins, MD, PhD",
             "title": self.title,
             "report_stage": self.report_stage,
+            "reportStage": self.report_stage,
             "disease": self.disease,
             "modality": self.modality,
             "prediction": self.prediction,
             "confidence": float(round(self.confidence, 2)),
             "risk_level": self.risk_level,
+            "riskLevel": self.risk_level,
             "pdf_path": self.pdf_path,
+            "pdfPath": self.pdf_path,
+            "relative_storage_path": self.relative_storage_path,
+            "relativeStoragePath": self.relative_storage_path,
+            "report_filename": self.report_filename,
+            "reportFilename": self.report_filename,
             "file_size_bytes": self.file_size_bytes,
             "status": self.status,
             "clinical_notes": self.clinical_notes,
+            "clinicalNotes": self.clinical_notes,
             "is_approved": self.is_approved,
             "approved_by": self.approved_by,
             "approved_at": self.approved_at.isoformat() if self.approved_at else None,
             "download_url": f"/api/reports/{self.id}/download",
+            "downloadUrl": f"/api/reports/{self.id}/download",
             "report_data": data,
             "generated_by": self.generated_by,
             "is_deleted": self.is_deleted,
             "created_at": self.created_at.isoformat() if self.created_at else None
         }
+
+
+class AssessmentRecord(Base):
+    __tablename__ = "assessments"
+
+    id = Column(String(64), primary_key=True)  # e.g., "ASM-PAT-1001-20261102-001"
+    patient_id = Column(String(64), ForeignKey("patients.id"), nullable=False, index=True)
+    doctor_id = Column(String(64), ForeignKey("doctors.id"), nullable=True, index=True)
+    status = Column(String(32), default="CREATED", nullable=False, index=True)  # CREATED, INPUTS_RECEIVED, PROCESSING, COMPLETED, REPORT_GENERATED, FAILED
+    modalities_requested = Column(Text, nullable=True)  # JSON string
+    modalities_completed = Column(Text, nullable=True)  # JSON string
+    prediction_ids = Column(Text, nullable=True)        # JSON string of prediction IDs
+    fusion_prediction_id = Column(String(64), nullable=True)
+    report_id = Column(String(64), nullable=True)
+    report_path = Column(String(512), nullable=True)
+    overall_prediction = Column(String(64), nullable=True)
+    overall_confidence = Column(Float, nullable=True)
+    overall_risk = Column(String(32), default="Moderate Risk")
+    overall_stage = Column(String(32), default="Stage I")
+    error_message = Column(Text, nullable=True)
+    details_json = Column(Text, nullable=True)
+    is_deleted = Column(Boolean, default=False, nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    completed_at = Column(DateTime, nullable=True)
+
+    __table_args__ = (
+        Index("ix_assessments_patient_created", "patient_id", "created_at"),
+        Index("ix_assessments_status_created", "status", "created_at"),
+    )
+
+    # Relationships
+    patient = relationship("Patient", backref="assessments")
+    doctor = relationship("Doctor", backref="assessments")
+
+    def to_dict(self):
+        req_mods = []
+        if self.modalities_requested:
+            try:
+                req_mods = json.loads(self.modalities_requested)
+            except Exception:
+                req_mods = [self.modalities_requested]
+        comp_mods = []
+        if self.modalities_completed:
+            try:
+                comp_mods = json.loads(self.modalities_completed)
+            except Exception:
+                comp_mods = [self.modalities_completed]
+        pred_ids = []
+        if self.prediction_ids:
+            try:
+                pred_ids = json.loads(self.prediction_ids)
+            except Exception:
+                pred_ids = [self.prediction_ids]
+        details = {}
+        if self.details_json:
+            try:
+                details = json.loads(self.details_json)
+            except Exception:
+                details = {"raw": self.details_json}
+
+        return {
+            "id": self.id,
+            "patient_id": self.patient_id,
+            "patientId": self.patient_id,
+            "patient_name": self.patient.full_name if self.patient else f"Patient {self.patient_id}",
+            "patientName": self.patient.full_name if self.patient else f"Patient {self.patient_id}",
+            "doctor_id": self.doctor_id,
+            "doctorId": self.doctor_id,
+            "status": self.status,
+            "modalities_requested": req_mods,
+            "modalitiesRequested": req_mods,
+            "modalities_completed": comp_mods,
+            "modalitiesCompleted": comp_mods,
+            "prediction_ids": pred_ids,
+            "predictionIds": pred_ids,
+            "fusion_prediction_id": self.fusion_prediction_id,
+            "report_id": self.report_id,
+            "reportId": self.report_id,
+            "report_path": self.report_path,
+            "reportPath": self.report_path,
+            "overall_prediction": self.overall_prediction,
+            "overallPrediction": self.overall_prediction,
+            "overall_confidence": float(round(self.overall_confidence, 2)) if self.overall_confidence is not None else None,
+            "overallConfidence": float(round(self.overall_confidence, 2)) if self.overall_confidence is not None else None,
+            "overall_risk": self.overall_risk,
+            "overallRisk": self.overall_risk,
+            "overall_stage": self.overall_stage,
+            "overallStage": self.overall_stage,
+            "error_message": self.error_message,
+            "details": details,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "completed_at": self.completed_at.isoformat() if self.completed_at else None
+        }
+
+
+# Model aliases
+Report = ReportRecord
+Assessment = AssessmentRecord
 
