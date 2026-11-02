@@ -1,0 +1,36 @@
+{
+  "patient": {
+    "id": "NF-PD-TEST-002",
+    "full_name": "Margaret Sullivan",
+    "age": 72,
+    "gender": "Female",
+    "medical_history": "Progressive bilateral resting tremor, micrographia, postural instability, vocal hypophonia.",
+    "primary_diagnosis": "Parkinsonian Movement Disorder"
+  },
+  "inputs": {
+    "spiral": {
+      "file": "spiral_new.png",
+      "path": "EXAMPLE_TEST/spiral_new.png",
+      "sha256": "227842548837da27e16041917e394ffdaed28cdd3e49c5253338c355c791b0a2",
+      "size_bytes": 9315
+    },
+    "voice": {
+      "file": "voice_new.wav",
+      "path": "EXAMPLE_TEST/voice_new.wav",
+      "sha256": "dd305c41facae5c873e7282edcf0a890d536f86796b8a1c12b1f19e2809b1e12",
+      "size_bytes": 220544
+    },
+    "mri": {
+      "file": "mri_new.png",
+      "path": "EXAMPLE_TEST/mri_new.png",
+      "sha256": "05dc364701ab15ef9ee93daa02fe19f37afaf0e5e5e9b11d6afd03a94f1debb2",
+      "size_bytes": 22288
+    },
+    "telemonitor": {
+      "file": "telemonitor_new.csv",
+      "path": "EXAMPLE_TEST/telemonitor_new.csv",
+      "sha256": "5ee1cf1ecf4c520b75157dbc362c39d7c0fd5b63105d0ecdc3bbba77da46c9f4",
+      "size_bytes": 578
+    }
+  }
+}

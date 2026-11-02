@@ -26,19 +26,27 @@ class TestParkinsonBackendAPI(unittest.TestCase):
             cls.use_live = False
         
         # Test files paths
-        cls.mri_file = os.path.join(PROJECT_ROOT, "sample_mri.png")
+        cls.mri_file = os.path.join(PROJECT_ROOT, "testing", "inputs", "mri", "mri_axial.png")
+        if not os.path.exists(cls.mri_file):
+            cls.mri_file = os.path.join(PROJECT_ROOT, "sample_mri.png")
         if not os.path.exists(cls.mri_file):
             cls.mri_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_mri.png")
 
-        cls.spiral_file = os.path.join(PROJECT_ROOT, "sample_spiral.png")
+        cls.spiral_file = os.path.join(PROJECT_ROOT, "testing", "inputs", "spiral", "spiral_parkinson.png")
+        if not os.path.exists(cls.spiral_file):
+            cls.spiral_file = os.path.join(PROJECT_ROOT, "sample_spiral.png")
         if not os.path.exists(cls.spiral_file):
             cls.spiral_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_spiral.png")
 
-        cls.voice_file = os.path.join(PROJECT_ROOT, "sample_voice.wav")
+        cls.voice_file = os.path.join(PROJECT_ROOT, "testing", "inputs", "voice", "voice_sample.wav")
+        if not os.path.exists(cls.voice_file):
+            cls.voice_file = os.path.join(PROJECT_ROOT, "sample_voice.wav")
         if not os.path.exists(cls.voice_file):
             cls.voice_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_voice.wav")
 
-        cls.telemonitor_file = os.path.join(PROJECT_ROOT, "sample_telemonitor.csv")
+        cls.telemonitor_file = os.path.join(PROJECT_ROOT, "testing", "inputs", "telemonitor", "telemonitor_features.csv")
+        if not os.path.exists(cls.telemonitor_file):
+            cls.telemonitor_file = os.path.join(PROJECT_ROOT, "sample_telemonitor.csv")
         if not os.path.exists(cls.telemonitor_file):
             cls.telemonitor_file = os.path.join(BACKEND_DIR, "static", "samples", "sample_telemonitor.csv")
         

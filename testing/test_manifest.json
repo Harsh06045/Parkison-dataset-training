@@ -1,0 +1,136 @@
+{
+  "version": "1.0.0",
+  "system": "NeuroFusionAI Parkinson's Diagnostic Platform",
+  "last_updated": "2026-11-02",
+  "total_inputs": 12,
+  "modalities": [
+    "spiral",
+    "voice",
+    "mri",
+    "telemonitor",
+    "eeg",
+    "corrupted"
+  ],
+  "inputs": [
+    {
+      "modality": "spiral",
+      "category": "pathological",
+      "filename": "spiral_parkinson.png",
+      "relative_path": "testing/inputs/spiral/spiral_parkinson.png",
+      "file_size": 22489,
+      "sha256": "cbd9b691ca10e5d5f07380c79586cb78ed5c7a46ae1c03cad6f61b3b66ce6e53",
+      "format": "PNG",
+      "description": "Hand-drawn Archimedean spiral displaying micrographic tremor indicative of Parkinsonian impairment"
+    },
+    {
+      "modality": "spiral",
+      "category": "control",
+      "filename": "spiral_control.png",
+      "relative_path": "testing/inputs/spiral/spiral_control.png",
+      "file_size": 10261,
+      "sha256": "57ae240b38dad4519908cb0d39b1cb0fe8d5994dd67ddbe2cb7318d25548f7a4",
+      "format": "PNG",
+      "description": "Smooth, uniform Archimedean spiral drawing from a healthy control subject"
+    },
+    {
+      "modality": "voice",
+      "category": "audio_waveform",
+      "filename": "voice_sample.wav",
+      "relative_path": "testing/inputs/voice/voice_sample.wav",
+      "file_size": 176444,
+      "sha256": "f0e9fb5ee2e85bf5e2da66c6b46f468d4b8f912abf1698fdd5a5a090d4777f41",
+      "format": "WAV",
+      "description": "16-bit PCM mono acoustic voice recording of sustained phonation /a/ vowel"
+    },
+    {
+      "modality": "voice",
+      "category": "tabular_features",
+      "filename": "voice_features.csv",
+      "relative_path": "testing/inputs/voice/voice_features.csv",
+      "file_size": 660,
+      "sha256": "49753905b106679233068a528d33a269d5cde3390f9f6f9667106888b4d20f9a",
+      "format": "CSV",
+      "description": "22 acoustic biomedical voice measurements (jitter, shimmer, NHR, HNR, RPDE, DFA, PPE)"
+    },
+    {
+      "modality": "mri",
+      "category": "neuroimaging",
+      "filename": "mri_axial.png",
+      "relative_path": "testing/inputs/mri/mri_axial.png",
+      "file_size": 24920,
+      "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea",
+      "format": "PNG",
+      "description": "T1-weighted axial brain magnetic resonance imaging slice showing substantia nigra anatomy"
+    },
+    {
+      "modality": "telemonitor",
+      "category": "tabular_features",
+      "filename": "telemonitor_features.csv",
+      "relative_path": "testing/inputs/telemonitor/telemonitor_features.csv",
+      "file_size": 581,
+      "sha256": "7eb5ce635644f124240b25474007881657a62275ec6bc227178b89be110daeae",
+      "format": "CSV",
+      "description": "16 clinical telemonitoring features for motor and total UPDRS tracking"
+    },
+    {
+      "modality": "eeg",
+      "category": "neurophysiological_signal",
+      "filename": "eeg_parkinson.csv",
+      "relative_path": "testing/inputs/eeg/eeg_parkinson.csv",
+      "file_size": 142271,
+      "sha256": "7c59fc1311203b9414b9c6f48df5bc441ae631eb25eca4d587e96a263ce50cb3",
+      "format": "CSV",
+      "description": "EEG signal trace from Parkinson's patient showing theta slowing"
+    },
+    {
+      "modality": "eeg",
+      "category": "neurophysiological_signal",
+      "filename": "eeg_control.csv",
+      "relative_path": "testing/inputs/eeg/eeg_control.csv",
+      "file_size": 143420,
+      "sha256": "f17ed5ed3c9189975efa75bd22c18ec34c14844b8c3f15f540175a41b92091e1",
+      "format": "CSV",
+      "description": "Normal baseline EEG trace with intact alpha rhythm"
+    },
+    {
+      "modality": "eeg",
+      "category": "neurophysiological_signal",
+      "filename": "eeg_alzheimer.csv",
+      "relative_path": "testing/inputs/eeg/eeg_alzheimer.csv",
+      "file_size": 145325,
+      "sha256": "1f541bdff0e59c1ea6b5f2ce92d60330bdec10a12809cea941508d8eff260484",
+      "format": "CSV",
+      "description": "Comparative neurodegenerative EEG trace showing diffuse delta slowing"
+    },
+    {
+      "modality": "corrupted",
+      "category": "negative_testing",
+      "filename": "corrupted_image.png",
+      "relative_path": "testing/inputs/corrupted/corrupted_image.png",
+      "file_size": 66,
+      "sha256": "c28c4c81be8aaab27d0f36667336a277ec0c04a9f6e4c20635b0c32f9055b241",
+      "format": "PNG (corrupted)",
+      "description": "Truncated PNG byte stream for testing 400 Bad Request image validation handlers"
+    },
+    {
+      "modality": "corrupted",
+      "category": "negative_testing",
+      "filename": "corrupted_audio.wav",
+      "relative_path": "testing/inputs/corrupted/corrupted_audio.wav",
+      "file_size": 41,
+      "sha256": "3731f7f9126868990d36ad2f0989c154fa8725451575bb65fc6ae58766d450ba",
+      "format": "WAV (corrupted)",
+      "description": "Corrupted RIFF header for testing audio format validation exceptions"
+    },
+    {
+      "modality": "corrupted",
+      "category": "negative_testing",
+      "filename": "empty_file.bin",
+      "relative_path": "testing/inputs/corrupted/empty_file.bin",
+      "file_size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "format": "BIN (zero-byte)",
+      "description": "Zero-byte file for validating 400 Empty File rejection logic"
+    }
+  ]
+}

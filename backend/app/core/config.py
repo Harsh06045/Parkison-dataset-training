@@ -84,6 +84,9 @@ class Settings(BaseSettings):
     PREDICTION_DIR: str = Field(default=os.path.join(BACKEND_DIR, "uploads", "predictions"))
     EXPLAINABILITY_DIR: str = Field(default=os.path.join(BACKEND_DIR, "uploads", "medical_storage", "gradcam"))
     MAX_UPLOAD_SIZE_MB: int = Field(default=25)
+    TESTING_DIR: str = Field(default=os.path.join(PROJECT_ROOT, "testing"))
+    TESTING_INPUTS_DIR: str = Field(default=os.path.join(PROJECT_ROOT, "testing", "inputs"))
+    TESTING_RESULTS_DIR: str = Field(default=os.path.join(PROJECT_ROOT, "testing", "results"))
 
     # -------------------------------------------------------------------------
     # Machine Learning & Checkpoint Configuration

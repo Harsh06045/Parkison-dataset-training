@@ -1,0 +1,1 @@
+$env:PYTHONPATH='backend'; .venv\Scripts\python.exe scripts/test_patient.py --input-dir EXAMPLE_TEST

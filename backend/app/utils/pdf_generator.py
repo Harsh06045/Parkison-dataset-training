@@ -64,7 +64,7 @@ class NumberedCanvas(canvas.Canvas):
         # Bottom Running Footer
         page_str = f"Page {self._pageNumber} of {total_pages}"
         self.drawRightString(8.5 * inch - 36, 24, page_str)
-        self.drawString(36, 24, "CONFIDENTIAL MEDICAL RECORD  •  NEUROFUSIONAI CLINICAL DECISION SUPPORT")
+        self.drawString(36, 24, "© 2026 NeuroFusionAI. All Rights Reserved.  •  CONFIDENTIAL CLINICAL REPORT")
         self.setStrokeColor(colors.HexColor("#e2e8f0"))
         self.setLineWidth(0.5)
         self.line(36, 34, 8.5 * inch - 36, 34)

@@ -239,3 +239,6 @@ class ModelLoader:
 
 # Global loader instance
 loader = ModelLoader()
+
+def load_all_models():
+    return loader.load_all_models()

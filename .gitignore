@@ -39,4 +39,12 @@ dist/
 frontend/**/dist/
 .env.local
 
+# Sensitive Environment Files
+.env
+.env.*
+*.env
+backend/.env
+!.env.example
+!backend/.env.example
+
 .neon

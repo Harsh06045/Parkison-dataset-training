@@ -395,21 +395,71 @@ class PatientStorageService:
         return results
 
     def get_patient_metadata(self, patient_id: str) -> Dict[str, Any]:
-        """Retrieve complete report_metadata.json for a patient."""
+        """Retrieve complete report metadata for a patient."""
         safe_id = self.sanitize_patient_id(patient_id)
         reports_dir = self.get_patient_reports_dir(safe_id)
         meta_file = os.path.join(reports_dir, "report_metadata.json")
 
         if os.path.exists(meta_file):
-            with open(meta_file, "r", encoding="utf-8") as f:
-                return json.load(f)
+            try:
+                with open(meta_file, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                pass
+
+        # Fallback to direct directory scan
+        reports = self.list_patient_reports(safe_id)
         return {
             "patient_id": safe_id,
-            "total_reports": 0,
-            "reports": []
+            "total_reports": len(reports),
+            "reports": reports
         }
+
+    def cleanup_patient_artifacts(self, patient_id: str, retain_reports_only: bool = True) -> int:
+        """
+        Clean up intermediate codes, uploads, prediction JSONs, and explainability plots
+        for a patient, leaving strictly the final clinical PDF report(s) in storage.
+        All records and predictions remain safely stored in the Neon database.
+        """
+        safe_id = self.sanitize_patient_id(patient_id)
+        cleaned_count = 0
+
+        # 1. Remove intermediate patient directory (uploads, predictions json codes, explainability)
+        p_dir = os.path.join(self.patients_root, safe_id)
+        if os.path.exists(p_dir):
+            for root, dirs, files in os.walk(p_dir, topdown=False):
+                for f in files:
+                    try:
+                        os.remove(os.path.join(root, f))
+                        cleaned_count += 1
+                    except Exception:
+                        pass
+                for d in dirs:
+                    try:
+                        os.rmdir(os.path.join(root, d))
+                    except Exception:
+                        pass
+            try:
+                os.rmdir(p_dir)
+            except Exception:
+                pass
+
+        # 2. In patient_reports/<patient_id>, if retain_reports_only is True, delete non-PDF files (e.g., report_metadata.json)
+        if retain_reports_only:
+            r_dir = os.path.join(self.reports_root, safe_id)
+            if os.path.exists(r_dir):
+                for f in os.listdir(r_dir):
+                    if not f.lower().endswith(".pdf"):
+                        try:
+                            os.remove(os.path.join(r_dir, f))
+                            cleaned_count += 1
+                        except Exception:
+                            pass
+
+        return cleaned_count
 
 
 # Global singleton
 patient_storage = PatientStorageService()
+patient_storage_service = patient_storage
 

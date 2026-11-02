@@ -99,30 +99,85 @@ def admin_auth(client):
 
 @pytest.fixture(scope="session")
 def sample_spiral_path():
-    path = os.path.join(PROJECT_ROOT, "sample_spiral.png")
-    assert os.path.exists(path), f"Sample spiral not found at {path}"
-    return path
+    candidate_paths = [
+        os.path.join(PROJECT_ROOT, "testing", "inputs", "spiral", "spiral_parkinson.png"),
+        os.path.join(PROJECT_ROOT, "testing", "inputs", "spiral", "sample_spiral.png"),
+        os.path.join(PROJECT_ROOT, "sample_spiral.png"),
+    ]
+    for p in candidate_paths:
+        if os.path.exists(p):
+            return str(p)
+    raise FileNotFoundError(f"Sample spiral not found in testing/inputs/spiral or {PROJECT_ROOT}")
 
 
 @pytest.fixture(scope="session")
 def sample_voice_path():
-    path = os.path.join(PROJECT_ROOT, "sample_voice.wav")
-    assert os.path.exists(path), f"Sample voice not found at {path}"
-    return path
+    candidate_paths = [
+        os.path.join(PROJECT_ROOT, "testing", "inputs", "voice", "voice_sample.wav"),
+        os.path.join(PROJECT_ROOT, "sample_voice.wav"),
+    ]
+    for p in candidate_paths:
+        if os.path.exists(p):
+            return str(p)
+    raise FileNotFoundError(f"Sample voice not found in testing/inputs/voice or {PROJECT_ROOT}")
 
 
 @pytest.fixture(scope="session")
 def sample_mri_path():
-    path = os.path.join(PROJECT_ROOT, "sample_mri.png")
-    assert os.path.exists(path), f"Sample MRI not found at {path}"
-    return path
+    candidate_paths = [
+        os.path.join(PROJECT_ROOT, "testing", "inputs", "mri", "mri_axial.png"),
+        os.path.join(PROJECT_ROOT, "testing", "inputs", "mri", "sample_mri.png"),
+        os.path.join(PROJECT_ROOT, "sample_mri.png"),
+    ]
+    for p in candidate_paths:
+        if os.path.exists(p):
+            return str(p)
+    raise FileNotFoundError(f"Sample MRI not found in testing/inputs/mri or {PROJECT_ROOT}")
 
 
 @pytest.fixture(scope="session")
 def sample_telemonitor_path():
-    path = os.path.join(PROJECT_ROOT, "sample_telemonitor.csv")
-    assert os.path.exists(path), f"Sample telemonitor not found at {path}"
-    return path
+    candidate_paths = [
+        os.path.join(PROJECT_ROOT, "testing", "inputs", "telemonitor", "telemonitor_features.csv"),
+        os.path.join(PROJECT_ROOT, "sample_telemonitor.csv"),
+    ]
+    for p in candidate_paths:
+        if os.path.exists(p):
+            return str(p)
+    raise FileNotFoundError(f"Sample telemonitor not found in testing/inputs/telemonitor or {PROJECT_ROOT}")
+
+
+@pytest.fixture(scope="session")
+def sample_spiral_normal_path():
+    p = os.path.join(PROJECT_ROOT, "testing", "inputs", "spiral", "spiral_control.png")
+    if os.path.exists(p):
+        return str(p)
+    return os.path.join(PROJECT_ROOT, "test_spiral_normal.png")
+
+
+@pytest.fixture(scope="session")
+def sample_voice_features_path():
+    return os.path.join(PROJECT_ROOT, "testing", "inputs", "voice", "voice_features.csv")
+
+
+@pytest.fixture(scope="session")
+def sample_eeg_path():
+    return os.path.join(PROJECT_ROOT, "testing", "inputs", "eeg", "eeg_parkinson.csv")
+
+
+@pytest.fixture(scope="session")
+def corrupted_image_path():
+    return os.path.join(PROJECT_ROOT, "testing", "inputs", "corrupted", "corrupted_image.png")
+
+
+@pytest.fixture(scope="session")
+def corrupted_audio_path():
+    return os.path.join(PROJECT_ROOT, "testing", "inputs", "corrupted", "corrupted_audio.wav")
+
+
+@pytest.fixture(scope="session")
+def empty_testing_file_path():
+    return os.path.join(PROJECT_ROOT, "testing", "inputs", "corrupted", "empty_file.bin")
 
 
 @pytest.fixture(scope="session")

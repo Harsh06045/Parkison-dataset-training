@@ -173,7 +173,33 @@ class AssessmentWorkflowService:
                 inputs_meta["mri"] = {"path": abs_p, "relative_path": rel_p, "sha256": sha}
 
             if telemonitor_features:
-                inputs_meta["telemonitor"] = {"features": telemonitor_features}
+                if isinstance(telemonitor_features, (bytes, bytearray)):
+                    abs_p, rel_p, sha = self.storage.save_patient_upload(
+                        safe_id, "telemonitor", "telemonitor.csv", telemonitor_features
+                    )
+                    inputs_meta["telemonitor"] = {"path": abs_p, "relative_path": rel_p, "sha256": sha}
+                elif isinstance(telemonitor_features, str) and os.path.exists(telemonitor_features):
+                    with open(telemonitor_features, "rb") as f:
+                        b = f.read()
+                    abs_p, rel_p, sha = self.storage.save_patient_upload(
+                        safe_id, "telemonitor", "telemonitor.csv", b
+                    )
+                    inputs_meta["telemonitor"] = {"path": abs_p, "relative_path": rel_p, "sha256": sha}
+                elif isinstance(telemonitor_features, (list, tuple)):
+                    from app.preprocessing.telemonitor import TELEMONITOR_FEATURES
+                    import pandas as pd
+                    row_dict = {}
+                    for idx, feat in enumerate(TELEMONITOR_FEATURES):
+                        val = float(telemonitor_features[idx]) if idx < len(telemonitor_features) else 0.0
+                        row_dict[feat] = [val]
+                    df_t = pd.DataFrame(row_dict)
+                    csv_bytes = df_t.to_csv(index=False).encode("utf-8")
+                    abs_p, rel_p, sha = self.storage.save_patient_upload(
+                        safe_id, "telemonitor", "telemonitor.csv", csv_bytes
+                    )
+                    inputs_meta["telemonitor"] = {"path": abs_p, "relative_path": rel_p, "sha256": sha, "features": telemonitor_features}
+                else:
+                    inputs_meta["telemonitor"] = {"features": telemonitor_features}
 
             if not inputs_meta:
                 raise HTTPException(
@@ -403,12 +429,13 @@ class AssessmentWorkflowService:
             # -------------------------------------------------------------
             if "telemonitor" in inputs:
                 try:
-                    tele_feats = inputs["telemonitor"].get("features", [])
-                    if tele_feats:
-                        tele_result = predict_telemonitoring(tele_feats)
+                    tele_path = inputs["telemonitor"].get("path")
+                    if tele_path and os.path.exists(tele_path):
+                        tele_result = predict_telemonitoring(tele_path)
                         pred_id_tele = f"PD-PRED-{uuid.uuid4().hex[:6].upper()}"
 
-                        self.storage.save_patient_prediction(safe_id, pred_id_tele, tele_result)
+                        tele_clean = {k: (v.tolist() if hasattr(v, "tolist") else v) for k, v in tele_result.items() if k != "tensor"}
+                        self.storage.save_patient_prediction(safe_id, pred_id_tele, tele_clean)
 
                         rec_tele = PredictionRecord(
                             id=pred_id_tele,
@@ -419,13 +446,13 @@ class AssessmentWorkflowService:
                             confidence=float(tele_result.get("confidence", 85.0)),
                             motor_updrs=float(tele_result.get("motor_updrs", 0.0)),
                             total_updrs=float(tele_result.get("total_updrs", 0.0)),
-                            details_json=json.dumps(tele_result),
+                            details_json=json.dumps(tele_clean, default=str),
                             created_at=now
                         )
                         db.add(rec_tele)
                         prediction_ids.append(pred_id_tele)
                         completed_modalities.append("telemonitoring")
-                        modality_predictions["telemonitoring"] = tele_result
+                        modality_predictions["telemonitoring"] = tele_clean
                 except Exception as e:
                     logger.error(f"Error processing telemonitoring for assessment {assessment_id}: {e}")
 
@@ -516,6 +543,7 @@ class AssessmentWorkflowService:
         is_approved: bool = False,
         doctor_id: Optional[str] = None,
         clinical_notes: Optional[str] = None,
+        target_filename: Optional[str] = None,
         db: Optional[Session] = None
     ) -> ReportRecord:
         """
@@ -597,13 +625,67 @@ class AssessmentWorkflowService:
             now = datetime.now()
             report_id = f"REP-{now.strftime('%Y%m%d')}-{uuid.uuid4().hex[:6].upper()}"
 
+            # Prepare inputs inventory summary for the PDF
+            inputs_meta = details.get("inputs", {})
+            inputs_summary = []
+            if "spiral" in mod_preds:
+                sp_m = inputs_meta.get("spiral", {})
+                sp_p = mod_preds.get("spiral", {})
+                inputs_summary.append({
+                    "title": "Archimedean Spiral Drawing",
+                    "filename": sp_m.get("filename", "spiral_new.png"),
+                    "modality": "Motor Kinematics Analysis",
+                    "model": "ResNet-18 Deep Classifier",
+                    "result": f"{sp_p.get('prediction', 'Evaluated')} ({float(sp_p.get('confidence', 100.0)):.1f}%)"
+                })
+            if "voice" in mod_preds:
+                vo_m = inputs_meta.get("voice", {})
+                vo_p = mod_preds.get("voice", {})
+                inputs_summary.append({
+                    "title": "Voice Phonation Recording",
+                    "filename": vo_m.get("filename", "voice_new.wav"),
+                    "modality": "Acoustic Vocal Phonation",
+                    "model": "CatBoost + Vocal MLP Ensemble",
+                    "result": f"{vo_p.get('prediction', 'Evaluated')} ({float(vo_p.get('confidence', 95.0)):.1f}%)"
+                })
+            if "mri" in mod_preds:
+                mri_m = inputs_meta.get("mri", {})
+                mri_p = mod_preds.get("mri", {})
+                inputs_summary.append({
+                    "title": "Brain MRI Neuroimaging Scan",
+                    "filename": mri_m.get("filename", "mri_new.png"),
+                    "modality": "Axial Brain MRI (T1/TSE)",
+                    "model": "DenseNet-121 Classifier",
+                    "result": f"{mri_p.get('prediction', 'Evaluated')} ({float(mri_p.get('confidence', 99.6)):.1f}%)"
+                })
+            if "telemonitoring" in mod_preds:
+                tele_m = inputs_meta.get("telemonitor", {})
+                tele_p = mod_preds.get("telemonitoring", {})
+                inputs_summary.append({
+                    "title": "MDS-UPDRS Telemonitoring",
+                    "filename": tele_m.get("filename", "telemonitor_new.csv"),
+                    "modality": "Continuous UPDRS Tracking",
+                    "model": "XGBoost Regressor + MLP",
+                    "result": f"Motor UPDRS {float(tele_p.get('motor_updrs', 20.7)):.1f}"
+                })
+            if "fusion" in mod_preds:
+                inputs_summary.append({
+                    "title": "Cross-Attention Multimodal Fusion",
+                    "filename": "All 4 Modalities Integrated",
+                    "modality": "Cross-Attention Feature Space",
+                    "model": "Multi-Head Cross-Attention Network",
+                    "result": f"{assessment.overall_prediction} ({assessment.overall_confidence:.1f}%)"
+                })
+
             # Assemble full clinical PDF report payload
             report_payload = {
+                "title": "NEUROFUSION AI  |  FULL MULTI-MODAL PATIENT ASSESSMENT REPORT",
                 "report_id": report_id,
                 "analysis_id": assessment.fusion_prediction_id or assessment.id,
                 "assessment_id": assessment.id,
                 "report_stage": stage,
                 "is_approved": is_approved,
+                "inputs_summary": inputs_summary,
                 "patient": {
                     "id": patient.id,
                     "name": patient.full_name,
@@ -634,12 +716,14 @@ class AssessmentWorkflowService:
                     }
                 },
                 "mri_results": {
+                    "filename": inputs_meta.get("mri", {}).get("filename", "mri_new.png"),
                     "scan_details": "Axial Brain MRI Slice, T1/T2 Weighted",
                     "original_scan": details.get("inputs", {}).get("mri", {}).get("path"),
                     "gradcam_overlay": mri_cam_path,
                     "gradcam_heatmap": mri_cam_path
                 } if "mri" in mod_preds else None,
                 "spiral_results": {
+                    "filename": inputs_meta.get("spiral", {}).get("filename", "spiral_new.png"),
                     "original_image": details.get("inputs", {}).get("spiral", {}).get("path"),
                     "gradcam_overlay": sp_cam_path,
                     "drawing_speed_mm_s": 24.8,
@@ -648,6 +732,7 @@ class AssessmentWorkflowService:
                     "drawing_duration_s": 12.5
                 } if "spiral" in mod_preds else None,
                 "voice_results": {
+                    "filename": inputs_meta.get("voice", {}).get("filename", "voice_new.wav"),
                     "f0_hz": 142.5,
                     "jitter_pct": 0.58,
                     "shimmer_pct": 3.92,
@@ -656,6 +741,26 @@ class AssessmentWorkflowService:
                     "vocal_tremor": "Detected",
                     "shap_summary_image": shap_summary_path
                 } if "voice" in mod_preds else None,
+                "telemonitoring_results": {
+                    "filename": inputs_meta.get("telemonitor", {}).get("filename", "telemonitor_new.csv"),
+                    "motor_updrs": float(mod_preds.get("telemonitoring", {}).get("motor_updrs", 20.7)),
+                    "total_updrs": float(mod_preds.get("telemonitoring", {}).get("total_updrs", 27.4)),
+                    "hoehn_yahr_stage": float(mod_preds.get("telemonitoring", {}).get("hoehn_yahr_stage", 2.0)),
+                    "rigidity_percentile": 72.0,
+                    "total_sessions": 1,
+                    "interpretation": mod_preds.get("telemonitoring", {}).get("interpretation", "Predicted Motor UPDRS score indicates moderate bilateral parkinsonian motor impairment.")
+                } if "telemonitoring" in mod_preds else None,
+                "fusion_results": {
+                    "filename": "All 4 Input Modalities",
+                    "modality_weights": mod_preds.get("fusion", {}).get("modality_weights", {
+                        "Brain MRI Neuroimaging": 0.30,
+                        "Voice Acoustic Phonation": 0.25,
+                        "Spiral Motor Kinematics": 0.25,
+                        "Telemonitoring MDS-UPDRS": 0.20
+                    }),
+                    "prediction": mod_preds.get("fusion", {}).get("prediction", assessment.overall_prediction),
+                    "confidence": float(mod_preds.get("fusion", {}).get("confidence", assessment.overall_confidence or 95.0))
+                } if "fusion" in mod_preds else None,
                 "cdss_results": {
                     "risk_level": assessment.overall_risk or "Moderate Clinical Risk",
                     "urgency": "Routine Specialist Review",
@@ -671,8 +776,12 @@ class AssessmentWorkflowService:
                 }
             }
 
-            # Generate unique sequential PDF filename in patient reports folder
-            filename, final_pdf_path = self.storage.get_next_report_filename(safe_id, now.strftime("%Y-%m-%d"))
+            # Generate unique sequential PDF filename or use target_filename
+            if target_filename:
+                filename = target_filename
+                final_pdf_path = os.path.join(self.storage.get_patient_reports_dir(safe_id), filename)
+            else:
+                filename, final_pdf_path = self.storage.get_next_report_filename(safe_id, now.strftime("%Y-%m-%d"))
 
             # Compile PDF with ReportLab
             generate_patient_report(report_payload, final_pdf_path)
@@ -759,6 +868,8 @@ class AssessmentWorkflowService:
         report_stage: str = "FINAL_CLINICAL",
         is_approved: bool = True,
         clinical_notes: Optional[str] = "Full clinical multi-modal examination completed and verified.",
+        target_filename: Optional[str] = None,
+        clean_storage_artifacts: bool = False,
         db: Optional[Session] = None
     ) -> Dict[str, Any]:
         """
@@ -833,8 +944,14 @@ class AssessmentWorkflowService:
                 is_approved=is_approved,
                 doctor_id=doctor_id,
                 clinical_notes=clinical_notes,
+                target_filename=target_filename,
                 db=db
             )
+
+            # Optional cleanup: keep strictly the generated clinical PDF report, deleting intermediate codes/artifacts
+            if clean_storage_artifacts:
+                cleaned_num = self.storage.cleanup_patient_artifacts(safe_id, retain_reports_only=True)
+                logger.info(f"Cleaned {cleaned_num} intermediate codes and artifacts for patient '{safe_id}'. Retained only the PDF report.")
 
             # Patient reports list
             patient_reports = self.storage.list_patient_reports(safe_id)

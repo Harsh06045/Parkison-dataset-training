@@ -1,0 +1,349 @@
+{
+  "total_candidates": 42,
+  "unique_groups": {
+    "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea": [
+      {
+        "source_dir": "root",
+        "filename": "sample_mri.png",
+        "path": "sample_mri.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "root",
+        "filename": "sample_mri.jpg",
+        "path": "sample_mri.jpg",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "root",
+        "filename": "sample_spiral.png",
+        "path": "sample_spiral.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "root",
+        "filename": "sample_spiral.jpg",
+        "path": "sample_spiral.jpg",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "root",
+        "filename": "test_mri.png",
+        "path": "test_mri.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "external_test",
+        "filename": "mri.png",
+        "path": "external_test\\mri.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "external_test",
+        "filename": "spiral.png",
+        "path": "external_test\\spiral.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "test_images",
+        "filename": "patient001.png",
+        "path": "test_images\\patient001.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "test_images",
+        "filename": "patient01.png",
+        "path": "test_images\\patient01.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      },
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_mri.png",
+        "path": "backend\\static\\samples\\sample_mri.png",
+        "size": 24920,
+        "sha256": "79a8c7fe4520d166413e7e024796f8d54a58ae4ac749d50bb8e1452cde9190ea"
+      }
+    ],
+    "f0e9fb5ee2e85bf5e2da66c6b46f468d4b8f912abf1698fdd5a5a090d4777f41": [
+      {
+        "source_dir": "root",
+        "filename": "sample_voice.wav",
+        "path": "sample_voice.wav",
+        "size": 176444,
+        "sha256": "f0e9fb5ee2e85bf5e2da66c6b46f468d4b8f912abf1698fdd5a5a090d4777f41"
+      },
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_voice.wav",
+        "path": "backend\\static\\samples\\sample_voice.wav",
+        "size": 176444,
+        "sha256": "f0e9fb5ee2e85bf5e2da66c6b46f468d4b8f912abf1698fdd5a5a090d4777f41"
+      }
+    ],
+    "cbd9b691ca10e5d5f07380c79586cb78ed5c7a46ae1c03cad6f61b3b66ce6e53": [
+      {
+        "source_dir": "root",
+        "filename": "test_spiral.png",
+        "path": "test_spiral.png",
+        "size": 22489,
+        "sha256": "cbd9b691ca10e5d5f07380c79586cb78ed5c7a46ae1c03cad6f61b3b66ce6e53"
+      },
+      {
+        "source_dir": "root",
+        "filename": "test_spiral_parkinson.png",
+        "path": "test_spiral_parkinson.png",
+        "size": 22489,
+        "sha256": "cbd9b691ca10e5d5f07380c79586cb78ed5c7a46ae1c03cad6f61b3b66ce6e53"
+      },
+      {
+        "source_dir": "external_test",
+        "filename": "sample_spiral_parkinson.png",
+        "path": "external_test\\sample_spiral_parkinson.png",
+        "size": 22489,
+        "sha256": "cbd9b691ca10e5d5f07380c79586cb78ed5c7a46ae1c03cad6f61b3b66ce6e53"
+      },
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_spiral.png",
+        "path": "backend\\static\\samples\\sample_spiral.png",
+        "size": 22489,
+        "sha256": "cbd9b691ca10e5d5f07380c79586cb78ed5c7a46ae1c03cad6f61b3b66ce6e53"
+      },
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_spiral_parkinson.png",
+        "path": "backend\\static\\samples\\sample_spiral_parkinson.png",
+        "size": 22489,
+        "sha256": "cbd9b691ca10e5d5f07380c79586cb78ed5c7a46ae1c03cad6f61b3b66ce6e53"
+      }
+    ],
+    "57ae240b38dad4519908cb0d39b1cb0fe8d5994dd67ddbe2cb7318d25548f7a4": [
+      {
+        "source_dir": "root",
+        "filename": "test_spiral_normal.png",
+        "path": "test_spiral_normal.png",
+        "size": 10261,
+        "sha256": "57ae240b38dad4519908cb0d39b1cb0fe8d5994dd67ddbe2cb7318d25548f7a4"
+      },
+      {
+        "source_dir": "external_test",
+        "filename": "sample_spiral_normal.png",
+        "path": "external_test\\sample_spiral_normal.png",
+        "size": 10261,
+        "sha256": "57ae240b38dad4519908cb0d39b1cb0fe8d5994dd67ddbe2cb7318d25548f7a4"
+      },
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_spiral_normal.png",
+        "path": "backend\\static\\samples\\sample_spiral_normal.png",
+        "size": 10261,
+        "sha256": "57ae240b38dad4519908cb0d39b1cb0fe8d5994dd67ddbe2cb7318d25548f7a4"
+      }
+    ],
+    "7eb5ce635644f124240b25474007881657a62275ec6bc227178b89be110daeae": [
+      {
+        "source_dir": "external_test",
+        "filename": "telemonitor.csv",
+        "path": "external_test\\telemonitor.csv",
+        "size": 581,
+        "sha256": "7eb5ce635644f124240b25474007881657a62275ec6bc227178b89be110daeae"
+      },
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_telemonitor.csv",
+        "path": "backend\\static\\samples\\sample_telemonitor.csv",
+        "size": 581,
+        "sha256": "7eb5ce635644f124240b25474007881657a62275ec6bc227178b89be110daeae"
+      }
+    ],
+    "49753905b106679233068a528d33a269d5cde3390f9f6f9667106888b4d20f9a": [
+      {
+        "source_dir": "external_test",
+        "filename": "voice.csv",
+        "path": "external_test\\voice.csv",
+        "size": 660,
+        "sha256": "49753905b106679233068a528d33a269d5cde3390f9f6f9667106888b4d20f9a"
+      }
+    ],
+    "1f541bdff0e59c1ea6b5f2ce92d60330bdec10a12809cea941508d8eff260484": [
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_eeg_alzheimer.csv",
+        "path": "backend\\static\\samples\\sample_eeg_alzheimer.csv",
+        "size": 145325,
+        "sha256": "1f541bdff0e59c1ea6b5f2ce92d60330bdec10a12809cea941508d8eff260484"
+      }
+    ],
+    "f17ed5ed3c9189975efa75bd22c18ec34c14844b8c3f15f540175a41b92091e1": [
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_eeg_normal.csv",
+        "path": "backend\\static\\samples\\sample_eeg_normal.csv",
+        "size": 143420,
+        "sha256": "f17ed5ed3c9189975efa75bd22c18ec34c14844b8c3f15f540175a41b92091e1"
+      }
+    ],
+    "7c59fc1311203b9414b9c6f48df5bc441ae631eb25eca4d587e96a263ce50cb3": [
+      {
+        "source_dir": "backend\\static\\samples",
+        "filename": "sample_eeg_parkinson.csv",
+        "path": "backend\\static\\samples\\sample_eeg_parkinson.csv",
+        "size": 142271,
+        "sha256": "7c59fc1311203b9414b9c6f48df5bc441ae631eb25eca4d587e96a263ce50cb3"
+      }
+    ],
+    "5b40d745c1d3ab74856cbd203f43e0c05268a980a31bea6a99f5739a3f195d58": [
+      {
+        "source_dir": "scratch",
+        "filename": "build_final_master_pdf.py",
+        "path": "scratch\\build_final_master_pdf.py",
+        "size": 10104,
+        "sha256": "5b40d745c1d3ab74856cbd203f43e0c05268a980a31bea6a99f5739a3f195d58"
+      }
+    ],
+    "78111168e2349c9bd4015cba86953e9cd8154f090487c72c37316fbc23a9b031": [
+      {
+        "source_dir": "scratch",
+        "filename": "execute_cleanup.py",
+        "path": "scratch\\execute_cleanup.py",
+        "size": 2747,
+        "sha256": "78111168e2349c9bd4015cba86953e9cd8154f090487c72c37316fbc23a9b031"
+      }
+    ],
+    "76c63324a7a8c52ca5ee5c21669c18f4aeb49d41e6a254ea45b39dbea17a6ee7": [
+      {
+        "source_dir": "scratch",
+        "filename": "migrate_reports_table.py",
+        "path": "scratch\\migrate_reports_table.py",
+        "size": 972,
+        "sha256": "76c63324a7a8c52ca5ee5c21669c18f4aeb49d41e6a254ea45b39dbea17a6ee7"
+      }
+    ],
+    "01ff3e793abb5dcf45d14bf6646c3d51ba89df3cfe7566304a6cb8bb24917ff4": [
+      {
+        "source_dir": "scratch",
+        "filename": "migrate_to_neon.py",
+        "path": "scratch\\migrate_to_neon.py",
+        "size": 12870,
+        "sha256": "01ff3e793abb5dcf45d14bf6646c3d51ba89df3cfe7566304a6cb8bb24917ff4"
+      }
+    ],
+    "dc810925dae4387b0dd13bd0aee3557f3a35b0daec880b6b1b7ea0f033c379a0": [
+      {
+        "source_dir": "scratch",
+        "filename": "remove_frontend.py",
+        "path": "scratch\\remove_frontend.py",
+        "size": 1581,
+        "sha256": "dc810925dae4387b0dd13bd0aee3557f3a35b0daec880b6b1b7ea0f033c379a0"
+      }
+    ],
+    "5ee1cf1ecf4c520b75157dbc362c39d7c0fd5b63105d0ecdc3bbba77da46c9f4": [
+      {
+        "source_dir": "scratch",
+        "filename": "sample_telemonitor.csv",
+        "path": "scratch\\sample_telemonitor.csv",
+        "size": 578,
+        "sha256": "5ee1cf1ecf4c520b75157dbc362c39d7c0fd5b63105d0ecdc3bbba77da46c9f4"
+      }
+    ],
+    "22f2359b38d6299ff6228e9576a015a3c1d98ba396fac4eb9a6cceb006e072ea": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_api_client.py",
+        "path": "scratch\\test_api_client.py",
+        "size": 926,
+        "sha256": "22f2359b38d6299ff6228e9576a015a3c1d98ba396fac4eb9a6cceb006e072ea"
+      }
+    ],
+    "47f2808560197c6bfec7507edb34ab486d98bc858493b5b074126f125bb8b1a2": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_live_fusion.py",
+        "path": "scratch\\test_live_fusion.py",
+        "size": 3015,
+        "sha256": "47f2808560197c6bfec7507edb34ab486d98bc858493b5b074126f125bb8b1a2"
+      }
+    ],
+    "31503353607d04eb68cfa1c1b55b7f5c0015e9369b42da1d77244416daf1cb97": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_neon_services.py",
+        "path": "scratch\\test_neon_services.py",
+        "size": 2975,
+        "sha256": "31503353607d04eb68cfa1c1b55b7f5c0015e9369b42da1d77244416daf1cb97"
+      }
+    ],
+    "37cdb028413c5a1cfb9acdd6b96678f094ec9e0513cf7f3898f66b188a1e073b": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_phase4_integration.py",
+        "path": "scratch\\test_phase4_integration.py",
+        "size": 6697,
+        "sha256": "37cdb028413c5a1cfb9acdd6b96678f094ec9e0513cf7f3898f66b188a1e073b"
+      }
+    ],
+    "863630bfe39ec7a7721626ee3776761a7d6571976cc43c45ae9e700763e3e3a3": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_phase5_database.py",
+        "path": "scratch\\test_phase5_database.py",
+        "size": 11098,
+        "sha256": "863630bfe39ec7a7721626ee3776761a7d6571976cc43c45ae9e700763e3e3a3"
+      }
+    ],
+    "d9df999d60a8bd1c57b89e8fb9173d8e178365d1f623791686627cfee020af4e": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_phase8_phase9.py",
+        "path": "scratch\\test_phase8_phase9.py",
+        "size": 2953,
+        "sha256": "d9df999d60a8bd1c57b89e8fb9173d8e178365d1f623791686627cfee020af4e"
+      }
+    ],
+    "4018b7ba5a1b3c8c5d3dd1bee3d93652813917644b51f7391a0c98162b9d98cd": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_phase8_phase9_direct.py",
+        "path": "scratch\\test_phase8_phase9_direct.py",
+        "size": 3245,
+        "sha256": "4018b7ba5a1b3c8c5d3dd1bee3d93652813917644b51f7391a0c98162b9d98cd"
+      }
+    ],
+    "76c92564f0ddbdd68febac8c9feead7fd06f8cbbc9d6bd6f052fd914050f27a3": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_testing_router.py",
+        "path": "scratch\\test_testing_router.py",
+        "size": 3355,
+        "sha256": "76c92564f0ddbdd68febac8c9feead7fd06f8cbbc9d6bd6f052fd914050f27a3"
+      }
+    ],
+    "9f3ea0c761816ca8a492470cadf85843b9206d663e547aa0f172f1a141edafbb": [
+      {
+        "source_dir": "scratch",
+        "filename": "test_voice_extraction.py",
+        "path": "scratch\\test_voice_extraction.py",
+        "size": 10415,
+        "sha256": "9f3ea0c761816ca8a492470cadf85843b9206d663e547aa0f172f1a141edafbb"
+      }
+    ],
+    "d2ebca7b32d7da3a56730ef4d7ac9b8b3fe131585e65bc1af7483c825f501a0c": [
+      {
+        "source_dir": "scratch",
+        "filename": "update_frontend_routes.py",
+        "path": "scratch\\update_frontend_routes.py",
+        "size": 2390,
+        "sha256": "d2ebca7b32d7da3a56730ef4d7ac9b8b3fe131585e65bc1af7483c825f501a0c"
+      }
+    ]
+  }
+}

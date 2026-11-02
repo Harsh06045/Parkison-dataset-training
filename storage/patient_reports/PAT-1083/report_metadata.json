@@ -1,249 +1,29 @@
 {
   "patient_id": "PAT-1083",
-  "total_reports": 11,
-  "last_updated": "2026-11-02T16:45:40.481272",
+  "total_reports": 1,
+  "last_updated": "2026-11-02T18:58:20.120149",
   "reports": [
     {
-      "report_id": "REP-20261102-EEE46B",
+      "report_id": "REP-20261102-82F79F",
       "patient_id": "PAT-1083",
       "assessment_id": null,
       "report_filename": "Report_PAT-1083_2026-11-02_001.pdf",
       "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_001.pdf",
-      "file_size_bytes": 107452,
-      "sha256_checksum": "75ab7a5aa55698afc5246ce8588bc4d47b5e15cf172528bc4d0bcfacec89aaaf",
+      "file_size_bytes": 5180,
+      "sha256_checksum": "f473a87a4f61d2a0e3a796401c79c7b9b1c9990b98d488ea5c8dd0cb861fabdc",
       "report_stage": "AI_ANALYSIS",
       "is_approved": false,
       "doctor_id": "DOC-8921",
       "disease": "Parkinson's Disease",
-      "modality": "mri",
-      "prediction": "Normal",
-      "confidence": 99.95,
-      "risk_level": "Low Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-544FA2"
-      ],
-      "generated_timestamp": "2026-11-02T16:42:03.764585"
-    },
-    {
-      "report_id": "REP-20261102-849488",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_002.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_002.pdf",
-      "file_size_bytes": 107531,
-      "sha256_checksum": "31a63b8df736f6818b0557ecb4b0295823d535b82b05705fb3e66eb4ac3888a2",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "mri",
-      "prediction": "Normal",
-      "confidence": 99.95,
-      "risk_level": "Low Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-544FA2"
-      ],
-      "generated_timestamp": "2026-11-02T16:42:11.674746"
-    },
-    {
-      "report_id": "REP-20261102-BB83B0",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_003.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_003.pdf",
-      "file_size_bytes": 107465,
-      "sha256_checksum": "f31432db65d9cfef5377cbe9cc7f9f3ec286ea5b8fe200e11ff7b09b7e43600e",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "mri",
-      "prediction": "Normal",
-      "confidence": 99.95,
-      "risk_level": "Low Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-E8ED66"
-      ],
-      "generated_timestamp": "2026-11-02T16:42:34.709975"
-    },
-    {
-      "report_id": "REP-20261102-5D2BC4",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_004.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_004.pdf",
-      "file_size_bytes": 5146,
-      "sha256_checksum": "2887a93aaa890fe7c4fd1b9d84b9ff89a0f43724e754f27f08611061ff22823e",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "spiral",
-      "prediction": "Parkinson",
-      "confidence": 87.36,
+      "modality": "telemonitoring",
+      "prediction": "UPDRS Assessment",
+      "confidence": 91.0,
       "risk_level": "High Clinical Risk",
       "status": "Preliminary AI Output",
       "prediction_ids": [
-        "PD-PRED-4D3D29"
+        "PD-PRED-1003"
       ],
-      "generated_timestamp": "2026-11-02T16:43:21.527677"
-    },
-    {
-      "report_id": "REP-20261102-17E15E",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_005.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_005.pdf",
-      "file_size_bytes": 5121,
-      "sha256_checksum": "2e6e5f6d66532dd993941583b05f84ebeff786cf1a39a37e5998fcb5a71c2467",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "voice",
-      "prediction": "Parkinson",
-      "confidence": 69.13,
-      "risk_level": "Low Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-CABD38"
-      ],
-      "generated_timestamp": "2026-11-02T16:43:39.982276"
-    },
-    {
-      "report_id": "REP-20261102-89F2A2",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_006.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_006.pdf",
-      "file_size_bytes": 5140,
-      "sha256_checksum": "1c102f794a5a602cd859b99c612da42038fc13e38e378a3f42161498e24c051f",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "spiral",
-      "prediction": "Parkinson",
-      "confidence": 87.36,
-      "risk_level": "High Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-A26184"
-      ],
-      "generated_timestamp": "2026-11-02T16:44:11.069737"
-    },
-    {
-      "report_id": "REP-20261102-0C4D01",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_007.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_007.pdf",
-      "file_size_bytes": 5225,
-      "sha256_checksum": "0a88cf158e467d5bd76a35ff34952df0dde7468887ca5648cf35459587d16cb0",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "voice",
-      "prediction": "Parkinson",
-      "confidence": 89.5,
-      "risk_level": "High Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-F6F311"
-      ],
-      "generated_timestamp": "2026-11-02T16:44:58.128651"
-    },
-    {
-      "report_id": "REP-20261102-72EF51",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_008.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_008.pdf",
-      "file_size_bytes": 5138,
-      "sha256_checksum": "d3bdb6d5bcc4073d1e589f1d6095368b3913e49cae97e1742b079db186bda6af",
-      "report_stage": "FINAL_CLINICAL",
-      "is_approved": true,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "voice",
-      "prediction": "Parkinson",
-      "confidence": 89.5,
-      "risk_level": "High Clinical Risk",
-      "status": "Finalized",
-      "prediction_ids": [
-        "PD-PRED-F6F311"
-      ],
-      "generated_timestamp": "2026-11-02T16:45:02.720383"
-    },
-    {
-      "report_id": "REP-20261102-ABBA2E",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_009.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_009.pdf",
-      "file_size_bytes": 6321,
-      "sha256_checksum": "15d1ad27c268a878639e8ce06ea2c8c450a6bee92010aba721f7d53a9c307c07",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "voice",
-      "prediction": "Parkinson",
-      "confidence": 89.5,
-      "risk_level": "High Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-F6F311"
-      ],
-      "generated_timestamp": "2026-11-02T16:45:15.465134"
-    },
-    {
-      "report_id": "REP-20261102-3D3404",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_010.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_010.pdf",
-      "file_size_bytes": 6742,
-      "sha256_checksum": "f50f229f839e293206840c9b6c590105656fc86ab1cf78d161071cab8a723abe",
-      "report_stage": "FINAL_CLINICAL",
-      "is_approved": true,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "voice",
-      "prediction": "Parkinson",
-      "confidence": 89.5,
-      "risk_level": "High Clinical Risk",
-      "status": "Finalized",
-      "prediction_ids": [
-        "PD-PRED-F6F311"
-      ],
-      "generated_timestamp": "2026-11-02T16:45:20.086774"
-    },
-    {
-      "report_id": "REP-20261102-12EC3A",
-      "patient_id": "PAT-1083",
-      "assessment_id": null,
-      "report_filename": "Report_PAT-1083_2026-11-02_011.pdf",
-      "relative_storage_path": "patient_reports/PAT-1083/Report_PAT-1083_2026-11-02_011.pdf",
-      "file_size_bytes": 5127,
-      "sha256_checksum": "b8947b57d0a12c8ea1c903f8783dab9d70e58bdaf3558d810128ddafaeb97fe4",
-      "report_stage": "AI_ANALYSIS",
-      "is_approved": false,
-      "doctor_id": "DOC-8921",
-      "disease": "Parkinson's Disease",
-      "modality": "voice",
-      "prediction": "Parkinson",
-      "confidence": 89.5,
-      "risk_level": "High Clinical Risk",
-      "status": "Preliminary AI Output",
-      "prediction_ids": [
-        "PD-PRED-F6F311"
-      ],
-      "generated_timestamp": "2026-11-02T16:45:40.463808"
+      "generated_timestamp": "2026-11-02T18:58:20.119864"
     }
   ]
 }

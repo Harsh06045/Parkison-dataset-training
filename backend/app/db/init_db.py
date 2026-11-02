@@ -23,6 +23,22 @@ def init_db():
     """Create all schema tables in Neon PostgreSQL / SQLite."""
     logger.info("Creating database tables if not exist...")
     Base.metadata.create_all(bind=engine)
+    # Ensure any recently added columns exist in older SQLite or PostgreSQL databases
+    try:
+        from sqlalchemy import text, inspect
+        with engine.connect() as conn:
+            insp = inspect(engine)
+            for table_name, table in Base.metadata.tables.items():
+                if table_name in insp.get_table_names():
+                    existing_cols = {c["name"] for c in insp.get_columns(table_name)}
+                    for col in table.columns:
+                        if col.name not in existing_cols:
+                            col_type = col.type.compile(engine.dialect)
+                            conn.execute(text(f"ALTER TABLE {table_name} ADD COLUMN {col.name} {col_type};"))
+                            logger.info(f"Auto-migrated missing column {table_name}.{col.name} ({col_type})")
+            conn.commit()
+    except Exception as em:
+        logger.warning(f"Schema column check: {em}")
     logger.info("Database tables initialized successfully.")
 
 

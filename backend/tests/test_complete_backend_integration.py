@@ -58,19 +58,27 @@ class TestCompleteBackendIntegration(unittest.TestCase):
         loader.load_all_models()
         
         # 2. Test sample files
-        cls.sample_mri = os.path.join(PROJECT_ROOT, "sample_mri.png")
+        cls.sample_mri = os.path.join(PROJECT_ROOT, "testing", "inputs", "mri", "mri_axial.png")
+        if not os.path.exists(cls.sample_mri):
+            cls.sample_mri = os.path.join(PROJECT_ROOT, "sample_mri.png")
         if not os.path.exists(cls.sample_mri):
             cls.sample_mri = os.path.join(BACKEND_DIR, "static", "samples", "sample_mri.png")
 
-        cls.sample_spiral = os.path.join(PROJECT_ROOT, "sample_spiral.png")
+        cls.sample_spiral = os.path.join(PROJECT_ROOT, "testing", "inputs", "spiral", "spiral_parkinson.png")
+        if not os.path.exists(cls.sample_spiral):
+            cls.sample_spiral = os.path.join(PROJECT_ROOT, "sample_spiral.png")
         if not os.path.exists(cls.sample_spiral):
             cls.sample_spiral = os.path.join(BACKEND_DIR, "static", "samples", "sample_spiral.png")
 
-        cls.sample_voice = os.path.join(PROJECT_ROOT, "sample_voice.wav")
+        cls.sample_voice = os.path.join(PROJECT_ROOT, "testing", "inputs", "voice", "voice_sample.wav")
+        if not os.path.exists(cls.sample_voice):
+            cls.sample_voice = os.path.join(PROJECT_ROOT, "sample_voice.wav")
         if not os.path.exists(cls.sample_voice):
             cls.sample_voice = os.path.join(BACKEND_DIR, "static", "samples", "sample_voice.wav")
 
-        cls.sample_telemonitor = os.path.join(PROJECT_ROOT, "sample_telemonitor.csv")
+        cls.sample_telemonitor = os.path.join(PROJECT_ROOT, "testing", "inputs", "telemonitor", "telemonitor_features.csv")
+        if not os.path.exists(cls.sample_telemonitor):
+            cls.sample_telemonitor = os.path.join(PROJECT_ROOT, "sample_telemonitor.csv")
         if not os.path.exists(cls.sample_telemonitor):
             cls.sample_telemonitor = os.path.join(BACKEND_DIR, "static", "samples", "sample_telemonitor.csv")
 
